@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
+
+import {PageContainer} from '../components';
 import RegistrationForm from '../pages/registration-form/RegistrationForm';
-
-const MainContainer = styled.div`
-
-`
+import CameraCapture from '../pages/camera-capture';
 
 export default class Main extends Component {
 	constructor () {
@@ -13,9 +11,10 @@ export default class Main extends Component {
 
 	render() {
 		return (
-			<MainContainer>
-				<RegistrationForm />
-			</MainContainer>
+			<PageContainer>
+				{/*<RegistrationForm />*/}
+				<CameraCapture />
+			</PageContainer>
 		);
 	}
 }
