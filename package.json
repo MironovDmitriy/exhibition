@@ -6,6 +6,7 @@
     "@atlaskit/button": "^10.1.2",
     "@atlaskit/form": "^5.1.7",
     "@atlaskit/textfield": "^0.2.0",
+    "debounce": "^1.2.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-scripts": "2.1.5",

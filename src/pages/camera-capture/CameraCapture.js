@@ -1,8 +1,12 @@
-import React, {Fragment, Component} from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
+import debounce from 'debounce';
+
 import VideoCapture from './video-capture';
-import {WIDTH, HEIGHT} from '../../constants';
+import Image from './image/Image';
+
+import {DELAY} from '../../constants';
 
 const CameraConatiner = styled.div`
 	display: flex;
@@ -22,48 +26,63 @@ export default class CameraCapture extends Component {
 		super();
 
 		this.state = {
-			isOpenPhoto: false,
+			isImageOpen: false,
 			photography: false,
-			imgSrc: '',
+			imgBase64: '',
 		};
 
-		this.getPhoto = this.getPhoto.bind(this);
-		this.getImgSrc = this.getImgSrc.bind(this);
+		this.handleMakePhoto = this.handleMakePhoto.bind(this);
+		this.getImgBase64 = this.getImgBase64.bind(this);
 	};
 
-	getPhoto () {
+	handleMakePhoto () {
 		this.setState({
 			photography: true,
-			isOpenPhoto: true,
 		});
-		// const img = this.getImgSrc();
-		// console.log(img)
 	};
 
-	getImgSrc (src) {
-		console.log(src)
-		this.setState({imgSrc: src});
+	getImgBase64 = src => {
+		console.log(`Отправляем на бэк изображение в формате base64: ${src}`)
+		this.setState({
+			imgBase64: src,
+			isImageOpen: true,
+			photography: false,
+		});
+	this.debounceChangeComponents();
 	};
+
+	changeComponents = state => {
+		this.setState({
+			isImageOpen: false,
+		});
+	};
+
+	debounceChangeComponents = debounce(this.changeComponents, DELAY);
 
 	render () {
-		const {isOpenPhoto, photography} = this.state;
-console.log(this.state)
+		const {isImageOpen, photography, imgBase64} = this.state;
+
 		return (
 			<CameraConatiner>
 				<ButtonContainer>
 					<Button
 						appearance={'primary'}
 						shouldFitContainer={true}
-						onClick={this.getPhoto}
+						onClick={this.handleMakePhoto}
 					>
 						Распознать
 					</Button>
 				</ButtonContainer>
+				{isImageOpen ? 
+					<Image 
+						image={imgBase64}
+					/> 
+				:
 					<VideoCapture
-						getSrcImg={this.getImgSrc}
+						getSrcImg={this.getImgBase64}
 						photography={photography}
 					/>
-					<img width={WIDTH} height={HEIGHT} src={this.props.imgSrc} />
+				}
 			</CameraConatiner>
 		);
 	};

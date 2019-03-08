@@ -47,9 +47,8 @@ export default class VideoCapture extends Component {
 
 	capture () {
 		const {getSrcImg} = this.props;
-		// console.log('capture')
+
 		const imageSrc = this.refs.webcam.getScreenshot();
-		// console.log(imageSrc)
 		getSrcImg(imageSrc);
 	};
 
