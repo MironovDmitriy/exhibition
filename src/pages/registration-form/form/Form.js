@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Form, {Field, FormHeader, CheckboxField} from '@atlaskit/form';
 import styled from 'styled-components';
 
@@ -6,24 +7,21 @@ import {Checkbox} from '@atlaskit/checkbox';
 import Select from '@atlaskit/select';
 import Button from '@atlaskit/button';
 import TextField from '@atlaskit/textfield';
-import {ImageContainer} from '../../../components/';
 
 import options from '../../../constants/options';
 
-const PageContainer = styled.div`
-	width: 100vh;
+const FormContainer = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	border: 1px solid red;
-`
-
-const PhotoContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 300px;
-	height: 300px;
+	padding: 10px;
+	border-radius: 5px;
+	background: #888888;
+	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
+	background: -moz-linear-gradient(bottom, #888888, #D3D2D2);
+	background: linear-gradient(to top, #888888, #D3D2D2);
+	-webkit-box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+	-moz-box-shadow:    2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+	box-shadow:         2px 4px 13px 0px rgba(50, 50, 50, 0.65);
 `
 
 export default class RegForm extends Component { 
@@ -39,16 +37,22 @@ export default class RegForm extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	};
 
+	static propTypes = {
+		getImgSrc: PropTypes.func.isRequired,
+	};
+
 	getImgBase64(event) {
+		const {getImgSrc} = this.props;
+
 		const reader = new FileReader();
 
 		reader.onloadend = () => {
 			this.setState({
 				fileBase64: reader.result,
 			});
-		}
+			getImgSrc(reader.result);
+		};
 		const base64 = reader.readAsDataURL(event.target.files[0]);
-		return base64;
 	};
 
 	onHandleSubmit(values) {
@@ -71,12 +75,11 @@ export default class RegForm extends Component {
 
 	handleChecked = state => this.setState({isChecked: !this.state.isChecked});
 
-
 	render() {
-		const {isChecked, fileBase64} = this.state;
+		const {isChecked} = this.state;
 
 		return (
-			<PageContainer>
+			<FormContainer>
 				<Form onSubmit={this.onHandleSubmit}>
 					{({formProps}) => (
 						<form {...formProps}>
@@ -84,7 +87,7 @@ export default class RegForm extends Component {
 							<FormHeader title="Регистрация ПУЛЦЭВТГУУ" />
 
 							<Field name="surname" defaultValue="" label="Фамилия" isRequired>
-								{({fieldProps}) => <TextField {...fieldProps} />}
+								{({fieldProps}) => <TextField autoFocus={true} {...fieldProps} />}
 							</Field>
 
 							<Field name="name" defaultValue="" label="Имя" isRequired>
@@ -136,21 +139,10 @@ export default class RegForm extends Component {
 							>
 								Submit
 							</Button>
-
 						</form>
 					)}
 				</Form>
-
-				<PhotoContainer>
-					<div>Место для фото</div>
-					{fileBase64 && <ImageContainer
-						image={fileBase64}
-						alt="Загрузка фото"
-						width="250"
-						height="250"
-					/>}
-				</PhotoContainer>
-			</PageContainer>
+			</FormContainer>
 		);
 	};
 };
