@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import debounce from 'debounce';
 
+import {WIDTH, HEIGHT} from '../../constants/';
 import VideoCapture from './video-capture';
-import Image from './image/Image';
+import ImageContainer from '../../components/'
 
 import {DELAY} from '../../constants';
 
@@ -74,8 +75,11 @@ export default class CameraCapture extends Component {
 					</Button>
 				</ButtonContainer>
 				{isImageOpen ? 
-					<Image 
+					<ImageContainer
 						image={imgBase64}
+						alt="Скриншот"
+						width={WIDTH}
+						height={HEIGHT}
 					/> 
 				:
 					<VideoCapture

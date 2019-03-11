@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {WIDTH, HEIGHT} from '../../../constants';
 
-const ImageContainer = styled.div`
+const ContainerImage = styled.div`
 	display: flex;
 	margin: 3px;
 	border: 1px solid black;
 `;
 
-export default class Image extends Component {
-	
+export default class ImageContainer extends Component {
+
 	static propTypes = {
 		image: PropTypes.string.isRequired,
 	};
@@ -20,12 +19,12 @@ export default class Image extends Component {
 	};
 
 	render() {
-		const {image} = this.props;
+		const {image, alt, width, height} = this.props;
 
 		return (
-			<ImageContainer>
-				<img src={image} width={WIDTH} height={HEIGHT} alt={'Скриншот'}/>
-			</ImageContainer>
+			<ContainerImage>
+				<img src={image} width={width} height={height} alt={alt}/>
+			</ContainerImage>
 		);
 	};
 };
