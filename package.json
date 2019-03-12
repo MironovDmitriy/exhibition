@@ -5,7 +5,9 @@
   "dependencies": {
     "@atlaskit/button": "^10.1.2",
     "@atlaskit/checkbox": "^6.0.0",
+    "@atlaskit/field-text": "^8.0.0",
     "@atlaskit/form": "^5.1.7",
+    "@atlaskit/modal-dialog": "^8.0.0",
     "@atlaskit/select": "^8.0.0",
     "@atlaskit/textfield": "^0.3.0",
     "debounce": "^1.2.0",

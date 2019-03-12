@@ -1,23 +1,22 @@
-import React, {Component} from 'react';
-import styled from 'styled-components';
-
+import React from 'react';
 import {FieldTextStateless} from '@atlaskit/field-text';
 
-const TextFieldStatless = ({
+const PhotoUpload = ({
 	field,
 	form,
 	handleChange,
+	getImgSrc,
 	validErr,
-	autoFocus,
 	...props,
 }) => {
 
 	const onHandleChange = e => {
 		const value = e.target.value;
 		handleChange({field: props.name, value: value});
+		getImgSrc(e)
 	};
 
-	const errMessage = 'Поле обязательное для заполнения';
+	const errMessage = 'Загрузите Вашу фотографию';
 
 	return (
 		<div>
@@ -28,7 +27,6 @@ const TextFieldStatless = ({
 				value={props.value}
 				onChange={onHandleChange}
 				isInvalid={validErr}
-				autoFocus={autoFocus}
 				shouldFitContainer
 				isLabelHidden
 			/>
@@ -37,4 +35,4 @@ const TextFieldStatless = ({
 	)
 };
 
-export default TextFieldStatless;
+export default PhotoUpload;

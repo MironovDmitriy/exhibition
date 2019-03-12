@@ -1,11 +1,42 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {Formik, Field, Form, ErrorMessage} from 'formik'; 
+import {Formik, Field} from 'formik'; 
 
+import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
+import Button from '@atlaskit/button';
 import {TextFieldStatless} from '../../../components/';
+import {PhotoUpload} from '../../../components/';
+import {CheckboxField} from '../../../components/';
+import {SelectField} from '../../../components/';
 
-import Textfield from '@atlaskit/textfield';
+import validation from './validation';
+import {options} from './options';
+
+const FormContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	padding: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+	background: #888888;
+	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
+	background: -moz-linear-gradient(bottom, #888888, #D3D2D2);
+	background: linear-gradient(to top, #888888, #D3D2D2);
+	-webkit-box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+	-moz-box-shadow:    2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+	box-shadow:         2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+`;
+
+const FooterContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+`;
+
+const ButtonContainer = styled.div`
+	margin: 0 5px;
+`;
 
 export default class RegForm extends Component {
 	constructor() {
@@ -15,16 +46,47 @@ export default class RegForm extends Component {
 			initialValues:{
 				surname: '',
 				name: '',
+				patronymic: '',
+				companyName: '',
+				position: '',
+				fieldOfActivity: {value: '', label: ''},
+				eMail: '',
+				phoneNumber: '',
+				photoUpload: '',
 			},
 			values: {
 				surname: '',
 				name: '',
+				patronymic: '',
+				companyName: '',
+				position: '',
+				fieldOfActivity: {value: '', label: ''},
+				eMail: '',
+				phoneNumber: '',
+				photoUpload: '',
 			},
+			errors: {},
+			dataProcessingAccept: false,
+			isOpenModal: false,
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.onHandleReset = this.onHandleReset.bind(this);
-		this.validation = this.validation.bind(this);
+		this.handleValidation = this.handleValidation.bind(this);
+		this.handleAcceptProcessing = this.handleAcceptProcessing.bind(this);
+		this.onCloseModal = this.onCloseModal.bind(this);
+		this.onHandleSubmit = this.onHandleSubmit.bind(this);
+		this.handleSelect = this.handleSelect.bind(this);
+	};
+
+	getImgSrcBase64 = event => {
+		const reader = new FileReader();
+
+		reader.onloadend = () => {
+			this.props.getImgSrc(reader.result);
+		};
+
+		const base64 = reader.readAsDataURL(event.target.files[0]);
 	};
 
 	handleChange = inputValue => {
@@ -40,82 +102,236 @@ export default class RegForm extends Component {
 		});
 	};
 
+	handleSelect = inputValue => {
+		const {values} = this.state;
+		console.log(inputValue)
+		const key = Object.keys(inputValue)[0]
+		console.log(key)
+
+		const newState = Object.assign({}, values, inputValue);
+
+		console.log(newState)
+		this.setState({
+			values: newState,
+		});
+	};
+
 	onHandleReset(event) {
+		event.preventDefault();
 		const {initialValues} = this.state;
 
 		this.setState({
 			values: initialValues,
+			dataProcessingAccept: false,
+			errors: {},
+		});
+		this.props.resetImg();
+	};
+
+	onHandleSubmit(values) {
+		console.log(values)
+		this.setState({isOpenModal: true})
+	};
+
+	handleValidation = () => {
+		const {values} = this.state;
+
+		const errObj = validation(values);
+
+		this.setState({
+			errors: errObj,
+		});
+
+		return errObj;
+	};
+
+	handleAcceptProcessing() {
+		this.setState({
+			dataProcessingAccept: !this.state.dataProcessingAccept,
 		});
 	};
 
-	validation() {
-		const {values} = this.state;
-
-		let errors = {};
-
-		if (!values.surname) {
-			errors.surname = 'Required';
-		};
-
-		return errors;
-	};
-
-	onHandleSubmit = values => console.log(values);
+	onCloseModal = () => this.setState({isOpenModal: false})
 
 	render() {
-		const {values, initialValues} = this.state;
+		const {
+			values,
+			initialValues,
+			errors,
+			imgSrcBase64,
+			isOpenModal,
+		} = this.state;
+
+		const actions = [
+			{text: 'OK', onClick: this.onCloseModal},
+		];
 console.log(this.state)
 		return (
-			<Formik
-				// validate={this.validation}
-				initialValues={initialValues}
-				onSubmit={() => this.onHandleSubmit(this.state.values)}
-				render={(props) => (
-					<form onSubmit={props.handleSubmit} onReset={props.resetForm}>
+			<FormContainer>
+				<Formik
+					validate={this.handleValidation}
+					validateOnChange={false}
+					validateOnBlur={false}
+					initialValues={initialValues}
+					onSubmit={() => this.onHandleSubmit(this.state.values)}
+					render={(props) => (
+						<form onSubmit={props.handleSubmit} onReset={props.resetForm}>
 
-					<Field
-						name="surname"
-						render={({field}) => (
-							<TextFieldStatless
-								{...field}
-								type="text"
-								label="Фамилия"
-								value={values[field.name]}
-								handleChange={this.handleChange}
-							/>
-						)}
-					/>
-					{props.errors.surname && props.touched.surname && <div>{props.errors.surname}</div>}
+						<Field name="surname" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="text"
+									label="Фамилия"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+									autoFocus
+								/>
+							)}
+						/>
 
-					<Field
-						name="name"
-						render={({field}) => (
-							<TextFieldStatless
-								{...field}
-								type="text"
-								label="Имя"
-								value={values[field.name]}
-								handleChange={this.handleChange}
-							/>
-						)}
-					/>
+						<Field name="name" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="text"
+									label="Имя"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
 
-						<button
-							type="submit"
-						>
-							Отправить
-						</button>
+						<Field name="patronymic" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="text"
+									label="Отчество"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
 
-						<button
-							type="reset"
-							onClick={this.onHandleReset}
-						>
-							Сбросить
-						</button>
+						<Field name="companyName" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="text"
+									label="Компания"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
 
-					</form>
-				)}
-			/>
+						<Field name="position" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="text"
+									label="Должность"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
+
+						<Field name="fieldOfActivity" render={({field}) => (
+								<SelectField
+									{...field}
+									options={options}
+									label="Сфера деятельности"
+									value={{
+										value: values[field.name].value,
+										label: values[field.name].label,
+									}}
+									handleChange={this.handleSelect}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
+
+						<Field name="eMail" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="email"
+									label="Электронный адрес"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
+
+						<Field name="phoneNumber" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="tel"
+									label="Телефон"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
+
+						<Field name="photoUpload" render={({field}) => (
+								<PhotoUpload
+									{...field}
+									type="file"
+									label="Загрузка фото"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									getImgSrc={this.getImgSrcBase64}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
+
+						<Field name="dataProcessing" render={({field}) => (
+								<CheckboxField
+									{...field}
+									isChecked={this.state.dataProcessingAccept}
+									handleChange={this.handleAcceptProcessing}
+								/>
+							)}
+						/>
+							<FooterContainer>
+								<ButtonContainer>
+									<Button
+										type="submit"
+										appearance="primary"
+										isDisabled={!this.state.dataProcessingAccept}
+									>
+										Отправить
+									</Button>
+								</ButtonContainer>
+								<ButtonContainer>
+									<Button
+										type="reset"
+										appearance="danger"
+										onClick={this.onHandleReset}
+									>
+										Сбросить
+									</Button>
+								</ButtonContainer>
+							</FooterContainer>
+
+						</form>
+					)}
+				/>
+
+				<ModalTransition>
+					{isOpenModal
+						&& <ModalDialog
+								heading="Данные отправлены"
+								actions={actions}
+								onClose={this.onCloseModal}
+					/>}
+				</ModalTransition>
+			</FormContainer>
 		);
 	};
 };

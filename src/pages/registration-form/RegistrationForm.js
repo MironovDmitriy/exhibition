@@ -10,7 +10,9 @@ const PageContainer = styled.div`
 	align-items: center;
 	width: 70%;
 	margin: 10px;
-	border: 1px dashed black;
+	border-radius: 5px;
+	border: 2px solid #0c4687;
+	background-color: rgba(255, 255, 255, 0.2); 
 `;
 
 const PhotoFileContainer = styled.div`
@@ -47,12 +49,15 @@ export default class RegistrationForm extends Component {
 		};
 
 		this.getImgSrc = this.getImgSrc.bind(this);
+		this.resetImg = this.resetImg.bind(this);
 	};
 
 	getImgSrc(src) {
-		this.setState({
-			fileBase64: src,
-		});
+		this.setState({fileBase64: src});
+	};
+
+	resetImg() {
+		this.setState({fileBase64: ''});
 	};
 
 	render() {
@@ -60,8 +65,9 @@ export default class RegistrationForm extends Component {
 
 		return (
 			<PageContainer>
-				<Form 
+				<Form
 					getImgSrc={this.getImgSrc}
+					resetImg={this.resetImg}
 				/>
 
 				<PhotoFileContainer>
