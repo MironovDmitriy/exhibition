@@ -9,6 +9,7 @@
     "@atlaskit/select": "^8.0.0",
     "@atlaskit/textfield": "^0.3.0",
     "debounce": "^1.2.0",
+    "formik": "^1.5.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-file-base64": "^1.0.3",

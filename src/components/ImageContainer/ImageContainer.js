@@ -6,6 +6,7 @@ const ContainerImage = styled.div`
 	display: flex;
 	margin: 3px;
 	border: 1px solid black;
+	border-radius: ${props => props.isSquare ? '0' : "5px"};
 `;
 
 export default class ImageContainer extends Component {
@@ -19,11 +20,17 @@ export default class ImageContainer extends Component {
 	};
 
 	render() {
-		const {image, alt, width, height} = this.props;
+		const {image, alt, width, height, isSquare} = this.props;
 
 		return (
 			<ContainerImage>
-				<img src={image} width={width} height={height} alt={alt}/>
+				<img
+					src={image}
+					width={width}
+					height={height}
+					alt={alt}
+					style={isSquare ? null : {borderRadius: "5px"}}
+				/>
 			</ContainerImage>
 		);
 	};
