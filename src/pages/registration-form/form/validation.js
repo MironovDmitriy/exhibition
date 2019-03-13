@@ -23,7 +23,7 @@ const validation = values => {
 	};
 
 	if (!values.fieldOfActivity.value) {
-		errors.fieldOfActivity = 'Required';
+		errors.fieldOfActivity = 'error';
 	};
 
 		if (!values.phoneNumber) {

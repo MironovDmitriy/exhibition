@@ -32,7 +32,7 @@ const PhotoUpload = ({
 			/>
 			{validErr && <div style={{color: '#DC360C'}}>{errMessage}</div>}
 		</div>
-	)
+	);
 };
 
 export default PhotoUpload;

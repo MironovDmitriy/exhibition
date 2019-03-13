@@ -5,7 +5,8 @@ import debounce from 'debounce';
 
 import {WIDTH, HEIGHT} from '../../constants/';
 import VideoCapture from './video-capture';
-import ImageContainer from '../../components/'
+import {ImageContainer} from '../../components/';
+import {PageContainer as PageContainerMain} from '../../components';
 
 import {DELAY} from '../../constants';
 
@@ -14,13 +15,15 @@ const CameraConatiner = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: stretch;
-`
+	width: 70%;
+	margin: 0 40px 0 0;
+`;
 
 const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	padding: 3px;
-`
+`;
 
 export default class CameraCapture extends Component {
 	constructor () {
@@ -64,30 +67,32 @@ export default class CameraCapture extends Component {
 		const {isImageOpen, photography, imgBase64} = this.state;
 
 		return (
-			<CameraConatiner>
-				<ButtonContainer>
-					<Button
-						appearance={'primary'}
-						shouldFitContainer={true}
-						onClick={this.handleMakePhoto}
-					>
-						Распознать
-					</Button>
-				</ButtonContainer>
-				{isImageOpen ? 
-					<ImageContainer
-						image={imgBase64}
-						alt="Скриншот"
-						width={WIDTH}
-						height={HEIGHT}
-					/> 
-				:
-					<VideoCapture
-						getSrcImg={this.getImgBase64}
-						photography={photography}
-					/>
-				}
-			</CameraConatiner>
+			<PageContainerMain>
+				<CameraConatiner>
+					<ButtonContainer>
+						<Button
+							appearance={'primary'}
+							shouldFitContainer={true}
+							onClick={this.handleMakePhoto}
+						>
+							Распознать
+						</Button>
+					</ButtonContainer>
+					{isImageOpen ? 
+						<ImageContainer
+							image={imgBase64}
+							alt="Скриншот"
+							width={WIDTH}
+							height={HEIGHT}
+						/> 
+					:
+						<VideoCapture
+							getSrcImg={this.getImgBase64}
+							photography={photography}
+						/>
+					}
+				</CameraConatiner>
+			</PageContainerMain>
 		);
 	};
 };

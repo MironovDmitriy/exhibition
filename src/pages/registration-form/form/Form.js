@@ -17,7 +17,7 @@ const FormContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	padding: 10px;
-	border: 1px solid black;
+	border: 1px solid #0c4687;
 	border-radius: 5px;
 	background: #888888;
 	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
@@ -39,6 +39,11 @@ const ButtonContainer = styled.div`
 `;
 
 export default class RegForm extends Component {
+	static propTypes = {
+		getImgSrc: PropTypes.func.isRequired,
+		resetImg: PropTypes.func.isRequired,
+	};
+
 	constructor() {
 		super();
 
@@ -104,13 +109,11 @@ export default class RegForm extends Component {
 
 	handleSelect = inputValue => {
 		const {values} = this.state;
-		console.log(inputValue)
-		const key = Object.keys(inputValue)[0]
-		console.log(key)
+
+		const key = Object.keys(inputValue)[0];
 
 		const newState = Object.assign({}, values, inputValue);
 
-		console.log(newState)
 		this.setState({
 			values: newState,
 		});
@@ -129,8 +132,7 @@ export default class RegForm extends Component {
 	};
 
 	onHandleSubmit(values) {
-		console.log(values)
-		this.setState({isOpenModal: true})
+		this.setState({isOpenModal: true});
 	};
 
 	handleValidation = () => {
@@ -151,21 +153,20 @@ export default class RegForm extends Component {
 		});
 	};
 
-	onCloseModal = () => this.setState({isOpenModal: false})
+	onCloseModal = () => this.setState({isOpenModal: false});
 
 	render() {
 		const {
 			values,
 			initialValues,
 			errors,
-			imgSrcBase64,
 			isOpenModal,
 		} = this.state;
 
 		const actions = [
 			{text: 'OK', onClick: this.onCloseModal},
 		];
-console.log(this.state)
+
 		return (
 			<FormContainer>
 				<Formik

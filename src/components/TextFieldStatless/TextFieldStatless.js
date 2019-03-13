@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import styled from 'styled-components';
+import React from 'react';
 
 import {FieldTextStateless} from '@atlaskit/field-text';
 
@@ -34,7 +33,7 @@ const TextFieldStatless = ({
 			/>
 			{validErr && <div style={{color: '#DC360C'}}>{errMessage}</div>}
 		</div>
-	)
+	);
 };
 
 export default TextFieldStatless;

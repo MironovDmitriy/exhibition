@@ -1,1 +1,1 @@
-export {default} from './VideoCapture'
+export {default} from './VideoCapture';

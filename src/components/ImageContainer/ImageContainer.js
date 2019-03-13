@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 const ContainerImage = styled.div`
 	display: flex;
 	margin: 3px;
-	border: 1px solid black;
+	border: 1px solid #0c4687;
 	border-radius: ${props => props.isSquare ? '0' : "5px"};
 `;
 
 export default class ImageContainer extends Component {
 
 	static propTypes = {
-		image: PropTypes.string.isRequired,
+		image: PropTypes.string,
 	};
 
 	static defaultProps = {

@@ -3,13 +3,14 @@ import styled from 'styled-components';
 
 import Form from './form';
 import {ImageContainer} from '../../components';
+import {PageContainer as PageContainerMain} from '../../components';
 
 const PageContainer = styled.div`
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 	width: 70%;
-	margin: 10px;
+	margin: 0 40px 0 0;
 	border-radius: 5px;
 	border: 2px solid #0c4687;
 	background-color: rgba(255, 255, 255, 0.2); 
@@ -26,7 +27,7 @@ const LabelContainer = styled.div`
 	justify-content: center;
 	width: ${props => `${props.width}px`};
 	height: ${props => `${props.height}px`};
-	border: 1px solid black;
+	border: 1px solid #0c4687;
 	border-radius: 5px;
 	background: #888888;
 	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
@@ -64,33 +65,37 @@ export default class RegistrationForm extends Component {
 		const {fileBase64} = this.state;
 
 		return (
-			<PageContainer>
-				<Form
-					getImgSrc={this.getImgSrc}
-					resetImg={this.resetImg}
-				/>
+			<PageContainerMain>
+				<PageContainer>
 
-				<PhotoFileContainer>
-					{fileBase64 ?
-						<ImageContainer
-							image={fileBase64}
-							alt="Загрузка фото"
-							width={WIDTH}
-							height={HEIGHT}
-							isSquare={false}
-						/>
-					: <LabelContainer
-							width={WIDTH}
-							height={HEIGHT}
-						>
-							Место для фото
-						</LabelContainer>
-					}
-				</PhotoFileContainer>
-			</PageContainer>
+					<Form
+						getImgSrc={this.getImgSrc}
+						resetImg={this.resetImg}
+					/>
+
+					<PhotoFileContainer>
+						{fileBase64 ?
+							<ImageContainer
+								image={fileBase64}
+								alt="Загрузка фото"
+								width={WIDTH}
+								height={HEIGHT}
+								isSquare={false}
+							/>
+						: <LabelContainer
+								width={WIDTH}
+								height={HEIGHT}
+							>
+								Место для фото
+							</LabelContainer>
+						}
+					</PhotoFileContainer>
+
+				</PageContainer>
+			</PageContainerMain>
 		);
-	}
-}
+	};
+};
 
 
 

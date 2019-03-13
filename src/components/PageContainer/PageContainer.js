@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Menu} from '../';
 
 const Component = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: space-between;
 	box-sizing: border-box;
 	background: #3A6080;
 	background: linear-gradient(to top, #3A6080, #4090D2);
@@ -13,6 +14,7 @@ const Component = styled.div`
 
 const PageContainer = ({children, className}) => (
 	<Component className={className}>
+		<Menu />
 		{children}
 	</Component>
 );

@@ -4,7 +4,8 @@ import TextFieldStatless from './TextFieldStatless/';
 import PhotoUpload from './PhotoUpload/';
 import CheckboxField from './CheckboxField/';
 import SelectField from './SelectField/';
-
+import NotFound404 from './NotFound404/';
+import Menu from './Menu/';
 
 export {
 	PageContainer,
@@ -13,4 +14,6 @@ export {
 	PhotoUpload,
 	CheckboxField,
 	SelectField,
+	NotFound404,
+	Menu,
 };

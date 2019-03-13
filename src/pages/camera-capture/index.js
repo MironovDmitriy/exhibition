@@ -1,1 +1,1 @@
-export {default} from './CameraCapture'
+export {default} from './CameraCapture';
