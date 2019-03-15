@@ -6,6 +6,7 @@ import CheckboxField from './CheckboxField/';
 import SelectField from './SelectField/';
 import NotFound404 from './NotFound404/';
 import Menu from './Menu/';
+import ResultProfile from './ResultProfile/';
 
 export {
 	PageContainer,
@@ -16,4 +17,5 @@ export {
 	SelectField,
 	NotFound404,
 	Menu,
+	ResultProfile,
 };

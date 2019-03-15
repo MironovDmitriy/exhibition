@@ -110,8 +110,6 @@ export default class RegForm extends Component {
 	handleSelect = inputValue => {
 		const {values} = this.state;
 
-		const key = Object.keys(inputValue)[0];
-
 		const newState = Object.assign({}, values, inputValue);
 
 		this.setState({
