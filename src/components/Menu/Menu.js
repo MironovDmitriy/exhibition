@@ -21,6 +21,13 @@ const LinkContainer = styled.div`
 	padding: 10px 40px;
 	text-decoration: none;
 	text-align: center;
+
+	:hover {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+		background: rgba(203,203,203, 0.7);
+		background: linear-gradient(225deg, rgba(203,203,203, 0.8) 0%, rgba(199,199,199, 0.8) 100%);
+		color: rgba(0, 0, 0, 0.7);
+	}
 `;
 
 const Menu = () => (

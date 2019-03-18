@@ -14,15 +14,19 @@ const CameraConatiner = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: stretch;
+	align-items: center;
 	width: 70%;
 	margin: 0 40px 0 0;
+	border-radius: 5px;
+	border: 2px solid #0c4687;
+	background-color: rgba(255, 255, 255, 0.2); 
 `;
 
 const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	padding: 3px;
+	width: ${props => props.width}px;
 `;
 
 export default class CameraCapture extends Component {
@@ -69,7 +73,7 @@ export default class CameraCapture extends Component {
 		return (
 			<PageContainerMain>
 				<CameraConatiner>
-					<ButtonContainer>
+					<ButtonContainer width={WIDTH}>
 						<Button
 							appearance={'primary'}
 							shouldFitContainer={true}
@@ -78,13 +82,14 @@ export default class CameraCapture extends Component {
 							Распознать
 						</Button>
 					</ButtonContainer>
-					{isImageOpen ? 
+					{isImageOpen ?
 						<ImageContainer
 							image={imgBase64}
 							alt="Скриншот"
 							width={WIDTH}
 							height={HEIGHT}
-						/> 
+							isSquare
+						/>
 					:
 						<VideoCapture
 							getSrcImg={this.getImgBase64}

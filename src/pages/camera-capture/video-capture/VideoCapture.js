@@ -7,13 +7,15 @@ import {WIDTH, HEIGHT} from '../../../constants/';
 
 const VideoContainer = styled.div`
 	display: flex;
-	margin: 3px;
+	margin: 3px auto;
 	border: 1px solid black;
 `;
 
 export default class VideoCapture extends Component {
 	constructor(props) {
 		super(props);
+
+		this.webcam = React.createRef();
 
 		this.errMedia = this.errMedia.bind(this);
 		this.succesMedia = this.succesMedia.bind(this);
@@ -48,7 +50,7 @@ export default class VideoCapture extends Component {
 	capture () {
 		const {getSrcImg} = this.props;
 
-		const imageSrc = this.refs.webcam.getScreenshot();
+		const imageSrc = this.webcam.current.getScreenshot();
 		getSrcImg(imageSrc);
 	};
 
@@ -60,12 +62,10 @@ export default class VideoCapture extends Component {
 					audio={false}
 					width={WIDTH}
 					height={HEIGHT}
-					minScreenshotWidth={WIDTH}
-					minScreenshotHeight={HEIGHT}
 					screenshotFormat={'image/jpeg'}
 					onUserMediaError={this.errMedia}
 					onUserMedia={this.succesMedia}
-					ref={'webcam'}
+					ref={this.webcam}
 				/>
 			</VideoContainer>
 		);

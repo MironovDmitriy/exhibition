@@ -15,14 +15,14 @@ import {options} from './options';
 
 const FormContainer = styled.div`
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	padding: 10px;
 	border: 1px solid #0c4687;
 	border-radius: 5px;
-	background: #888888;
-	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
-	background: -moz-linear-gradient(bottom, #888888, #D3D2D2);
-	background: linear-gradient(to top, #888888, #D3D2D2);
+	background: #acacac;
+	background: -webkit-linear-gradient(bottom, #acacac, #D3D2D2);
+	background: -moz-linear-gradient(bottom, #acacac, #D3D2D2);
+	background: linear-gradient(to top, #acacac, #D3D2D2);
 	-webkit-box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
 	-moz-box-shadow:    2px 4px 13px 0px rgba(50, 50, 50, 0.65);
 	box-shadow:         2px 4px 13px 0px rgba(50, 50, 50, 0.65);
@@ -167,6 +167,7 @@ export default class RegForm extends Component {
 
 		return (
 			<FormContainer>
+				<div><h3>Регистрация ПУЛЦЭВТГУУ</h3></div>
 				<Formik
 					validate={this.handleValidation}
 					validateOnChange={false}

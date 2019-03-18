@@ -3,16 +3,28 @@ import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import ReactToPrint from "react-to-print";
 
+// const ProfileContainer = styled.div`
+// 	display: flex;
+// 	flex-direction: row;
+// 	justify-content: space-between;
+// 	border-radius: 5px;
+// 	border: 1px solid #0c4687;
+// 	background: #888888;
+// 	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
+// 	background: -moz-linear-gradient(bottom, #888888, #D3D2D2);
+// 	background: linear-gradient(to top, #888888, #D3D2D2);
+// 	-webkit-box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+// 	-moz-box-shadow:    2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+// 	box-shadow:         2px 4px 13px 0px rgba(50, 50, 50, 0.65);
+// `;
+
 const ProfileContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	border-radius: 5px;
 	border: 1px solid #0c4687;
-	background: #888888;
-	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
-	background: -moz-linear-gradient(bottom, #888888, #D3D2D2);
-	background: linear-gradient(to top, #888888, #D3D2D2);
+	background: linear-gradient(90deg, rgba(203,203,203, 0) 0%, rgba(203,203,203, 0.2) 25%, rgba(203,203,203, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
 	-webkit-box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
 	-moz-box-shadow:    2px 4px 13px 0px rgba(50, 50, 50, 0.65);
 	box-shadow:         2px 4px 13px 0px rgba(50, 50, 50, 0.65);
