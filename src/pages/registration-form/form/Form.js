@@ -42,6 +42,7 @@ export default class RegForm extends Component {
 	static propTypes = {
 		getImgSrc: PropTypes.func.isRequired,
 		resetImg: PropTypes.func.isRequired,
+		request: PropTypes.func.isRequired,
 	};
 
 	constructor() {
@@ -130,6 +131,8 @@ export default class RegForm extends Component {
 	};
 
 	onHandleSubmit(values) {
+		console.log(values);
+		this.props.request(values)
 		this.setState({isOpenModal: true});
 	};
 
