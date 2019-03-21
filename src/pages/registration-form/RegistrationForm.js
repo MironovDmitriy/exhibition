@@ -54,6 +54,10 @@ export default class RegistrationForm extends Component {
 		this.resetImg = this.resetImg.bind(this);
 	};
 
+	componentWillMount() {
+		this.requestApi();
+	};
+
 	requestApi(values) {
 		const ws = new WebSocket(wsUrl);
 		console.log('requestApi')
@@ -71,7 +75,7 @@ export default class RegistrationForm extends Component {
 
 		ws.onerror = (e) => console.log(e);
 
-		ws.send(values);
+		// ws.send(values);
 	};
 
 	getImgSrc(src) {
@@ -92,7 +96,7 @@ export default class RegistrationForm extends Component {
 					<Form
 						getImgSrc={this.getImgSrc}
 						resetImg={this.resetImg}
-						request={this.requestApi}
+						// request={this.requestApi}
 					/>
 
 					<PhotoFileContainer>

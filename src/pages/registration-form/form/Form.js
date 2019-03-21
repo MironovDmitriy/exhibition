@@ -132,7 +132,7 @@ export default class RegForm extends Component {
 
 	onHandleSubmit(values) {
 		console.log(values);
-		this.props.request(values)
+		// this.props.request(values)
 		this.setState({isOpenModal: true});
 	};
 
