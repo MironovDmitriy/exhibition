@@ -5,10 +5,13 @@ import {RegistrationForm} from '../pages';
 import {CameraCapture} from '../pages';
 import {ResultsReception} from '../pages';
 import {NotFound404} from '../components/';
+import wsUrl from '../config/paths';
 
 export default class Main extends Component {
 
 	render() {
+		const ws = new WebSocket(wsUrl);
+		window.websocket = ws;
 
 		return (
 			<BrowserRouter>

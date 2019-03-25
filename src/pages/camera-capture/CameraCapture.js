@@ -9,6 +9,7 @@ import {ImageContainer} from '../../components/';
 import {PageContainer as PageContainerMain} from '../../components';
 
 import {DELAY} from '../../constants';
+import {requestApi} from '../../api/requestApi';
 
 const CameraConatiner = styled.div`
 	display: flex;
@@ -50,12 +51,15 @@ export default class CameraCapture extends Component {
 	};
 
 	getImgBase64 = src => {
-		console.log(`Отправляем на бэк изображение в формате base64: ${src}`)
 		this.setState({
 			imgBase64: src,
 			isImageOpen: true,
 			photography: false,
 		});
+
+	const value = Object.assign({}, {type: 'identify', data: src});
+	requestApi(window.websocket, value);
+
 	this.debounceChangeComponents();
 	};
 

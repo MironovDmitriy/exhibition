@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {data as responseData} from './data-test';
 import {ResultProfile} from '../../components/';
 import {PageContainer as PageContainerMain} from '../../components';
-
+import {getResponse} from '../../api/requestApi';
 const PageContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -20,6 +20,8 @@ const PageContainer = styled.div`
 export default class ResultsReception extends Component {
 
 	getResult() {
+		const serverResult = getResponse(window.websocket);
+		console.log(serverResult)
 		const result = responseData.map(x => x); //позже изменить на получение данных с сервера
 		return result;
 	};

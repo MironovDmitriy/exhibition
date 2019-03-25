@@ -12,6 +12,7 @@ import {SelectField} from '../../../components/';
 
 import validation from './validation';
 import {options} from './options';
+import {requestApi} from '../../../api/requestApi';
 
 const FormContainer = styled.div`
 	display: flex;
@@ -42,7 +43,6 @@ export default class RegForm extends Component {
 	static propTypes = {
 		getImgSrc: PropTypes.func.isRequired,
 		resetImg: PropTypes.func.isRequired,
-		// request: PropTypes.func.isRequired,
 	};
 
 	constructor() {
@@ -130,9 +130,11 @@ export default class RegForm extends Component {
 		this.props.resetImg();
 	};
 
-	onHandleSubmit(values) {
-		console.log(values);
-		// this.props.request(values)
+	onHandleSubmit(value) {
+		const values = Object.assign({}, value, {type: 'registrate'});
+
+		requestApi(window.websocket, values);
+
 		this.setState({isOpenModal: true});
 	};
 

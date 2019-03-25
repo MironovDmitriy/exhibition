@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import wsUrl from '../../config/paths';
 
 import Form from './form';
 import {ImageContainer} from '../../components';
@@ -54,30 +53,6 @@ export default class RegistrationForm extends Component {
 		this.resetImg = this.resetImg.bind(this);
 	};
 
-	componentWillMount() {
-		this.requestApi();
-	};
-
-	requestApi(values) {
-		const ws = new WebSocket(wsUrl);
-		console.log('requestApi')
-
-		ws.onopen = () => console.log('Соединение установлено');
-
-		ws.onclose = (e) => {
-			if(e.wasClean) {
-				console.log('Закрыто чисто');
-			} else {
-				console.log('Обрыв соединения');
-			}
-		console.log(`Код: ${e.code}; Причина: ${e.reason}`);
-		};
-
-		ws.onerror = (e) => console.log(e);
-
-		// ws.send(values);
-	};
-
 	getImgSrc(src) {
 		this.setState({fileBase64: src});
 	};
@@ -96,7 +71,6 @@ export default class RegistrationForm extends Component {
 					<Form
 						getImgSrc={this.getImgSrc}
 						resetImg={this.resetImg}
-						// request={this.requestApi}
 					/>
 
 					<PhotoFileContainer>
