@@ -1,3 +1,3 @@
-const wsUrl = 'wss://id.techteam.su:8080/';
+const wsUrl = 'ws://id.techteam.su:38080/';
 
 export default wsUrl;

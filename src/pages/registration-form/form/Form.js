@@ -42,7 +42,7 @@ export default class RegForm extends Component {
 	static propTypes = {
 		getImgSrc: PropTypes.func.isRequired,
 		resetImg: PropTypes.func.isRequired,
-		request: PropTypes.func.isRequired,
+		// request: PropTypes.func.isRequired,
 	};
 
 	constructor() {
