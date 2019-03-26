@@ -200,7 +200,7 @@ export default class RegForm extends Component {
 					initialValues={initialValues}
 					onSubmit={() => this.onHandleSubmit(this.state.values)}
 					render={(props) => (
-						<form onSubmit={props.handleSubmit} onReset={props.resetForm} accept-charset="utf-8">
+						<form onSubmit={props.handleSubmit} onReset={props.resetForm} acceptCharset="utf-8">
 
 						<Field name="surname" render={({field}) => (
 								<TextFieldStatless

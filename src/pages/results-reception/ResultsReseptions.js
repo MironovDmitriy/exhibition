@@ -27,7 +27,7 @@ export default class ResultsReception extends Component {
 	};
 
 	componentWillMount() {
-		const serverResult = JSON.parse(getResponse(window.websocket));
+		const serverResult = getResponse(window.websocket);
 		console.log(serverResult)
 		this.setState({result: serverResult});
 	};

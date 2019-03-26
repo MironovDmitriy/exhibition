@@ -27,7 +27,7 @@ const requestApi = (ws, values) => {
 
 const getResponse = ws => {
 	ws.onmessage = event => {
-		const incomingMessage = event.data;
+		const incomingMessage = JSON.parse(event.data);
 		return incomingMessage;
 	};
 };
