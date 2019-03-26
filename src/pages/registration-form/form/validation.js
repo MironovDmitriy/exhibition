@@ -10,32 +10,32 @@ const validation = values => {
 		errors.name = 'Required';
 	};
 
-	if (!values.patronymic) {
-		errors.patronymic = 'Required';
+	if (!values.lastname) {
+		errors.lastname = 'Required';
 	};
 
-	if (!values.companyName) {
-		errors.companyName = 'Required';
+	if (!values.company) {
+		errors.company = 'Required';
 	};
 
-	if (!values.position) {
-		errors.position = 'Required';
+	if (!values.post) {
+		errors.post = 'Required';
 	};
 
-	if (!values.fieldOfActivity.value) {
-		errors.fieldOfActivity = 'error';
+	if (!values.activity_field.value) {
+		errors.activity_field = 'error';
 	};
 
-		if (!values.phoneNumber) {
-		errors.phoneNumber = 'Required';
+		if (!values.phone) {
+		errors.phone = 'Required';
 	};
 
-	if (!values.eMail) {
-		errors.eMail = 'Required';
+	if (!values.email) {
+		errors.email = 'Required';
 	};
 
-	if (!values.photoUpload) {
-		errors.photoUpload = 'Required';
+	if (!values.photo) {
+		errors.photo = 'Required';
 	};
 
 	return errors;

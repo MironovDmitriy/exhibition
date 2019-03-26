@@ -18,16 +18,30 @@ const PageContainer = styled.div`
 `;
 
 export default class ResultsReception extends Component {
+	constructor() {
+		super();
 
-	getResult() {
-		const serverResult = getResponse(window.websocket);
-		console.log(serverResult)
-		const result = responseData.map(x => x); //позже изменить на получение данных с сервера
-		return result;
+		this.state = {
+			results: [],
+		};
 	};
 
+	componentWillMount() {
+		const serverResult = JSON.parse(getResponse(window.websocket));
+		console.log(serverResult)
+		this.setState({result: serverResult});
+	};
+
+	// getResult() {
+	// 	const {results} = this.state;
+
+	// 	const result = results.map(x => x);
+	// 	return result;
+	// };
+
 	renderComponent() {
-		const data = this.getResult();
+		const {results} = this.state;
+		const data = results;
 
 		const component = data.map((item, index) => {
 			return (

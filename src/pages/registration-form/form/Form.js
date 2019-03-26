@@ -52,27 +52,27 @@ export default class RegForm extends Component {
 			initialValues:{
 				surname: '',
 				name: '',
-				patronymic: '',
-				companyName: '',
-				position: '',
-				fieldOfActivity: {value: '', label: ''},
-				eMail: '',
-				phoneNumber: '',
-				photoUpload: '',
+				lastname: '',
+				company: '',
+				post: '',
+				activity_field: {value: '', label: ''},
+				email: '',
+				phone: '',
+				photo: '',
 			},
 			values: {
 				surname: '',
 				name: '',
-				patronymic: '',
-				companyName: '',
-				position: '',
-				fieldOfActivity: {value: '', label: ''},
-				eMail: '',
-				phoneNumber: '',
-				photoUpload: '',
+				lastname: '',
+				company: '',
+				post: '',
+				activity_field: {value: '', label: ''},
+				email: '',
+				phone: '',
+				photo: '',
 			},
 			errors: {},
-			dataProcessingAccept: false,
+			accept: false,
 			isOpenModal: false,
 		};
 
@@ -124,14 +124,18 @@ export default class RegForm extends Component {
 
 		this.setState({
 			values: initialValues,
-			dataProcessingAccept: false,
+			accept: false,
 			errors: {},
 		});
 		this.props.resetImg();
 	};
 
 	onHandleSubmit(value) {
-		const values = Object.assign({}, value, {type: 'registrate'});
+		const values = Object.assign({}, {type: 'registrate'},
+			{data:
+				{...value,
+				activity_field: value.activity_field.value}
+		});
 
 		requestApi(window.websocket, values);
 
@@ -152,7 +156,7 @@ export default class RegForm extends Component {
 
 	handleAcceptProcessing() {
 		this.setState({
-			dataProcessingAccept: !this.state.dataProcessingAccept,
+			accept: !this.state.accept,
 		});
 	};
 
@@ -190,7 +194,6 @@ export default class RegForm extends Component {
 									value={values[field.name]}
 									handleChange={this.handleChange}
 									validErr={errors[field.name]}
-									autoFocus
 								/>
 							)}
 						/>
@@ -203,11 +206,12 @@ export default class RegForm extends Component {
 									value={values[field.name]}
 									handleChange={this.handleChange}
 									validErr={errors[field.name]}
+									autoFocus
 								/>
 							)}
 						/>
 
-						<Field name="patronymic" render={({field}) => (
+						<Field name="lastname" render={({field}) => (
 								<TextFieldStatless
 									{...field}
 									type="text"
@@ -219,7 +223,31 @@ export default class RegForm extends Component {
 							)}
 						/>
 
-						<Field name="companyName" render={({field}) => (
+						<Field name="phone" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="tel"
+									label="Телефон"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
+
+						<Field name="email" render={({field}) => (
+								<TextFieldStatless
+									{...field}
+									type="email"
+									label="Электронный адрес"
+									value={values[field.name]}
+									handleChange={this.handleChange}
+									validErr={errors[field.name]}
+								/>
+							)}
+						/>
+
+						<Field name="company" render={({field}) => (
 								<TextFieldStatless
 									{...field}
 									type="text"
@@ -231,7 +259,7 @@ export default class RegForm extends Component {
 							)}
 						/>
 
-						<Field name="position" render={({field}) => (
+						<Field name="post" render={({field}) => (
 								<TextFieldStatless
 									{...field}
 									type="text"
@@ -243,7 +271,7 @@ export default class RegForm extends Component {
 							)}
 						/>
 
-						<Field name="fieldOfActivity" render={({field}) => (
+						<Field name="activity_field" render={({field}) => (
 								<SelectField
 									{...field}
 									options={options}
@@ -258,31 +286,7 @@ export default class RegForm extends Component {
 							)}
 						/>
 
-						<Field name="eMail" render={({field}) => (
-								<TextFieldStatless
-									{...field}
-									type="email"
-									label="Электронный адрес"
-									value={values[field.name]}
-									handleChange={this.handleChange}
-									validErr={errors[field.name]}
-								/>
-							)}
-						/>
-
-						<Field name="phoneNumber" render={({field}) => (
-								<TextFieldStatless
-									{...field}
-									type="tel"
-									label="Телефон"
-									value={values[field.name]}
-									handleChange={this.handleChange}
-									validErr={errors[field.name]}
-								/>
-							)}
-						/>
-
-						<Field name="photoUpload" render={({field}) => (
+						<Field name="photo" render={({field}) => (
 								<PhotoUpload
 									{...field}
 									type="file"
@@ -295,20 +299,21 @@ export default class RegForm extends Component {
 							)}
 						/>
 
-						<Field name="dataProcessing" render={({field}) => (
+						<Field name="accept" render={({field}) => (
 								<CheckboxField
 									{...field}
-									isChecked={this.state.dataProcessingAccept}
+									isChecked={this.state.accept}
 									handleChange={this.handleAcceptProcessing}
 								/>
 							)}
 						/>
+
 							<FooterContainer>
 								<ButtonContainer>
 									<Button
 										type="submit"
 										appearance="primary"
-										isDisabled={!this.state.dataProcessingAccept}
+										isDisabled={!this.state.accept}
 									>
 										Отправить
 									</Button>

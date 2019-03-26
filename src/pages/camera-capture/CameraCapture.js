@@ -57,7 +57,7 @@ export default class CameraCapture extends Component {
 			photography: false,
 		});
 
-	const value = Object.assign({}, {type: 'identify', data: src});
+	const value = Object.assign({}, {type: 'identify', data: {photo: src}});
 	requestApi(window.websocket, value);
 
 	this.debounceChangeComponents();
