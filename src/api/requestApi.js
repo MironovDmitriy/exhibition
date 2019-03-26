@@ -13,8 +13,12 @@ const requestApi = (ws, values) => {
 
 	ws.onerror = (e) => console.log(e);
 
+	const json = JSON.stringify(values);
+
+
 	if (ws.readyState) {
-		ws.send(values);
+		ws.send(json);
+		console.log(json)
 		console.log('данные отправлены')
 	} else {
 		alert('Websocket connection is not open')

@@ -74,6 +74,7 @@ export default class RegForm extends Component {
 			errors: {},
 			accept: false,
 			isOpenModal: false,
+			imgString: '',
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -83,6 +84,7 @@ export default class RegForm extends Component {
 		this.onCloseModal = this.onCloseModal.bind(this);
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 		this.handleSelect = this.handleSelect.bind(this);
+		this.imgToString = this.imgToString.bind(this);
 	};
 
 	getImgSrcBase64 = event => {
@@ -93,6 +95,19 @@ export default class RegForm extends Component {
 		};
 
 		const base64 = reader.readAsDataURL(event.target.files[0]);
+	};
+
+	imgToString = e => {
+		const input = e.target;
+
+		const reader = new FileReader();
+
+		reader.readAsDataURL(input.files[0]);
+
+		reader.onload = () => {
+			const dataURL = reader.result;
+			this.setState({imgString: dataURL});
+		};
 	};
 
 	handleChange = inputValue => {
@@ -134,9 +149,10 @@ export default class RegForm extends Component {
 		const values = Object.assign({}, {type: 'registrate'},
 			{data:
 				{...value,
+				photo: this.state.imgString,
 				activity_field: value.activity_field.value}
 		});
-
+		console.log(values)
 		requestApi(window.websocket, values);
 
 		this.setState({isOpenModal: true});
@@ -184,7 +200,7 @@ export default class RegForm extends Component {
 					initialValues={initialValues}
 					onSubmit={() => this.onHandleSubmit(this.state.values)}
 					render={(props) => (
-						<form onSubmit={props.handleSubmit} onReset={props.resetForm}>
+						<form onSubmit={props.handleSubmit} onReset={props.resetForm} accept-charset="utf-8">
 
 						<Field name="surname" render={({field}) => (
 								<TextFieldStatless
@@ -294,6 +310,7 @@ export default class RegForm extends Component {
 									value={values[field.name]}
 									handleChange={this.handleChange}
 									getImgSrc={this.getImgSrcBase64}
+									imgToString={this.imgToString}
 									validErr={errors[field.name]}
 								/>
 							)}

@@ -7,13 +7,15 @@ const PhotoUpload = ({
 	handleChange,
 	getImgSrc,
 	validErr,
+	imgToString,
 	...props,
 }) => {
 
 	const onHandleChange = e => {
 		const value = e.target.value;
 		handleChange({field: props.name, value: value});
-		getImgSrc(e)
+		getImgSrc(e);
+		imgToString(e);
 	};
 
 	const errMessage = 'Загрузите Вашу фотографию';
