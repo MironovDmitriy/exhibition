@@ -2,14 +2,17 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import debounce from 'debounce';
+import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
 
 import {WIDTH, HEIGHT} from '../../constants/';
 import VideoCapture from './video-capture';
 import {ImageContainer} from '../../components/';
 import {PageContainer as PageContainerMain} from '../../components';
+import ResultsReception from '../results-reception/';
 
 import {DELAY} from '../../constants';
 import {requestApi} from '../../api/requestApi';
+import {getResponse} from '../../api/requestApi';
 
 const CameraConatiner = styled.div`
 	display: flex;
@@ -38,10 +41,14 @@ export default class CameraCapture extends Component {
 			isImageOpen: false,
 			photography: false,
 			imgBase64: '',
+			isOpenModal: false,
+			results: {},
 		};
 
 		this.handleMakePhoto = this.handleMakePhoto.bind(this);
 		this.getImgBase64 = this.getImgBase64.bind(this);
+		this.getResults = this.getResults.bind(this);
+		this.onCloseModal = this.onCloseModal.bind(this);
 	};
 
 	handleMakePhoto () {
@@ -50,7 +57,14 @@ export default class CameraCapture extends Component {
 		});
 	};
 
-	getImgBase64 = src => {
+	getResults = result => {
+		this.setState({
+			results: result,
+			isOpenModal: true,
+		});
+	};
+
+	getImgBase64(src) {
 		this.setState({
 			imgBase64: src,
 			isImageOpen: true,
@@ -59,20 +73,33 @@ export default class CameraCapture extends Component {
 
 	const value = Object.assign({}, {type: 'identify', data: {photo: src}});
 	requestApi(window.websocket, value);
+	getResponse(window.websocket, this.getResults);
 
 	this.debounceChangeComponents();
 	};
 
-	changeComponents = state => {
+	changeComponents(state) {
 		this.setState({
 			isImageOpen: false,
 		});
 	};
 
+	onCloseModal = () => this.setState({isOpenModal: false});
+
 	debounceChangeComponents = debounce(this.changeComponents, DELAY);
 
 	render () {
-		const {isImageOpen, photography, imgBase64} = this.state;
+		const {
+			isImageOpen,
+			photography,
+			imgBase64,
+			isOpenModal,
+			results,
+		} = this.state;
+
+		const actions = [
+			{text: 'Ok', onClick: this.onCloseModal},
+		];
 
 		return (
 			<PageContainerMain>
@@ -86,6 +113,7 @@ export default class CameraCapture extends Component {
 							Распознать
 						</Button>
 					</ButtonContainer>
+
 					{isImageOpen ?
 						<ImageContainer
 							image={imgBase64}
@@ -101,6 +129,16 @@ export default class CameraCapture extends Component {
 						/>
 					}
 				</CameraConatiner>
+
+				<ModalTransition>
+					{isOpenModal
+						&& <ResultsReception
+							results={results}
+							actions={actions}
+							onClose={this.onCloseModal}
+					/>}
+				</ModalTransition>
+
 			</PageContainerMain>
 		);
 	};

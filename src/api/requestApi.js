@@ -18,17 +18,16 @@ const requestApi = (ws, values) => {
 
 	if (ws.readyState) {
 		ws.send(json);
-		console.log(json)
-		console.log('данные отправлены')
 	} else {
 		alert('Websocket connection is not open')
 	};
 };
 
-const getResponse = ws => {
+const getResponse = (ws, getResult) => {
 	ws.onmessage = event => {
 		const incomingMessage = JSON.parse(event.data);
-		return incomingMessage;
+		console.log(incomingMessage);
+		getResult(incomingMessage);
 	};
 };
 

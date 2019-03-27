@@ -152,7 +152,7 @@ export default class RegForm extends Component {
 				photo: this.state.imgString,
 				activity_field: value.activity_field.value}
 		});
-		console.log(values)
+
 		requestApi(window.websocket, values);
 
 		this.setState({isOpenModal: true});

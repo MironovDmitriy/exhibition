@@ -5,6 +5,7 @@ import {data as responseData} from './data-test';
 import {ResultProfile} from '../../components/';
 import {PageContainer as PageContainerMain} from '../../components';
 import {getResponse} from '../../api/requestApi';
+
 const PageContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -24,20 +25,23 @@ export default class ResultsReception extends Component {
 		this.state = {
 			results: [],
 		};
+
+		this.getResult = this.getResult.bind(this);
 	};
+
+	// componentWillMount() {
+	// 	const serverResult = getResponse(window.websocket);
+	// 	console.log(serverResult)
+	// 	this.setState({result: serverResult});
+	// };
 
 	componentWillMount() {
-		const serverResult = getResponse(window.websocket);
-		console.log(serverResult)
-		this.setState({result: serverResult});
+		getResponse(window.websocket, this.getResult);
 	};
 
-	// getResult() {
-	// 	const {results} = this.state;
-
-	// 	const result = results.map(x => x);
-	// 	return result;
-	// };
+	getResult(response) {
+		this.setState({result: response});
+	};
 
 	renderComponent() {
 		const {results} = this.state;
@@ -57,7 +61,7 @@ export default class ResultsReception extends Component {
 	};
 
 	render() {
-
+console.log(this.state.results)
 		return (
 			<PageContainerMain>
 				<PageContainer>
