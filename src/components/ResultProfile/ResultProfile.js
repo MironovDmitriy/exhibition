@@ -21,7 +21,7 @@ import ReactToPrint from "react-to-print";
 const ProfileContainer = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: center;
 	border-radius: 5px;
 	border: 1px solid #0c4687;
 	background: linear-gradient(90deg, rgba(203,203,203, 0) 0%, rgba(203,203,203, 0.2) 25%, rgba(203,203,203, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
@@ -68,7 +68,8 @@ const InfoContainer = styled.div`
 
 const PrintArea = styled.div`
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	justify-content: center;
 
 	@media print {
 		display: flex;
@@ -87,14 +88,14 @@ const ButtonContainer = styled.div`
 export default class ResultProfile extends Component {
 
 	render() {
-		const {data} = this.props;
+		const {results} = this.props;
 
 		return (
 			<ProfileContainer>
 
 				<PrintArea ref={el => (this.componentRef = el)}>
 
-					<PhotoContainer>
+			{/*		<PhotoContainer>
 						<img className='image'
 							src={data.photoUpload}
 							style={{border: '1px solid #0c4687'}}
@@ -102,21 +103,15 @@ export default class ResultProfile extends Component {
 							height='200px'
 							alt={`${data.surname} ${data.name}`}
 						/>
-					</PhotoContainer>
+					</PhotoContainer>		*/}
 
 					<InfoContainer>
 						<div>
-							<h3>{`${data.surname} ${data.name} ${data.patronymic}`}</h3>
-							<p><b>Компания:</b> {data.companyName}</p>
-							<p><b>Должность:</b> {data.position}</p>
-							<p><b>Сфера деятельности:</b> {data.fieldOfActivity}</p>
-							<p><b>Телефон:</b> {data.phoneNumber}</p>
-							<p><b>Электронный адрес:</b> {data.eMail}</p>
+							<h3>{`${results.data.surname} ${results.data.name}`}</h3>
 						</div>
 					</InfoContainer>
 
 				</PrintArea>
-
 
 				<ButtonContainer>
 					<ReactToPrint

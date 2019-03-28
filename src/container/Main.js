@@ -19,7 +19,6 @@ export default class Main extends Component {
 					<Switch>
 						<Route exact path="/" component={RegistrationForm} />
 						<Route exact path="/camera" component={CameraCapture} />
-						<Route exact path="/results" component={ResultsReception} />
 						<Route component={NotFound404} />
 					</Switch>
 				</div>

@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import Button from '@atlaskit/button';
 import debounce from 'debounce';
-import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
+import {WIDTH, HEIGHT, DELAY} from '../../constants/';
 
-import {WIDTH, HEIGHT} from '../../constants/';
+import Button from '@atlaskit/button';
+import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
 import VideoCapture from './video-capture';
 import {ImageContainer} from '../../components/';
 import {PageContainer as PageContainerMain} from '../../components';
 import ResultsReception from '../results-reception/';
 
-import {DELAY} from '../../constants';
 import {requestApi} from '../../api/requestApi';
 import {getResponse} from '../../api/requestApi';
 
@@ -38,61 +37,74 @@ export default class CameraCapture extends Component {
 		super();
 
 		this.state = {
-			isImageOpen: false,
-			photography: false,
-			imgBase64: '',
+			isPhotoShown: false,
+			shooting: false,
+			photoBase64: '',
 			isOpenModal: false,
-			results: {},
+			results: null,
 		};
 
-		this.handleMakePhoto = this.handleMakePhoto.bind(this);
-		this.getImgBase64 = this.getImgBase64.bind(this);
+		this.handleShooting = this.handleShooting.bind(this);
+		this.getPhotoUrl = this.getPhotoUrl.bind(this);
 		this.getResults = this.getResults.bind(this);
 		this.onCloseModal = this.onCloseModal.bind(this);
 	};
 
-	handleMakePhoto () {
-		this.setState({
-			photography: true,
-		});
+	componentDidUpdate(prevState) {
+		const {photoBase64, results} = this.state;
+
+		if (!results && photoBase64 && photoBase64 !== prevState.photoBase64) {
+			this.sendToServer(photoBase64);
+		};
 	};
 
-	getResults = result => {
+	handleShooting() {
+		this.setState({shooting: true});
+	};
+
+	getResults(result) {
 		this.setState({
 			results: result,
 			isOpenModal: true,
 		});
 	};
 
-	getImgBase64(src) {
+	getPhotoUrl(src) {
 		this.setState({
-			imgBase64: src,
-			isImageOpen: true,
-			photography: false,
-		});
-
-	const value = Object.assign({}, {type: 'identify', data: {photo: src}});
-	requestApi(window.websocket, value);
-	getResponse(window.websocket, this.getResults);
-
-	this.debounceChangeComponents();
-	};
-
-	changeComponents(state) {
-		this.setState({
-			isImageOpen: false,
+			photoBase64: src,
+			shooting: false,
+			isPhotoShown: true,
 		});
 	};
 
-	onCloseModal = () => this.setState({isOpenModal: false});
+	hidePhotoImage(state) {
+		this.setState({isPhotoShown: false});
+	};
 
-	debounceChangeComponents = debounce(this.changeComponents, DELAY);
+	hidePhoto = debounce(this.hidePhotoImage, DELAY);
+
+	sendToServer(photoUrl) {
+		const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
+		console.log(value);
+		requestApi(window.websocket, value);
+		getResponse(window.websocket, this.getResults);
+		// getResponse(this.getResults);
+	};
+
+	onCloseModal = () => {
+		this.setState({
+			isOpenModal: false,
+			isPhotoShown: false,
+			results: null,
+			photoBase64: '',
+		});
+	};
 
 	render () {
 		const {
-			isImageOpen,
-			photography,
-			imgBase64,
+			isPhotoShown,
+			shooting,
+			photoBase64,
 			isOpenModal,
 			results,
 		} = this.state;
@@ -108,15 +120,15 @@ export default class CameraCapture extends Component {
 						<Button
 							appearance={'primary'}
 							shouldFitContainer={true}
-							onClick={this.handleMakePhoto}
+							onClick={this.handleShooting}
 						>
 							Распознать
 						</Button>
 					</ButtonContainer>
 
-					{isImageOpen ?
+					{isPhotoShown ?
 						<ImageContainer
-							image={imgBase64}
+							image={photoBase64}
 							alt="Скриншот"
 							width={WIDTH}
 							height={HEIGHT}
@@ -124,19 +136,24 @@ export default class CameraCapture extends Component {
 						/>
 					:
 						<VideoCapture
-							getSrcImg={this.getImgBase64}
-							photography={photography}
+							getPhotoUrl={this.getPhotoUrl}
+							shooting={shooting}
 						/>
 					}
 				</CameraConatiner>
 
 				<ModalTransition>
-					{isOpenModal
-						&& <ResultsReception
-							results={results}
+					{isOpenModal && (
+						<ModalDialog
 							actions={actions}
 							onClose={this.onCloseModal}
-					/>}
+							components={{
+								Body: () => (
+									<ResultsReception results={results} />
+								),
+							}}
+						/>
+					)}
 				</ModalTransition>
 
 			</PageContainerMain>

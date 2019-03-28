@@ -45,12 +45,6 @@ const Menu = () => (
 			</LinkContainer>
 		</NavLink>
 
-		<NavLink to="/results" style={{textDecoration: 'none'}}>
-			<LinkContainer>
-				Получить результаты
-			</LinkContainer>
-		</NavLink>
-
 	</MainContainer>
 );
 

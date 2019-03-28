@@ -17,41 +17,36 @@ export default class VideoCapture extends Component {
 
 		this.webcam = React.createRef();
 
-		this.errMedia = this.errMedia.bind(this);
-		this.succesMedia = this.succesMedia.bind(this);
+		this.errCameraConnection = this.errCameraConnection.bind(this);
 		this.capture = this.capture.bind(this);
 	};
 
 	static propTypes = {
-		getSrcImg: PropTypes.func.isRequired,
-		photography: PropTypes.bool.isRequired,
+		getPhotoUrl: PropTypes.func.isRequired,
+		shooting: PropTypes.bool.isRequired,
 	};
 
 	static defaultProps = {
-		photography: false,
+		shooting: false,
 	};
 
 	componentWillReceiveProps (newProps) {
-		const {photography} = newProps;
+		const {shooting} = newProps;
 
-		if (photography && photography !== this.props.photography) {
+		if (shooting && shooting !== this.props.shooting) {
 			this.capture();
 		};
 	};
 
-	errMedia () {
+	errCameraConnection () {
 		console.log('Ошибка подключения камеры');
 	};
 
-	succesMedia () {
-		console.log('Камера подключена успешно');
-	};
-
 	capture () {
-		const {getSrcImg} = this.props;
+		const {getPhotoUrl} = this.props;
 
-		const imageSrc = this.webcam.current.getScreenshot();
-		getSrcImg(imageSrc);
+		const photoUrl = this.webcam.current.getScreenshot();
+		getPhotoUrl(photoUrl);
 	};
 
 	render() {
@@ -63,7 +58,7 @@ export default class VideoCapture extends Component {
 					width={WIDTH}
 					height={HEIGHT}
 					screenshotFormat={'image/jpeg'}
-					onUserMediaError={this.errMedia}
+					onUserMediaError={this.errCameraConnection}
 					onUserMedia={this.succesMedia}
 					ref={this.webcam}
 				/>
