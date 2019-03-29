@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import debounce from 'debounce';
-import {WIDTH, DELAY} from '../../constants/';
-
 import Button from '@atlaskit/button';
 import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
 import VideoCapture from './video-capture';
 import {PageContainer as PageContainerMain} from '../../components';
-import ResultsReception from '../results-reception/';
-
+import {ResultsReception} from '../../components';
 import {requestApi} from '../../api/requestApi';
 import {getResponse} from '../../api/requestApi';
 
@@ -78,13 +74,11 @@ export default class CameraCapture extends Component {
 
 	sendToServer(photoUrl) {
 		const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
-		console.log(value);
 		requestApi(window.websocket, value);
 		getResponse(window.websocket, this.getResults);
-		// getResponse(this.getResults);
 	};
 
-	onCloseModal = () => {
+	onCloseModal() {
 		this.setState({
 			isOpenModal: false,
 			results: null,
@@ -92,9 +86,7 @@ export default class CameraCapture extends Component {
 		});
 	};
 
-	refreshPage = () => {
-		window.location.reload();
-	};
+	refreshPage = () => window.location.reload();
 
 	render () {
 		const {

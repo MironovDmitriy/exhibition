@@ -1,8 +1,7 @@
 import React from 'react';
-
 import Select from '@atlaskit/select';
 
-const customStyles = {
+const styles = {
 	container(styles) {
 		return { ...styles, width: '100%' };
 	},
@@ -35,7 +34,7 @@ const SelectField = ({
 				onChange={onHandleChange}
 				validationState={validErr}
 				options={options}
-				styles={customStyles}
+				styles={styles}
 				isLabelHidden
 			/>
 			{validErr && <div style={{color: '#DC360C'}}>{errMessage}</div>}

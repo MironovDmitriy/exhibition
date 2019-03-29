@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {FieldTextStateless} from '@atlaskit/field-text';
 
 const TextFieldStatless = ({

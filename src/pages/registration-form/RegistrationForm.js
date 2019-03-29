@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-
 import Form from './form';
 import {ImageContainer} from '../../components';
 import {PageContainer as PageContainerMain} from '../../components';
@@ -74,21 +73,23 @@ export default class RegistrationForm extends Component {
 					/>
 
 					<PhotoFileContainer>
-						{fileBase64 ?
+
+						{fileBase64 ? (
 							<ImageContainer
 								image={fileBase64}
-								alt="Загрузка фото"
+								alt="Место для фото"
 								width={WIDTH}
 								height={HEIGHT}
-								isSquare={false}
 							/>
-						: <LabelContainer
+						) : (
+							<LabelContainer
 								width={WIDTH}
 								height={HEIGHT}
 							>
 								Место для фото
 							</LabelContainer>
-						}
+						)}
+
 					</PhotoFileContainer>
 
 				</PageContainer>

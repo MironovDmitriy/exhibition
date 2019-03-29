@@ -2,56 +2,16 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import ReactToPrint from "react-to-print";
-
-// const ProfileContainer = styled.div`
-// 	display: flex;
-// 	flex-direction: row;
-// 	justify-content: space-between;
-// 	border-radius: 5px;
-// 	border: 1px solid #0c4687;
-// 	background: #888888;
-// 	background: -webkit-linear-gradient(bottom, #888888, #D3D2D2);
-// 	background: -moz-linear-gradient(bottom, #888888, #D3D2D2);
-// 	background: linear-gradient(to top, #888888, #D3D2D2);
-// 	-webkit-box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
-// 	-moz-box-shadow:    2px 4px 13px 0px rgba(50, 50, 50, 0.65);
-// 	box-shadow:         2px 4px 13px 0px rgba(50, 50, 50, 0.65);
-// `;
+import PropTypes from 'prop-types';
 
 const ProfileContainer = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: space-around;
 	border-radius: 5px;
 	border: 1px solid #0c4687;
-	background: linear-gradient(90deg, rgba(203,203,203, 0) 0%, rgba(203,203,203, 0.2) 25%, rgba(203,203,203, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
-	-webkit-box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
-	-moz-box-shadow:    2px 4px 13px 0px rgba(50, 50, 50, 0.65);
-	box-shadow:         2px 4px 13px 0px rgba(50, 50, 50, 0.65);
-`;
-
-const PhotoContainer = styled.div`
-	display: flex;
-	align-items: center;
-	margin: 0 25px;
-
-	@media print {
-		display: flex;
-		align-items: center;
-		margin: 3em 0;
-		width: 70%;
-		height: 50%;
-
-		.image {
-			margin: auto;
-			dispaly: block;
-			height: auto;
-			max-height: 100%;
-			max-width: 100%;
-			width: auto;
-			border: 1px solid black;
-		}
-	}
+	margin: 10px;
+	box-shadow: 2px 4px 13px 0px rgba(50, 50, 50, 0.65);
 `;
 
 const InfoContainer = styled.div`
@@ -86,6 +46,13 @@ const ButtonContainer = styled.div`
 `;
 
 export default class ResultProfile extends Component {
+	static defaultProps = {
+		results: null,
+	};
+
+	static propsType = {
+		results: PropTypes.object,
+	}
 
 	render() {
 		const {results} = this.props;
@@ -94,16 +61,6 @@ export default class ResultProfile extends Component {
 			<ProfileContainer>
 
 				<PrintArea ref={el => (this.componentRef = el)}>
-
-			{/*		<PhotoContainer>
-						<img className='image'
-							src={data.photoUpload}
-							style={{border: '1px solid #0c4687'}}
-							width='200px'
-							height='200px'
-							alt={`${data.surname} ${data.name}`}
-						/>
-					</PhotoContainer>		*/}
 
 					<InfoContainer>
 						<div>

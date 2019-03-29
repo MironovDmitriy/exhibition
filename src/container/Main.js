@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import {RegistrationForm} from '../pages';
 import {CameraCapture} from '../pages';
-import {ResultsReception} from '../pages';
 import {NotFound404} from '../components/';
 import wsUrl from '../config/paths';
 

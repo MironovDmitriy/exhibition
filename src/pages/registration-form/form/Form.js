@@ -2,14 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {Formik, Field} from 'formik'; 
-
 import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import {TextFieldStatless} from '../../../components/';
 import {PhotoUpload} from '../../../components/';
 import {CheckboxField} from '../../../components/';
 import {SelectField} from '../../../components/';
-
 import validation from './validation';
 import {options} from './options';
 import {requestApi} from '../../../api/requestApi';
@@ -90,11 +88,11 @@ export default class RegForm extends Component {
 	getImgSrcBase64 = event => {
 		const reader = new FileReader();
 
+		reader.readAsDataURL(event.target.files[0]);
+
 		reader.onloadend = () => {
 			this.props.getImgSrc(reader.result);
 		};
-
-		const base64 = reader.readAsDataURL(event.target.files[0]);
 	};
 
 	imgToString = e => {
@@ -110,7 +108,7 @@ export default class RegForm extends Component {
 		};
 	};
 
-	handleChange = inputValue => {
+	handleChange(inputValue) {
 		const {values} = this.state;
 
 		const newState = {
@@ -123,7 +121,7 @@ export default class RegForm extends Component {
 		});
 	};
 
-	handleSelect = inputValue => {
+	handleSelect(inputValue) {
 		const {values} = this.state;
 
 		const newState = Object.assign({}, values, inputValue);
@@ -176,7 +174,7 @@ export default class RegForm extends Component {
 		});
 	};
 
-	onCloseModal = () => {
+	onCloseModal() {
 		this.setState({isOpenModal: false});
 		window.location.reload();
 	};
@@ -213,6 +211,7 @@ export default class RegForm extends Component {
 									value={values[field.name]}
 									handleChange={this.handleChange}
 									validErr={errors[field.name]}
+									autoFocus
 								/>
 							)}
 						/>
@@ -225,7 +224,6 @@ export default class RegForm extends Component {
 									value={values[field.name]}
 									handleChange={this.handleChange}
 									validErr={errors[field.name]}
-									autoFocus
 								/>
 							)}
 						/>

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {Checkbox} from '@atlaskit/checkbox';
 
 const CheckboxField = ({
@@ -12,7 +11,6 @@ const CheckboxField = ({
 
 	return (
 		<div>
-			<label>{props.label}</label>
 			<Checkbox
 				{...field}
 				{...props}

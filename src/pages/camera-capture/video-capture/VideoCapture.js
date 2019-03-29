@@ -3,8 +3,6 @@ import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import {WIDTH, HEIGHT} from '../../../constants/';
-
 const VideoContainer = styled.div`
 	display: flex;
 	flex-direction: row;
@@ -19,6 +17,9 @@ const styles = {
 	border: '1px solid black',
 };
 
+const WIDTH = '800';
+const HEIGHT = '600';
+
 export default class VideoCapture extends Component {
 	constructor(props) {
 		super(props);
@@ -29,11 +30,10 @@ export default class VideoCapture extends Component {
 		this.state = {
 			errCamera: false,
 			videoContainer: {
-				width: 800,
+				width: WIDTH,
 			},
 		};
 
-		this.errCameraConnection = this.errCameraConnection.bind(this);
 		this.capture = this.capture.bind(this);
 	};
 
@@ -55,10 +55,10 @@ export default class VideoCapture extends Component {
 		});
 	};
 
-	componentWillReceiveProps(newProps) {
-		const {shooting} = newProps;
+	componentDidUpdate(prevProps) {
+		const {shooting} = prevProps;
 
-		if (shooting && shooting !== this.props.shooting) {
+		if (this.props.shooting && this.props.shooting !== shooting) {
 			this.capture();
 		};
 	};
@@ -79,14 +79,14 @@ export default class VideoCapture extends Component {
 
 		return (
 			<VideoContainer ref={this.videoContainer}>
-				{errCamera && (
+				{errCamera ? (
 					<div><h3>Ошибка подключения камеры</h3></div>
-				) || (
+				) : (
 					<Webcam
 						audio={false}
 						width={videoContainer.width}
-						height='600'
-						screenshotFormat={'image/jpeg'}
+						height={HEIGHT}
+						screenshotFormat='image/jpeg'
 						onUserMediaError={this.errCameraConnection}
 						onUserMedia={this.succesMedia}
 						ref={this.webcam}

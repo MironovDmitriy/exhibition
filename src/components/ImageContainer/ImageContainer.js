@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 
 const ContainerImage = styled.div`
 	display: flex;
-	margin: 3px;
 	border: 1px solid #0c4687;
-	border-radius: ${props => props.isSquare ? '0' : "5px"};
+	border-radius: 5px;
 `;
 
 export default class ImageContainer extends Component {
-
 	static propTypes = {
 		image: PropTypes.string,
 	};
@@ -20,16 +18,25 @@ export default class ImageContainer extends Component {
 	};
 
 	render() {
-		const {image, alt, width, height, isSquare} = this.props;
+		const {
+			image,
+			alt,
+			width,
+			height,
+		} = this.props;
+
+	const styles = {
+		borderRadius: '5px',
+		width: width,
+		height: height,
+	};
 
 		return (
 			<ContainerImage>
 				<img
 					src={image}
-					width={width}
-					height={height}
 					alt={alt}
-					style={isSquare ? null : {borderRadius: "5px"}}
+					style={styles}
 				/>
 			</ContainerImage>
 		);

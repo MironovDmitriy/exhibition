@@ -6,6 +6,7 @@ import CheckboxField from './CheckboxField/';
 import SelectField from './SelectField/';
 import NotFound404 from './NotFound404/';
 import Menu from './Menu/';
+import ResultsReception from './ResultsReception/';
 import ResultProfile from './ResultProfile/';
 
 export {
@@ -18,4 +19,5 @@ export {
 	NotFound404,
 	Menu,
 	ResultProfile,
+	ResultsReception,
 };
