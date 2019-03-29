@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import debounce from 'debounce';
-import {WIDTH, HEIGHT, DELAY} from '../../constants/';
+import {WIDTH, DELAY} from '../../constants/';
 
 import Button from '@atlaskit/button';
 import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
 import VideoCapture from './video-capture';
-import {ImageContainer} from '../../components/';
 import {PageContainer as PageContainerMain} from '../../components';
 import ResultsReception from '../results-reception/';
 
@@ -28,8 +27,9 @@ const CameraConatiner = styled.div`
 const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: center;
+	width: 100%;
+	max-width: 800px;
 	padding: 3px;
-	width: ${props => props.width}px;
 `;
 
 export default class CameraCapture extends Component {
@@ -37,7 +37,6 @@ export default class CameraCapture extends Component {
 		super();
 
 		this.state = {
-			isPhotoShown: false,
 			shooting: false,
 			photoBase64: '',
 			isOpenModal: false,
@@ -77,12 +76,6 @@ export default class CameraCapture extends Component {
 		});
 	};
 
-	hidePhotoImage(state) {
-		this.setState({isPhotoShown: false});
-	};
-
-	hidePhoto = debounce(this.hidePhotoImage, DELAY);
-
 	sendToServer(photoUrl) {
 		const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
 		console.log(value);
@@ -94,17 +87,18 @@ export default class CameraCapture extends Component {
 	onCloseModal = () => {
 		this.setState({
 			isOpenModal: false,
-			isPhotoShown: false,
 			results: null,
 			photoBase64: '',
 		});
 	};
 
+	refreshPage = () => {
+		window.location.reload();
+	};
+
 	render () {
 		const {
-			isPhotoShown,
 			shooting,
-			photoBase64,
 			isOpenModal,
 			results,
 		} = this.state;
@@ -115,8 +109,10 @@ export default class CameraCapture extends Component {
 
 		return (
 			<PageContainerMain>
+
 				<CameraConatiner>
-					<ButtonContainer width={WIDTH}>
+
+					<ButtonContainer>
 						<Button
 							appearance={'primary'}
 							shouldFitContainer={true}
@@ -126,20 +122,21 @@ export default class CameraCapture extends Component {
 						</Button>
 					</ButtonContainer>
 
-					{isPhotoShown ?
-						<ImageContainer
-							image={photoBase64}
-							alt="Скриншот"
-							width={WIDTH}
-							height={HEIGHT}
-							isSquare
-						/>
-					:
-						<VideoCapture
-							getPhotoUrl={this.getPhotoUrl}
-							shooting={shooting}
-						/>
-					}
+					<VideoCapture
+						getPhotoUrl={this.getPhotoUrl}
+						shooting={shooting}
+					/>
+
+					<ButtonContainer>
+						<Button
+							appearance={'primary'}
+							shouldFitContainer={true}
+							onClick={this.refreshPage}
+						>
+							Новый пользователь
+						</Button>
+					</ButtonContainer>
+
 				</CameraConatiner>
 
 				<ModalTransition>

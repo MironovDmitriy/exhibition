@@ -176,7 +176,10 @@ export default class RegForm extends Component {
 		});
 	};
 
-	onCloseModal = () => this.setState({isOpenModal: false});
+	onCloseModal = () => {
+		this.setState({isOpenModal: false});
+		window.location.reload();
+	};
 
 	render() {
 		const {
@@ -192,7 +195,7 @@ export default class RegForm extends Component {
 
 		return (
 			<FormContainer>
-				<div><h3>Регистрация ПУЛЦЭВТГУУ</h3></div>
+				<div><h3>Регистрация ПУЛЦЭВТ ГУУ</h3></div>
 				<Formik
 					validate={this.handleValidation}
 					validateOnChange={false}
