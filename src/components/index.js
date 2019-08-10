@@ -8,6 +8,7 @@ import NotFound404 from './NotFound404/';
 import Menu from './Menu/';
 import ResultsReception from './ResultsReception/';
 import ResultProfile from './ResultProfile/';
+import PhotoContainer from './PhotoContainer/';
 
 export {
 	PageContainer,
@@ -20,4 +21,5 @@ export {
 	Menu,
 	ResultProfile,
 	ResultsReception,
+	PhotoContainer,
 };

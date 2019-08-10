@@ -6,10 +6,10 @@ const MainContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	border-radius: 5px;
-	border: 2px solid #0c4687;
-	background-color: rgba(255, 255, 255, 0.2);
+	width: 19%;
+	background: linear-gradient(rgba(136, 162, 222), rgba(88, 114, 217));
 	padding: 30px;
+	z-index: 1;
 `;
 
 const LinkContainer = styled.div`

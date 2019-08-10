@@ -4,6 +4,7 @@ import Button from '@atlaskit/button';
 import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
 import VideoCapture from './video-capture';
 import {PageContainer as PageContainerMain} from '../../components';
+import {PhotoContainer} from '../../components/';
 import {ResultsReception} from '../../components';
 import {requestApi} from '../../api/requestApi';
 import {getResponse} from '../../api/requestApi';
@@ -13,20 +14,16 @@ const CameraConatiner = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 70%;
-	margin: 0 40px 0 0;
-	border-radius: 5px;
-	border: 2px solid #0c4687;
-	background-color: rgba(255, 255, 255, 0.2); 
+	width: 44%;
 `;
 
-const ButtonContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	max-width: 800px;
-	padding: 3px;
-`;
+// const ButtonContainer = styled.div`
+// 	display: flex;
+// 	justify-content: center;
+// 	width: 100%;
+// 	max-width: 800px;
+// 	padding: 3px;
+// `;
 
 export default class CameraCapture extends Component {
 	constructor () {
@@ -73,9 +70,10 @@ export default class CameraCapture extends Component {
 	};
 
 	sendToServer(photoUrl) {
-		const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
-		requestApi(window.websocket, value);
-		getResponse(window.websocket, this.getResults);
+		// const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
+		// requestApi(window.websocket, value);
+		// getResponse(window.websocket, this.getResults);
+		console.log('photo');
 	};
 
 	onCloseModal() {
@@ -104,7 +102,7 @@ export default class CameraCapture extends Component {
 
 				<CameraConatiner>
 
-					<ButtonContainer>
+				{/*	<ButtonContainer>
 						<Button
 							appearance={'primary'}
 							shouldFitContainer={true}
@@ -112,14 +110,14 @@ export default class CameraCapture extends Component {
 						>
 							Распознать
 						</Button>
-					</ButtonContainer>
+					</ButtonContainer>	*/}
 
 					<VideoCapture
 						getPhotoUrl={this.getPhotoUrl}
 						shooting={shooting}
 					/>
 
-					<ButtonContainer>
+			{/*		<ButtonContainer>
 						<Button
 							appearance={'primary'}
 							shouldFitContainer={true}
@@ -127,9 +125,11 @@ export default class CameraCapture extends Component {
 						>
 							Новый пользователь
 						</Button>
-					</ButtonContainer>
+					</ButtonContainer>	*/}
 
 				</CameraConatiner>
+
+				<PhotoContainer />
 
 				<ModalTransition>
 					{isOpenModal && (

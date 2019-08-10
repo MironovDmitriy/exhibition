@@ -8,17 +8,21 @@ const VideoContainer = styled.div`
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	max-width: 800px;
-	min-width: 640px;
 `;
 
 const styles = {
-	border: '1px solid black',
+	zIndex: '0',
 };
 
-const WIDTH = '800';
-const HEIGHT = '600';
+const getCameraHeight = () => {
+	let scrollHeight = Math.max(
+		document.body.scrollHeight, document.documentElement.scrollHeight,
+		document.body.offsetHeight, document.documentElement.offsetHeight,
+		document.body.clientHeight, document.documentElement.clientHeight
+	);
+
+	return scrollHeight;
+};
 
 export default class VideoCapture extends Component {
 	constructor(props) {
@@ -29,9 +33,6 @@ export default class VideoCapture extends Component {
 
 		this.state = {
 			errCamera: false,
-			videoContainer: {
-				width: WIDTH,
-			},
 		};
 
 		this.capture = this.capture.bind(this);
@@ -44,15 +45,6 @@ export default class VideoCapture extends Component {
 
 	static defaultProps = {
 		shooting: false,
-	};
-
-	componentDidMount() {
-		const width = this.videoContainer.current.offsetWidth;
-		this.setState({
-			videoContainer: {
-				width: width,
-			},
-		});
 	};
 
 	componentDidUpdate(prevProps) {
@@ -76,6 +68,7 @@ export default class VideoCapture extends Component {
 
 	render() {
 		const {errCamera, videoContainer} = this.state;
+		const cameraHeight = getCameraHeight();
 
 		return (
 			<VideoContainer ref={this.videoContainer}>
@@ -84,8 +77,8 @@ export default class VideoCapture extends Component {
 				) : (
 					<Webcam
 						audio={false}
-						width={videoContainer.width}
-						height={HEIGHT}
+						width='auto'
+						height={cameraHeight}
 						screenshotFormat='image/jpeg'
 						onUserMediaError={this.errCameraConnection}
 						onUserMedia={this.succesMedia}

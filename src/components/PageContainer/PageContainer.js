@@ -5,7 +5,6 @@ import {Menu} from '../';
 const Component = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
 	box-sizing: border-box;
 	background: #3A6080;
 	background: linear-gradient(to top, #3A6080, #4090D2);
