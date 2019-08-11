@@ -1,6 +1,8 @@
 import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CanvasContainer from './canvas-container';
+import ResultInfoContainer from './result-info-container';
 
 const MainContainer = styled.div`
 	width: 39%;
@@ -8,29 +10,36 @@ const MainContainer = styled.div`
 	z-index: 1;
 `;
 
-const TextContainer = styled.div`
+const UserInfoContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 10%;
-	background-color: red;
 	z-index: 1;
-`;
-
-const InfoContainer = styled.div`
-	height: 25%;
-	background-color: grey;
-	z-index: 1;
+	color: #eee;
+	font-weight: bold;
 `;
 
 export default class PhotoContainer extends PureComponent {
+
+	static defaultProps = {
+		userName: 'Имя пользователя',
+	};
+
+	static propTypes = {
+		handleShooting: PropTypes.func.isRequired,
+	};
+
 	render() {
 		return (
 			<MainContainer>
-				<TextContainer>
-				text
-				</TextContainer>
+				<UserInfoContainer>
+					{this.props.userName}
+				</UserInfoContainer>
 				<CanvasContainer />
-				<InfoContainer>
-					text
-				</InfoContainer>
+				<ResultInfoContainer
+					handleShooting={this.props.handleShooting}
+				/>
 			</MainContainer>
 		);
 	};

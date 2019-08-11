@@ -12,3 +12,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@font-face {
+	font-family: "Russo One";
+	src: url(fonts/RussoOneRegular.ttf);
+	font-weight: normal;
+	font-style: normal;
+}

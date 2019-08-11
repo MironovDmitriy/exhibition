@@ -1,11 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import styled from 'styled-components';
-import Button from '@atlaskit/button';
-import ModalDialog, {ModalTransition} from '@atlaskit/modal-dialog';
 import VideoCapture from './video-capture';
 import {PageContainer as PageContainerMain} from '../../components';
 import {PhotoContainer} from '../../components/';
-import {ResultsReception} from '../../components';
 import {requestApi} from '../../api/requestApi';
 import {getResponse} from '../../api/requestApi';
 
@@ -17,15 +14,7 @@ const CameraConatiner = styled.div`
 	width: 44%;
 `;
 
-// const ButtonContainer = styled.div`
-// 	display: flex;
-// 	justify-content: center;
-// 	width: 100%;
-// 	max-width: 800px;
-// 	padding: 3px;
-// `;
-
-export default class CameraCapture extends Component {
+export default class CameraCapture extends PureComponent {
 	constructor () {
 		super();
 
@@ -39,7 +28,6 @@ export default class CameraCapture extends Component {
 		this.handleShooting = this.handleShooting.bind(this);
 		this.getPhotoUrl = this.getPhotoUrl.bind(this);
 		this.getResults = this.getResults.bind(this);
-		this.onCloseModal = this.onCloseModal.bind(this);
 	};
 
 	componentDidUpdate(prevState) {
@@ -57,7 +45,6 @@ export default class CameraCapture extends Component {
 	getResults(result) {
 		this.setState({
 			results: result,
-			isOpenModal: true,
 		});
 	};
 
@@ -76,75 +63,25 @@ export default class CameraCapture extends Component {
 		console.log('photo');
 	};
 
-	onCloseModal() {
-		this.setState({
-			isOpenModal: false,
-			results: null,
-			photoBase64: '',
-		});
-	};
-
 	refreshPage = () => window.location.reload();
 
 	render () {
 		const {
 			shooting,
-			isOpenModal,
 			results,
 		} = this.state;
 
-		const actions = [
-			{text: 'Ok', onClick: this.onCloseModal},
-		];
-
 		return (
 			<PageContainerMain>
-
 				<CameraConatiner>
-
-				{/*	<ButtonContainer>
-						<Button
-							appearance={'primary'}
-							shouldFitContainer={true}
-							onClick={this.handleShooting}
-						>
-							Распознать
-						</Button>
-					</ButtonContainer>	*/}
-
 					<VideoCapture
 						getPhotoUrl={this.getPhotoUrl}
 						shooting={shooting}
 					/>
-
-			{/*		<ButtonContainer>
-						<Button
-							appearance={'primary'}
-							shouldFitContainer={true}
-							onClick={this.refreshPage}
-						>
-							Новый пользователь
-						</Button>
-					</ButtonContainer>	*/}
-
 				</CameraConatiner>
-
-				<PhotoContainer />
-
-				<ModalTransition>
-					{isOpenModal && (
-						<ModalDialog
-							actions={actions}
-							onClose={this.onCloseModal}
-							components={{
-								Body: () => (
-									<ResultsReception results={results} />
-								),
-							}}
-						/>
-					)}
-				</ModalTransition>
-
+				<PhotoContainer
+					handleShooting={this.handleShooting}
+				/>
 			</PageContainerMain>
 		);
 	};

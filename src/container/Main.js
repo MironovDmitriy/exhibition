@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import {RegistrationForm} from '../pages';
 import {CameraCapture} from '../pages';
+import {History} from '../pages';
 import {NotFound404} from '../components/';
 import wsUrl from '../config/paths';
 
@@ -18,6 +19,7 @@ export default class Main extends Component {
 					<Switch>
 						<Route exact path="/" component={RegistrationForm} />
 						<Route exact path="/camera" component={CameraCapture} />
+						<Route exact path="/history" component={History} />
 						<Route component={NotFound404} />
 					</Switch>
 				</div>

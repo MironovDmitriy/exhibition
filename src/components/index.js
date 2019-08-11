@@ -9,6 +9,7 @@ import Menu from './Menu/';
 import ResultsReception from './ResultsReception/';
 import ResultProfile from './ResultProfile/';
 import PhotoContainer from './PhotoContainer/';
+import AvatarComponent from './AvatarComponent';
 
 export {
 	PageContainer,
@@ -22,4 +23,5 @@ export {
 	ResultProfile,
 	ResultsReception,
 	PhotoContainer,
+	AvatarComponent as Avatar,
 };

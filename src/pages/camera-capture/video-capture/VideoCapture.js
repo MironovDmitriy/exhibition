@@ -15,13 +15,13 @@ const styles = {
 };
 
 const getCameraHeight = () => {
-	let scrollHeight = Math.max(
+	const height = Math.max(
 		document.body.scrollHeight, document.documentElement.scrollHeight,
 		document.body.offsetHeight, document.documentElement.offsetHeight,
 		document.body.clientHeight, document.documentElement.clientHeight
 	);
 
-	return scrollHeight;
+	return height;
 };
 
 export default class VideoCapture extends Component {
@@ -29,7 +29,6 @@ export default class VideoCapture extends Component {
 		super(props);
 
 		this.webcam = React.createRef();
-		this.videoContainer = React.createRef();
 
 		this.state = {
 			errCamera: false,
@@ -67,11 +66,11 @@ export default class VideoCapture extends Component {
 	};
 
 	render() {
-		const {errCamera, videoContainer} = this.state;
+		const {errCamera} = this.state;
 		const cameraHeight = getCameraHeight();
 
 		return (
-			<VideoContainer ref={this.videoContainer}>
+			<VideoContainer>
 				{errCamera ? (
 					<div><h3>Ошибка подключения камеры</h3></div>
 				) : (

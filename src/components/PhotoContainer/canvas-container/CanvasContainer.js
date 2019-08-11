@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import styled from 'styled-components';
-import Konva from 'konva';
 import {Stage, Layer, Line, Circle} from 'react-konva';
 import {
 	outerCircleCoordinate,
