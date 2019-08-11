@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Form from './form';
-import {ImageContainer} from '../../components';
+// import {ImageContainer} from '../../components';
 import {PageContainer as PageContainerMain} from '../../components';
 
 const PageContainer = styled.div`
@@ -15,8 +15,8 @@ const PageContainer = styled.div`
 	background-color: rgba(255, 255, 255, 0.2); 
 `;
 
-const WIDTH = 200;
-const HEIGHT = 200;
+// const WIDTH = 200;
+// const HEIGHT = 200;
 
 export default class RegistrationForm extends Component {
 	constructor(props) {
@@ -39,7 +39,7 @@ export default class RegistrationForm extends Component {
 	};
 
 	render() {
-		const {fileBase64} = this.state;
+		// const {fileBase64} = this.state;
 
 		return (
 			<PageContainerMain>

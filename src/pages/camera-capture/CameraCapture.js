@@ -38,9 +38,7 @@ export default class CameraCapture extends PureComponent {
 		};
 	};
 
-	handleShooting() {
-		this.setState({shooting: true});
-	};
+	handleShooting = () => this.setState({shooting: !this.state.shooting});
 
 	getResults(result) {
 		this.setState({
@@ -52,15 +50,13 @@ export default class CameraCapture extends PureComponent {
 		this.setState({
 			photoBase64: src,
 			shooting: false,
-			isPhotoShown: true,
 		});
 	};
 
 	sendToServer(photoUrl) {
-		// const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
-		// requestApi(window.websocket, value);
-		// getResponse(window.websocket, this.getResults);
-		console.log('photo');
+		const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
+		requestApi(window.websocket, value);
+		getResponse(window.websocket, this.getResults);
 	};
 
 	refreshPage = () => window.location.reload();
@@ -68,7 +64,7 @@ export default class CameraCapture extends PureComponent {
 	render () {
 		const {
 			shooting,
-			results,
+			photoBase64,
 		} = this.state;
 
 		return (
@@ -81,6 +77,8 @@ export default class CameraCapture extends PureComponent {
 				</CameraConatiner>
 				<PhotoContainer
 					handleShooting={this.handleShooting}
+					imgSrc={photoBase64}
+					shooting={shooting}
 				/>
 			</PageContainerMain>
 		);

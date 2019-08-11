@@ -52,17 +52,18 @@ export default class ResultInfoContainer extends PureComponent {
 	};
 
 	render() {
-		console.log(smile)
 		return (
 			<MainContainer>
 				<TextContainer>
-				<img src={smile} />
+					<img src={smile} alt='Эмоция' />
 				</TextContainer>
 				<div>Эмоция:</div>
 				<TextContainer>
 					{this.props.emotion.value}
 				</TextContainer>
-				<ButtonContainer>
+				<ButtonContainer
+					onClick={this.props.handleShooting}
+				>
 					СДЕЛАТЬ ЕЩЕ ФОТО
 				</ButtonContainer>
 			</MainContainer>
