@@ -68,9 +68,9 @@ export default class RegForm extends PureComponent {
 	componentDidUpdate(prevProps, prevState) {
 		const {values} = this.state;
 
-		if (values && values !== prevState.values ) {
+		if (values && values !== prevState.values) {
 			this.props.onChange(values)
-		}
+		};
 	};
 
 	handleChange(inputValue) {

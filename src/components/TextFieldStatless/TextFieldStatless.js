@@ -4,6 +4,7 @@ import ButtonBase from 'proj/components/ButtonBase';
 
 const TextField = styled(ButtonBase)`
 	margin: 0 0 4vh 0;
+	padding: 0 0 0 30px;
 	width: 23vw;
 	color: #7A81A0;
 	background-color: #FFF;
@@ -12,6 +13,14 @@ const TextField = styled(ButtonBase)`
 
 	:hover {
 		cursor: text;
+	}
+
+	:focus {
+		outline: none;
+	}
+
+	::placeholder {
+		color: #7A81A0;
 	}
 `;
 

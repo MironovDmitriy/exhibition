@@ -7,16 +7,17 @@ import JiraCaptureIcon from '@atlaskit/icon/glyph/jira/capture';
 import RetryIcon from '@atlaskit/icon/glyph/retry';
 import SignOutIcon from '@atlaskit/icon/glyph/sign-out';
 import bg from '../../image/bg.png';
+import logo from 'proj/image/logo.png';
 
 const MainContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	width: 19%;
+	width: 22%;
 	background-image: url(${props => props.bg});
 	background-repeat: round;
-	padding: 30px;
+	padding: 15px;
 	z-index: 1;
 	font-family: "Russo One";
 `;
@@ -57,6 +58,7 @@ const ButtonEmptyContainer = styled.div`
 const Container = styled.div`
 	display: flex;
 	color: #EEE;
+	margin: 5px 0 0 0;
 `;
 
 const TextContainer = styled.div`
@@ -106,7 +108,7 @@ const Menu = () => (
 				<Container>
 					<RetryIcon />
 					<TextContainer>
-						ИСТОРИЯ
+						Работа нейронной сети
 					</TextContainer>
 				</Container>
 			</ButtonEmptyContainer>
@@ -127,6 +129,12 @@ const Menu = () => (
 		<TransparentContainer>
 			<Container>
 				(с) 2019. ПУЛЦЭВТ ГУУ
+			</Container>
+			<Container>
+				<img
+					src={logo}
+					alt='Логотип'
+				/>
 			</Container>
 		</TransparentContainer>
 	</MainContainer>

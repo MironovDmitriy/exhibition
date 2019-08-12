@@ -4,7 +4,8 @@ import ButtonBase from 'proj/components/ButtonBase';
 
 const Select = styled(ButtonBase)`
 	margin: 0 0 4vh 0;
-	width: 23vw;
+	padding: 0 0 0 30px;
+	width: 26vw;
 	color: #7A81A0;
 	background-color: #FFF;
 	border: none;
@@ -12,6 +13,10 @@ const Select = styled(ButtonBase)`
 
 	:hover {
 		cursor: default;
+	}
+
+	:focus {
+		outline: none;
 	}
 `;
 

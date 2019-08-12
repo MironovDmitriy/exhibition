@@ -1,5 +1,4 @@
 import React from 'react';
-import {Checkbox} from '@atlaskit/checkbox';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -13,11 +12,14 @@ const Container = styled.div`
 const CheckboxField = ({checked, handleChange}) => {
 	return (
 		<Container>
-			<Checkbox
-				isChecked={checked}
-				onChange={handleChange}
-			/>
-			<div>Даю согласие на обработку своих персональных данных</div>
+			<label>
+				<input
+					type='checkbox'
+					checked={checked}
+					onChange={handleChange}
+				/>
+				Даю согласие на обработку своих персональных данных
+			</label>
 		</Container>
 	);
 };

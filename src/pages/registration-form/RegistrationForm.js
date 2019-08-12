@@ -5,6 +5,7 @@ import {PageContainer as PageContainerMain} from 'proj/components';
 import {CheckboxField} from 'proj/components';
 import {ButtonBase} from 'proj/components';
 import {requestApi} from 'proj/api/requestApi';
+import photoIcon from 'proj/image/photo-icon.png';
 
 const PageContainer = styled.div`
 	display: flex;
@@ -45,16 +46,12 @@ const LeftContainer = styled(Container)`
 	border-radius: 25px;
 `;
 
-const Icon = styled.div`
-	height: 55vh;
-	width: 100%;
-`;
-
 const PhotoContainer = styled.div`
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	margin: 10px 0 10px 0;
-	height: 55vh;
+	height: 50vh;
 	width: 100%;
 `;
 
@@ -81,7 +78,7 @@ const Button = styled(ButtonBase)`
 
 const SubmitButton = styled(ButtonBase)`
 	margin: 2vh 0 0 0;
-	width: 23vw;
+	width: 26vw;
 	color: #FFF;
 	background: linear-gradient(to right, #FF9F89, #DE6167);
 
@@ -158,18 +155,27 @@ export default class RegistrationForm extends PureComponent {
 					</TopContainer>
 					<BaseContainer>
 						<LeftContainer>
-							{fileBase64 ? (
-								<PhotoContainer>
+							<PhotoContainer>
+								{!fileBase64 ? (
+									<img
+										src={photoIcon}
+										alt='Иконка фотоаппарата'
+										height='20%'
+										width='auto'
+									/>
+								) : (
 									<img
 										src={fileBase64}
 										alt='Фото профиля'
-										height='100%'
-										width='auto'
+										style={{
+											display: 'block',
+											margin: 'auto',
+											maxHeight: '99%',
+											maxWidth: '99%'
+										}}
 									/>
-								</PhotoContainer>
-								) : (
-								<Icon />
-							)}
+								)}
+							</PhotoContainer>
 							<TextContainer>
 								Фото профиля
 							</TextContainer>

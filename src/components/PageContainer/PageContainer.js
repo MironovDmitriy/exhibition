@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Menu} from '../';
+import {Menu} from 'proj/components';
 
 const Component = styled.div`
 	display: flex;
