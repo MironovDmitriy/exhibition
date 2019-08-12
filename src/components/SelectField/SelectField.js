@@ -1,44 +1,42 @@
 import React from 'react';
-import Select from '@atlaskit/select';
+import styled from 'styled-components';
+import ButtonBase from 'proj/components/ButtonBase';
 
-const styles = {
-	container(styles) {
-		return { ...styles, width: '100%' };
-	},
-};
+const Select = styled(ButtonBase)`
+	margin: 0 0 4vh 0;
+	width: 23vw;
+	color: #7A81A0;
+	background-color: #FFF;
+	border: none;
+	font-family: "Russo One";
 
-const SelectField = ({
-	field,
-	form,
-	handleChange,
-	validErr,
-	options,
-	...props,
-}) => {
+	:hover {
+		cursor: default;
+	}
+`;
+
+const SelectField = ({options, value, name, handleChange}) => {
 
 	const onHandleChange = e => {
-		handleChange({
-			[props.name]: {value: e.value, label: e.label},
-		});
+		const value = e.target.value;
+		handleChange({field: name, value: value});
 	};
 
-	const errMessage = 'Выберите один из вариантов';
-
 	return (
-		<div>
-			<label>{props.label}</label>
-			<Select
-				{...field}
-				{...props}
-				value={props.value}
-				onChange={onHandleChange}
-				validationState={validErr}
-				options={options}
-				styles={styles}
-				isLabelHidden
-			/>
-			{validErr && <div style={{color: '#DC360C'}}>{errMessage}</div>}
-		</div>
+		<Select
+			as='select'
+			value={value}
+			onChange={onHandleChange}
+		>
+			{options.map((x, i) => (
+				<option
+					key={i}
+					value={x.value}
+				>
+					{x.label}
+				</option>
+			))}
+		</Select>
 	);
 };
 

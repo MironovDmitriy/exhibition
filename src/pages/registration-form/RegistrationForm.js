@@ -1,53 +1,212 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import styled from 'styled-components';
 import Form from './form';
-// import {ImageContainer} from '../../components';
-import {PageContainer as PageContainerMain} from '../../components';
+import {PageContainer as PageContainerMain} from 'proj/components';
+import {CheckboxField} from 'proj/components';
+import {ButtonBase} from 'proj/components';
+import {requestApi} from 'proj/api/requestApi';
 
 const PageContainer = styled.div`
 	display: flex;
-	justify-content: space-around;
+	flex-direction: column;
+	justify-content: center;
 	align-items: center;
-	width: 70%;
-	margin: 0 40px 0 0;
-	border-radius: 5px;
-	border: 2px solid #0c4687;
-	background-color: rgba(255, 255, 255, 0.2); 
+	width: 100%;
+	background-color: #F0F1F7;
 `;
 
-// const WIDTH = 200;
-// const HEIGHT = 200;
+const BaseContainer = styled.div`
+	display: flex;
+	width: 70vw;
+	margin: 0 0 0 10vw;
+	font-family: "Russo One";
+`;
 
-export default class RegistrationForm extends Component {
+const TopContainer = styled(BaseContainer)`
+	height: 7vh;
+	font-size: 1.3em;
+`;
+
+const BottomContainer = styled(BaseContainer)`
+	height: 10vh;
+	font-size: 0.8em;
+	color: #7A81A0;
+`;
+
+const Container = styled(BaseContainer)`
+	flex-direction: column;
+	align-items: center;
+	width: 30vw;
+	margin: 0 2vw 0 0;
+`;
+
+const LeftContainer = styled(Container)`
+	border: 3px dashed #E0E2F1;
+	border-radius: 25px;
+`;
+
+const Icon = styled.div`
+	height: 55vh;
+	width: 100%;
+`;
+
+const PhotoContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	margin: 10px 0 10px 0;
+	height: 55vh;
+	width: 100%;
+`;
+
+const TextContainer = styled(Container)`
+	margin: 0;
+	height: 5vh;
+	color: #7A81A0;
+`
+
+const Input = styled.input`
+	display: none;
+`;
+
+const Button = styled(ButtonBase)`
+	color: #7A81A0;
+	border: 2px solid #7A81A0;
+
+	:hover {
+		color: #EEE;
+		background-color: #7A81A0;
+		border-color: #7A81A0;
+	}
+`;
+
+const SubmitButton = styled(ButtonBase)`
+	margin: 2vh 0 0 0;
+	width: 23vw;
+	color: #FFF;
+	background: linear-gradient(to right, #FF9F89, #DE6167);
+
+	:hover {
+		background: linear-gradient(to right, #FF9F70, #DE6150);
+	}
+`;
+
+export default class RegistrationForm extends PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.node = React.createRef();
+
 		this.state = {
+			formValues: {},
+			isChecked: false,
 			fileBase64: '',
 		};
 
-		this.getImgSrc = this.getImgSrc.bind(this);
-		this.resetImg = this.resetImg.bind(this);
+		this.submitForm = this.submitForm.bind(this);
 	};
 
-	getImgSrc(src) {
-		this.setState({fileBase64: src});
+	handleChooseFile = () => this.node.current.click();
+
+	handleChangeFile = event => {
+		const reader = new FileReader();
+		reader.readAsDataURL(event.target.files[0]);
+
+		reader.onload = () => {
+			const dataURL = reader.result;
+			this.setState({fileBase64: dataURL});
+		};
 	};
 
-	resetImg() {
-		this.setState({fileBase64: ''});
+	handleChangeForm = value => this.setState({formValues: value});
+
+	onHandleCheck = () => this.setState({isChecked: !this.state.isChecked});
+
+	submitForm() {
+		const {formValues, isChecked, fileBase64} = this.state;
+
+		if (!isChecked) {
+			console.log('нет согласия на данные ');
+		} else if (!fileBase64) {
+			console.log('нет фото');
+		} else if (formValues && !formValues.surname) {
+			console.log('нет фамилии');
+		} else {
+			const data = {
+				type: 'registrate',
+				data: {
+					...formValues,
+					['photo']: fileBase64,
+				},
+			};
+			requestApi(window.websocket, data);
+			this.setState({
+				formValues: {},
+				isChecked: false,
+				fileBase64: '',
+			});
+		};
 	};
 
 	render() {
-		// const {fileBase64} = this.state;
+		const {isChecked, fileBase64} = this.state;
 
 		return (
 			<PageContainerMain>
 				<PageContainer>
-					<Form
-						getImgSrc={this.getImgSrc}
-						resetImg={this.resetImg}
-					/>
+					<TopContainer>
+						Регистрация ПУЛЦЭВТ ГУУ
+					</TopContainer>
+					<BaseContainer>
+						<LeftContainer>
+							{fileBase64 ? (
+								<PhotoContainer>
+									<img
+										src={fileBase64}
+										alt='Фото профиля'
+										height='100%'
+										width='auto'
+									/>
+								</PhotoContainer>
+								) : (
+								<Icon />
+							)}
+							<TextContainer>
+								Фото профиля
+							</TextContainer>
+							<TextContainer>
+								<Button
+									onClick={this.handleChooseFile}
+								>
+									ВЫБИРИТЕ ФОТО
+								</Button>
+								<Input
+									type='file'
+									ref={this.node}
+									onChange={this.handleChangeFile}
+								/>
+							</TextContainer>
+						</LeftContainer>
+						<Container>
+							<Form
+								onChange={this.handleChangeForm}
+							/>
+						</Container>
+					</BaseContainer>
+					<BottomContainer>
+						<Container>
+							<CheckboxField
+								checked={isChecked}
+								handleChange={this.onHandleCheck}
+							/>
+						</Container>
+						<Container>
+							<SubmitButton
+								onClick={this.submitForm}
+							>
+								ЗАРЕГИСТРИРОВАТЬСЯ
+							</SubmitButton>
+						</Container>
+					</BottomContainer>
 				</PageContainer>
 			</PageContainerMain>
 		);

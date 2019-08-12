@@ -65,6 +65,7 @@ export default class CameraCapture extends PureComponent {
 		const {
 			shooting,
 			photoBase64,
+			results,
 		} = this.state;
 
 		return (
@@ -79,6 +80,7 @@ export default class CameraCapture extends PureComponent {
 					handleShooting={this.handleShooting}
 					imgSrc={photoBase64}
 					shooting={shooting}
+					result={results}
 				/>
 			</PageContainerMain>
 		);

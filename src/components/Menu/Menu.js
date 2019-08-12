@@ -111,7 +111,7 @@ const Menu = () => (
 				</Container>
 			</ButtonEmptyContainer>
 		</NavLink>
-		<NavLink to="/camera" style={{textDecoration: 'none'}}>
+		<NavLink to="/" style={{textDecoration: 'none'}}>
 			<ButtonEmptyContainer>
 				<Container>
 					<SignOutIcon />

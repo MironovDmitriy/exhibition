@@ -18,16 +18,11 @@ const UserInfoContainer = styled.div`
 	align-items: center;
 	height: 10%;
 	z-index: 1;
-	color: #eee;
+	color: #FFF;
 	font-weight: bold;
 `;
 
 export default class PhotoContainer extends PureComponent {
-	static defaultProps = {
-		userName: 'Имя пользователя',
-		imgSrc: '',
-	};
-
 	static propTypes = {
 		handleShooting: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
@@ -40,13 +35,21 @@ export default class PhotoContainer extends PureComponent {
 	// 	handleShooting(!shooting);
 	// };
 
-	render() {
-		const {imgSrc} = this.props;
+	getResult = resultData => {
+		if (resultData && resultData.status === 'error') {
+			return 'Не удалось распознать фотографию';
+		} else if (resultData && resultData.status === 'success') {
+				return `${resultData.data.name} ${resultData.data.surname}`;
+		}
+	};
 
+	render() {
+		const {imgSrc, result} = this.props;
+		console.log(result)
 		return (
 			<MainContainer>
 				<UserInfoContainer>
-					{this.props.userName}
+					{result ? this.getResult(result) : 'Имя пользователя'}
 				</UserInfoContainer>
 				{imgSrc ? (
 					<img

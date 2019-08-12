@@ -1,37 +1,35 @@
 import React from 'react';
-import {FieldTextStateless} from '@atlaskit/field-text';
+import styled from 'styled-components';
+import ButtonBase from 'proj/components/ButtonBase';
 
-const TextFieldStatless = ({
-	field,
-	form,
-	handleChange,
-	validErr,
-	autoFocus,
-	...props,
-}) => {
+const TextField = styled(ButtonBase)`
+	margin: 0 0 4vh 0;
+	width: 23vw;
+	color: #7A81A0;
+	background-color: #FFF;
+	border: none;
+	font-family: "Russo One";
+
+	:hover {
+		cursor: text;
+	}
+`;
+
+const TextFieldStatless = ({type, label, name, value, handleChange}) => {
 
 	const onHandleChange = e => {
 		const value = e.target.value;
-		handleChange({field: props.name, value: value});
+		handleChange({field: name, value: value});
 	};
 
-	const errMessage = 'Поле обязательное для заполнения';
-
 	return (
-		<div>
-			<label>{props.label}</label>
-			<FieldTextStateless
-				{...field}
-				{...props}
-				value={props.value}
-				onChange={onHandleChange}
-				isInvalid={validErr}
-				autoFocus={autoFocus}
-				shouldFitContainer
-				isLabelHidden
-			/>
-			{validErr && <div style={{color: '#DC360C'}}>{errMessage}</div>}
-		</div>
+		<TextField as='input'
+			type={type}
+			value={value}
+			name={name}
+			placeholder={label}
+			onChange={onHandleChange}
+		/>
 	);
 };
 

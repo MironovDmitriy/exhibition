@@ -1,24 +1,24 @@
 import React from 'react';
 import {Checkbox} from '@atlaskit/checkbox';
+import styled from 'styled-components';
 
-const CheckboxField = ({
-	field,
-	form,
-	isChecked,
-	handleChange,
-	...props,
-}) => {
+const Container = styled.div`
+	display: flex;
+	width: 100%;
+	margin: 2vh 0 0 0;
+	font-family: "Russo One";
+	font-size: 1.2em;
+`;
 
+const CheckboxField = ({checked, handleChange}) => {
 	return (
-		<div>
+		<Container>
 			<Checkbox
-				{...field}
-				{...props}
-				isChecked={isChecked}
+				isChecked={checked}
 				onChange={handleChange}
-				label="Даю согласие на обработку своих персональных данных"
 			/>
-		</div>
+			<div>Даю согласие на обработку своих персональных данных</div>
+		</Container>
 	);
 };
 

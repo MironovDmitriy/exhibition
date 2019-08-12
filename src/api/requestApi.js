@@ -15,7 +15,6 @@ const requestApi = (ws, values) => {
 
 	const json = JSON.stringify(values);
 
-
 	if (ws.readyState) {
 		ws.send(json);
 	} else {

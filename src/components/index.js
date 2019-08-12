@@ -10,6 +10,7 @@ import ResultsReception from './ResultsReception/';
 import ResultProfile from './ResultProfile/';
 import PhotoContainer from './PhotoContainer/';
 import AvatarComponent from './AvatarComponent';
+import ButtonBase from './ButtonBase';
 
 export {
 	PageContainer,
@@ -24,4 +25,5 @@ export {
 	ResultsReception,
 	PhotoContainer,
 	AvatarComponent as Avatar,
+	ButtonBase,
 };
