@@ -14,12 +14,17 @@ const MainContainer = styled.div`
 
 const UserInfoContainer = styled.div`
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 10%;
 	z-index: 1;
 	color: #FFF;
-	font-weight: bold;
+`;
+
+const ResultContainer = styled(UserInfoContainer)`
+	height: 65%;
+	z-index: 1;
 `;
 
 export default class PhotoContainer extends PureComponent {
@@ -38,12 +43,6 @@ export default class PhotoContainer extends PureComponent {
 		},
 	};
 
-	// onHandleShuting() {
-	// 	const {shooting, handleShooting} = this.props;
-
-	// 	handleShooting(!shooting);
-	// };
-
 	getResult = resultData => {
 		if (resultData && resultData.status === 'error') {
 			return 'Не удалось распознать фотографию';
@@ -60,19 +59,23 @@ export default class PhotoContainer extends PureComponent {
 				<UserInfoContainer>
 					{result ? this.getResult(result) : 'Имя пользователя'}
 				</UserInfoContainer>
-				{imgSrc ? (
-					<img
-						width='100%'
-						height='auto'
-						src={imgSrc}
-						alt='Фото'
-					/>
-					) : (
-					<CanvasContainer />
-				)}
+					{imgSrc ? (
+						<ResultContainer>
+							<img
+								width='100%'
+								height='auto'
+								src={imgSrc}
+								alt='Фото'
+							/>
+						</ResultContainer>
+						) : (
+						<CanvasContainer />
+					)}
 				<ResultInfoContainer
 					handleShooting={this.props.handleShooting}
-					emotion={imgSrc ? this.props.emotion : {title: '', value: ''}}
+					result={result}
+					emotion={imgSrc && result && result.status === 'success'
+					? this.props.emotion : {title: '', value: ''}}
 				/>
 			</MainContainer>
 		);

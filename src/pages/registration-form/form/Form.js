@@ -58,7 +58,7 @@ export default class RegForm extends PureComponent {
 				email: '',
 				company: '',
 				post: '',
-				activityField: '',
+				activity_field: '',
 			},
 		};
 
@@ -106,7 +106,7 @@ export default class RegForm extends PureComponent {
 					))}
 					<SelectField
 						options={options}
-						name='activityField'
+						name='activity_field'
 						value={values.activityField}
 						handleChange={this.handleChange}
 					/>

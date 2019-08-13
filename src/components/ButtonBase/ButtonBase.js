@@ -6,6 +6,7 @@ const ButtonBase = styled.div`
 	align-items: center;
 	width: 200px;
 	height: 45px;
+	color: #EEE;
 	background-color: transparent;
 	border-radius: 35px;
 	font-family: "Russo One";

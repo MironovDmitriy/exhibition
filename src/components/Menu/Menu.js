@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ButtonBase from 'proj/components/ButtonBase';
 import {Avatar} from '../index.js';
 import {NavLink} from 'react-router-dom';
 import CameraIcon from '@atlaskit/icon/glyph/camera';
@@ -8,31 +9,38 @@ import RetryIcon from '@atlaskit/icon/glyph/retry';
 import SignOutIcon from '@atlaskit/icon/glyph/sign-out';
 import bg from '../../image/bg.png';
 import logo from 'proj/image/logo.png';
+import avatar from 'proj/image/avatar.jpg';
 
 const MainContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	align-items: center;
 	width: 22%;
 	background-image: url(${props => props.bg});
 	background-repeat: round;
-	padding: 15px;
 	z-index: 1;
 	font-family: "Russo One";
 `;
 
-const ButtonFillContainer = styled.div`
-	margin: 30px 0 0 0;
+const BaseContainer = styled.div`
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	width: 200px;
-	height: 45px;
+`;
+
+const TextContainer = styled(BaseContainer)`
+	margin: 0 5px 0 5px;
+	color: #EEE;
+`;
+
+const SmallTextContainer = styled(TextContainer)`
+	font-size: 0.8em;
+	opacity: 0.5;
+`;
+
+const ButtonFillContainer = styled(ButtonBase)`
 	color: #EEE;
 	background-color: #5AC3FC;
 	border: 2px solid #5AC3FC;
-	border-radius: 35px;
 
 	:hover {
 		cursor: pointer;
@@ -42,101 +50,96 @@ const ButtonFillContainer = styled.div`
 	}
 `;
 
-const ButtonEmptyContainer = styled.div`
-	margin: 30px 0 0 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 200px;
-	height: 45px;
-
-	:hover {
-		cursor: pointer;
-	}
-`;
-
-const Container = styled.div`
-	display: flex;
-	color: #EEE;
-	margin: 5px 0 0 0;
-`;
-
-const TextContainer = styled.div`
-	margin: 0 0 0 10px;
-`;
-
-const TransparentContainer = styled.div`
-	opacity: 0.3;
-	font-size: 0.9em;
-`;
-
 const Line = styled.div`
 	width: 150px;
 	border-top: none;
 	border-left: none;
 	border-right: none;
 	border-bottom: 1px solid #EEE;
+	opacity: 0.3;
 	height: 1px;
 `;
 
 const Menu = () => (
 	<MainContainer bg={bg}>
-		<Container>
-			<JiraCaptureIcon />
+
+		<BaseContainer>
+			<TextContainer>
+				<JiraCaptureIcon />
+			</TextContainer>
 			<TextContainer>
 				Я ВИЖУ ТЕБЯ
 			</TextContainer>
-		</Container>
-		<TransparentContainer>
+		</BaseContainer>
+
+		<BaseContainer>
 			<Line />
-		</TransparentContainer>
-		<Container>
-			<Avatar />
-		</Container>
+		</BaseContainer>
+
+		<BaseContainer>
+			<Avatar src={avatar} />
+		</BaseContainer>
+
+		<BaseContainer>
+			<TextContainer>
+				Сутулов Михаил Вячеславович
+			</TextContainer>
+		</BaseContainer>
+
+		<BaseContainer>
+			<TextContainer>
+				Нач. сектора лаборатории цифровая экономика и высокие технологии
+			</TextContainer>
+		</BaseContainer>
+
 		<NavLink to="/camera" style={{textDecoration: 'none'}}>
-			<ButtonFillContainer>
-				<Container>
+			<BaseContainer>
+				<ButtonFillContainer>
 					<CameraIcon />
 					<TextContainer>
 						Сделать фото
 					</TextContainer>
-				</Container>
-			</ButtonFillContainer>
+				</ButtonFillContainer>
+			</BaseContainer>
 		</NavLink>
+
 		<NavLink to="/history" style={{textDecoration: 'none'}}>
-			<ButtonEmptyContainer>
-				<Container>
+			<BaseContainer>
+				<ButtonBase>
 					<RetryIcon />
 					<TextContainer>
 						Работа нейронной сети
 					</TextContainer>
-				</Container>
-			</ButtonEmptyContainer>
+				</ButtonBase>
+			</BaseContainer>
 		</NavLink>
+
 		<NavLink to="/" style={{textDecoration: 'none'}}>
-			<ButtonEmptyContainer>
-				<Container>
+			<BaseContainer>
+				<ButtonBase>
 					<SignOutIcon />
 					<TextContainer>
 						ВЫЙТИ
 					</TextContainer>
-				</Container>
-			</ButtonEmptyContainer>
+				</ButtonBase>
+			</BaseContainer>
 		</NavLink>
-		<TransparentContainer>
+
+		<BaseContainer>
 			<Line />
-		</TransparentContainer>
-		<TransparentContainer>
-			<Container>
+		</BaseContainer>
+
+		<BaseContainer>
+			<TextContainer>
+				<Avatar src={logo} />
+			</TextContainer>
+		</BaseContainer>
+
+		<BaseContainer>
+			<SmallTextContainer>
 				(с) 2019. ПУЛЦЭВТ ГУУ
-			</Container>
-			<Container>
-				<img
-					src={logo}
-					alt='Логотип'
-				/>
-			</Container>
-		</TransparentContainer>
+			</SmallTextContainer>
+		</BaseContainer>
 	</MainContainer>
 );
 

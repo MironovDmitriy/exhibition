@@ -48,7 +48,11 @@ export default class ResultInfoContainer extends PureComponent {
 		handleShooting: PropTypes.func.isRequired,
 	};
 
+	refreshPage = () => window.location.reload();
+
 	render() {
+		const {result} = this.props;
+
 		return (
 			<MainContainer>
 				<TextContainer>
@@ -58,11 +62,19 @@ export default class ResultInfoContainer extends PureComponent {
 				<TextContainer>
 					{this.props.emotion.value}
 				</TextContainer>
-				<ButtonContainer
-					onClick={this.props.handleShooting}
-				>
-					СДЕЛАТЬ ЕЩЕ ФОТО
-				</ButtonContainer>
+				{!result ? (
+					<ButtonContainer
+						onClick={this.props.handleShooting}
+					>
+						СДЕЛАТЬ ЕЩЕ ФОТО
+					</ButtonContainer>
+				) : (
+					<ButtonContainer
+						onClick={this.refreshPage}
+					>
+						НОВЫЙ ЧЕЛОВЕК
+					</ButtonContainer>
+				)}
 			</MainContainer>
 		);
 	};

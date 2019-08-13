@@ -5,6 +5,7 @@ import {PageContainer as PageContainerMain} from '../../components';
 import {PhotoContainer} from '../../components/';
 import {requestApi} from '../../api/requestApi';
 import {getResponse} from '../../api/requestApi';
+import wsUrl from 'proj/config/paths';
 
 const CameraConatiner = styled.div`
 	display: flex;
@@ -86,7 +87,7 @@ export default class CameraCapture extends PureComponent {
 			results,
 		} = this.state;
 
-		const emotion = getRandomEmotion(emotions, 1, 4);
+		const emotion = getRandomEmotion(emotions, 0, 4);
 
 		return (
 			<PageContainerMain>

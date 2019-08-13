@@ -7,12 +7,15 @@ const ItemContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 50%;
+	width: 65%;
 	margin: 3vh;
 	font-family: "Russo One";
 	color: #EEE;
-	border: ${props => props.isActive ? '2px solid white' : 'none'};
 `;
+
+const ItemBorder = styled.div`
+	border: ${props => props.isActive ? '2px solid #566FD9' : 'none'};
+`
 
 const InfoContainer = styled(ItemContainer)`
 	flex-direction: row;
@@ -24,7 +27,13 @@ const InfoContainer = styled(ItemContainer)`
 `;
 
 const TextContainer = styled.div`
-	margin: 5px 0 0 0;
+	margin: 0 3px 0 3px;
+`;
+
+const TimeContainer = styled.div`
+	margin: 1vh 0 0 0;
+	font-size: 0.8em;
+	color: #000;
 `;
 
 const getRandomTimer = (min, max) => Math.round(Math.random() * (max - min) + min);
@@ -79,7 +88,7 @@ export default class PhotoSlider extends PureComponent {
 		if (timeToChange <= 0) {
 			this.setState({timeToChange: timer});
 		} else {
-			this.setState({timeToChange: timeToChange - 5});
+			this.setState({timeToChange: timeToChange - 8});
 		}
 	};
 
@@ -88,19 +97,16 @@ export default class PhotoSlider extends PureComponent {
 	render() {
 		const {emotion, title, color, smile, isActive} = this.props;
 		const {fileName, timeToChange} = this.state;
-		console.log(emotion + ' ' + this.state.timer)
 
 		return (
-			<ItemContainer
-				onClick={this.onHandleClick}
-				isActive={isActive}
-			>
-				<img
-					width='100%'
-					height='auto'
-					src={process.env.PUBLIC_URL + `/${title}/${fileName}.png`}
-					alt='Миниатюра фотографии'
-				/>
+			<ItemContainer onClick={this.onHandleClick}>
+				<ItemBorder isActive={isActive}>
+					<img
+						width='100%'
+						height='auto'
+						src={process.env.PUBLIC_URL + `/${title}/${fileName}.png`}
+						alt='Миниатюра фотографии'
+					/>
 					<InfoContainer bgColor={color}>
 						<TextContainer>
 							<img src={smile} alt='Иконка смайл' />
@@ -109,9 +115,10 @@ export default class PhotoSlider extends PureComponent {
 							{emotion}
 						</TextContainer>
 					</InfoContainer>
-					<TextContainer>
-						До смены фотографии осталось: {timeToChange}
-					</TextContainer>
+				</ItemBorder>
+				<TimeContainer>
+					До смены фотографии осталось: {timeToChange}
+				</TimeContainer>
 			</ItemContainer>
 		);
 	};
