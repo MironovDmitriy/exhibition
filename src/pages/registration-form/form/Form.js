@@ -65,11 +65,15 @@ export default class RegForm extends PureComponent {
 		this.handleChange = this.handleChange.bind(this);
 	};
 
+	static propTypes = {
+		onChange: PropTypes.func.isRequired,
+	};
+
 	componentDidUpdate(prevProps, prevState) {
 		const {values} = this.state;
 
 		if (values && values !== prevState.values) {
-			this.props.onChange(values)
+			this.props.onChange(values);
 		};
 	};
 

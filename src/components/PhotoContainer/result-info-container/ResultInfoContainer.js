@@ -40,11 +40,8 @@ const ButtonContainer = styled.div`
 `;
 
 export default class ResultInfoContainer extends PureComponent {
-	static defaultProps = {
-		emotion: {
-			title: 'neutrally',
-			value: 'НЕЙТРАЛЬНО',
-		},
+	static propTypes = {
+		emotion: PropTypes.object.isRequired,
 	};
 
 	static propTypes = {

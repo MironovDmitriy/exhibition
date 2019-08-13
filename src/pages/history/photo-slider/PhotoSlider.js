@@ -24,6 +24,8 @@ const emotionsCategory = [
 	'positiv',
 ];
 
+const timer = 700;
+
 export default class PhotoSlider extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -58,6 +60,7 @@ export default class PhotoSlider extends PureComponent {
 						isActive={selectedCategory === category}
 						onClick={this.onHandleClick}
 						onSrcChange={this.onChange}
+						timer={timer+(i+1)*200}
 					/>
 				))}
 			</MainContainer>

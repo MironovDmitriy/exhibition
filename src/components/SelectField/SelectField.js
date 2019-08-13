@@ -5,7 +5,7 @@ import ButtonBase from 'proj/components/ButtonBase';
 const Select = styled(ButtonBase)`
 	margin: 0 0 4vh 0;
 	padding: 0 0 0 30px;
-	width: 26vw;
+	width: 25vw;
 	color: #7A81A0;
 	background-color: #FFF;
 	border: none;

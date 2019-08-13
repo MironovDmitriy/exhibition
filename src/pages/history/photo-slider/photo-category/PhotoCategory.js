@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Timer from './timer';
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 
 const MainContainer = styled.div`
@@ -29,17 +30,8 @@ const Container = styled.div`
 	color: #EEE;
 `;
 
-const TimeContainer = styled.div`
-	width: 65%;
-	margin: 10px 0 0 0;
-	font-size: 0.8em;
-	color: #EEE;
-	opacity: 0.5;
-`
-
 const WIDTH = '65%';
 const HEIGHT = 'auto';
-const TIMER = 1000;
 
 const colors = [{
 	title: 'neutrally',
@@ -67,9 +59,12 @@ export default class PhotoCategory extends PureComponent {
 		this.state = {
 			fileName: 1,
 			intervalId: null,
+			intervalIdOne: null,
+			timer: 0,
 		};
 
 		this.updateFileName = this.updateFileName.bind(this);
+		this.getTimerString = this.getTimerString.bind(this);
 	};
 
 	static propTypes = {
@@ -77,24 +72,33 @@ export default class PhotoCategory extends PureComponent {
 		isActive: PropTypes.bool.isRequired,
 		onClick: PropTypes.func.isRequired,
 		onSrcChange: PropTypes.func.isRequired,
+		timer: PropTypes.number.isRequired,
 	};
 
 	componentDidMount() {
-		const intervalId = setInterval(() => this.updateFileName(), TIMER);
-		this.setState({intervalId});
+		const intervalId = setInterval(() => this.updateFileName(), this.props.timer);
+		const intervalIdOne = setInterval(() => this.getTimerString(), 1);
+		this.setState({
+			intervalId: intervalId,
+			intervalIdOne: intervalIdOne,
+		});
 	};
 
 	componentDidUpdate(prevProps, prevState) {
 		const {fileName} = this.state;
 		const {isActive} = this.props;
 
-		if (fileName > 12 || !isActive) {
+		if (fileName > 12) {
 			clearInterval(this.state.intervalId);
 		};
 
 		if (isActive && prevProps.isActive !== isActive) {
-			const intervalId = setInterval(() => this.updateFileName(), TIMER);
-			this.setState({intervalId});
+			const intervalId = setInterval(() => this.updateFileName(), this.props.timer);
+			const intervalIdOne = setInterval(() => this.getTimerString(), 1);
+			this.setState({
+				intervalId: intervalId,
+				intervalIdOne: intervalIdOne,
+			});
 		};
 	};
 
@@ -113,14 +117,21 @@ export default class PhotoCategory extends PureComponent {
 		};
 	};
 
-	render() {
-		const {fileName} = this.state;
-		const {category} = this.props;
+	getTimerString() {
+		const {timer} = this.props;
 
-		const date = new Date();
-		const zero = date.getMonth() + 1 < 10 ? 0 : '';
-		const timeString = `${date.getDate()}.${zero}${date.getMonth()+1}.${date.getFullYear()} /
-		${date.getHours()}:${date.getMinutes()}`;
+		if (this.state.timer === 0) {
+			this.setState({timer: timer});
+		}
+
+		if (this.state.timer > 0) {
+			this.setState({timer: this.state.timer--});
+		}
+	};
+
+	render() {
+		const {fileName, timer} = this.state;
+		const {category} = this.props;
 
 		return(
 			<MainContainer
@@ -144,9 +155,9 @@ export default class PhotoCategory extends PureComponent {
 						</div>
 					</Container>
 				</CategoryInfo>
-				<TimeContainer>
-					{timeString}
-				</TimeContainer>
+				<Timer
+					timer={timer}
+				/>
 			</MainContainer>
 		);
 	};

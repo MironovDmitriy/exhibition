@@ -27,6 +27,15 @@ export default class PhotoContainer extends PureComponent {
 		handleShooting: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
 		imgSrc: PropTypes.string,
+		emotion: PropTypes.object,
+	};
+
+
+	static defaultProps = {
+		emotion: {
+			title: 'neutrally',
+			value: 'НЕЙТРАЛЬНО',
+		},
 	};
 
 	// onHandleShuting() {
@@ -45,7 +54,7 @@ export default class PhotoContainer extends PureComponent {
 
 	render() {
 		const {imgSrc, result} = this.props;
-		console.log(result)
+
 		return (
 			<MainContainer>
 				<UserInfoContainer>
@@ -63,6 +72,7 @@ export default class PhotoContainer extends PureComponent {
 				)}
 				<ResultInfoContainer
 					handleShooting={this.props.handleShooting}
+					emotion={imgSrc ? this.props.emotion : {title: '', value: ''}}
 				/>
 			</MainContainer>
 		);

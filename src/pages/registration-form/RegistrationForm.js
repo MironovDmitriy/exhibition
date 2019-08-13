@@ -5,6 +5,7 @@ import {PageContainer as PageContainerMain} from 'proj/components';
 import {CheckboxField} from 'proj/components';
 import {ButtonBase} from 'proj/components';
 import {requestApi} from 'proj/api/requestApi';
+import {getResponse} from 'proj/api/requestApi';
 import photoIcon from 'proj/image/photo-icon.png';
 
 const PageContainer = styled.div`
@@ -78,7 +79,7 @@ const Button = styled(ButtonBase)`
 
 const SubmitButton = styled(ButtonBase)`
 	margin: 2vh 0 0 0;
-	width: 26vw;
+	width: 25vw;
 	color: #FFF;
 	background: linear-gradient(to right, #FF9F89, #DE6167);
 
@@ -86,6 +87,17 @@ const SubmitButton = styled(ButtonBase)`
 		background: linear-gradient(to right, #FF9F70, #DE6150);
 	}
 `;
+
+const appearances = [{
+	title: 'errChecked',
+	value: 'Необходимо согласие на обработку персональных данных',
+}, {
+	title: 'errNoPhoto',
+	value: 'Необходимо загрузить фото профиля',
+}, {
+	title: 'errNoSurname',
+	value: 'Не указана фамилия',
+}];
 
 export default class RegistrationForm extends PureComponent {
 	constructor(props) {
@@ -97,6 +109,8 @@ export default class RegistrationForm extends PureComponent {
 			formValues: {},
 			isChecked: false,
 			fileBase64: '',
+			validErr: {},
+			results: null,
 		};
 
 		this.submitForm = this.submitForm.bind(this);
@@ -118,15 +132,17 @@ export default class RegistrationForm extends PureComponent {
 
 	onHandleCheck = () => this.setState({isChecked: !this.state.isChecked});
 
+	getResults = result => this.setState({results: result});
+
 	submitForm() {
 		const {formValues, isChecked, fileBase64} = this.state;
 
 		if (!isChecked) {
-			console.log('нет согласия на данные ');
+			this.setState({validErr: appearances.find(x => x.title === 'errChecked')});
 		} else if (!fileBase64) {
-			console.log('нет фото');
+			this.setState({validErr: appearances.find(x => x.title === 'errNoPhoto')});
 		} else if (formValues && !formValues.surname) {
-			console.log('нет фамилии');
+			this.setState({validErr: appearances.find(x => x.title === 'errNoSurname')});
 		} else {
 			const data = {
 				type: 'registrate',
@@ -135,17 +151,20 @@ export default class RegistrationForm extends PureComponent {
 					['photo']: fileBase64,
 				},
 			};
+
 			requestApi(window.websocket, data);
+			getResponse(window.websocket, this.getResults);
 			this.setState({
 				formValues: {},
 				isChecked: false,
 				fileBase64: '',
+				validErr: {},
 			});
 		};
 	};
 
 	render() {
-		const {isChecked, fileBase64} = this.state;
+		const {isChecked, fileBase64, validErr, results} = this.state;
 
 		return (
 			<PageContainerMain>
@@ -211,6 +230,17 @@ export default class RegistrationForm extends PureComponent {
 							>
 								ЗАРЕГИСТРИРОВАТЬСЯ
 							</SubmitButton>
+							<TextContainer>
+								{validErr && validErr.value}
+								{results && results.status && results.status === 'succes' // TODO
+								&& (
+									<div>Данные отправлены успешно</div>
+								)}
+								{results && results.status && results.status === 'error'
+								&& (
+									<div>Ошибка при отправке данных</div>
+								)}
+							</TextContainer>
 						</Container>
 					</BottomContainer>
 				</PageContainer>

@@ -14,6 +14,24 @@ const CameraConatiner = styled.div`
 	width: 44%;
 `;
 
+const emotions = [{
+	title: 'positiv',
+	value: 'РАДОСТЬ',
+}, {
+	title: 'negativ',
+	value: 'ГРУСТЬ',
+}, {
+	title: 'neutrally',
+	value: 'НЕЙТРАЛЬНО',
+}];
+
+
+	const getRandomEmotion = (emotions, min, max) => {
+		const random = Math.floor(Math.random() * (max - min) + min);
+
+		return emotions[random];
+	};
+
 export default class CameraCapture extends PureComponent {
 	constructor () {
 		super();
@@ -68,6 +86,8 @@ export default class CameraCapture extends PureComponent {
 			results,
 		} = this.state;
 
+		const emotion = getRandomEmotion(emotions, 1, 4);
+
 		return (
 			<PageContainerMain>
 				<CameraConatiner>
@@ -81,6 +101,7 @@ export default class CameraCapture extends PureComponent {
 					imgSrc={photoBase64}
 					shooting={shooting}
 					result={results}
+					emotion={emotion}
 				/>
 			</PageContainerMain>
 		);
