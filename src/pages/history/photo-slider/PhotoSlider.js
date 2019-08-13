@@ -1,69 +1,118 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import PhotoCategory from './photo-category';
 
-const MainContainer = styled.div`
+const ItemContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
-	width: 27%;
-	background-color: #36385F;
+	width: 50%;
+	margin: 3vh;
+	font-family: "Russo One";
+	color: #EEE;
+	border: ${props => props.isActive ? '2px solid white' : 'none'};
+`;
+
+const InfoContainer = styled(ItemContainer)`
+	flex-direction: row;
+	justify-content: center;
+	width: 100%;
+	height: 5vh;
+	margin: 0;
+	background: ${props => props.bgColor};
 `;
 
 const TextContainer = styled.div`
-	width: 65%;
-	margin: 20px 0 0 0;
-	font-family: "Russo One";
-	color: #EEE;
+	margin: 5px 0 0 0;
 `;
 
-const emotionsCategory = [
-	'neutrally',
-	'negative',
-	'positiv',
-];
-
-const timer = 700;
+const getRandomTimer = (min, max) => Math.round(Math.random() * (max - min) + min);
 
 export default class PhotoSlider extends PureComponent {
-	constructor(props) {
-		super(props);
+	constructor() {
+		super();
 
 		this.state = {
-			selectedCategory : 'neutrally',
+			intervalId: null,
+			timerIntervalId: null,
+			fileName: 1,
+			timer: getRandomTimer(500, 1000),
+			timeToChange: 0,
 		};
 
-		this.onHandleClick = this.onHandleClick.bind(this);
+		this.getImgSrc = this.getImgSrc.bind(this);
 	};
 
 	static propTypes = {
-		onSrcChange: PropTypes.func.isRequired,
+		isActive: PropTypes.bool.isRequired,
+		onActiveChange: PropTypes.func.isRequired,
 	};
 
-	onHandleClick = category => this.setState({selectedCategory: category});
+	componentDidMount() {
+		const intervalId = setInterval(() => this.getImgSrc(), this.state.timer);
+		const timerIntervalId = setInterval(() => this.getTimerString(), 1);
+		this.setState({intervalId: intervalId, timerIntervalId: timerIntervalId});
+	};
 
-	onChange = value => this.props.onSrcChange(value);
+	componentWillUnmount() {
+		clearInterval(this.state.intervalId)
+		clearInterval(this.state.timerIntervalId)
+	};
+
+	getImgSrc() {
+		const {fileName} = this.state;
+		const {title, onSrcChange, isActive} = this.props;
+
+		if (fileName < 12) { //hardcode
+			isActive && onSrcChange({fileName: fileName + 1, title: title});
+			this.setState({fileName: fileName + 1});
+		} else {
+			isActive && onSrcChange({fileName: 1, title: title});
+			this.setState({fileName: 1});
+		};
+	};
+
+	getTimerString() {
+		const {timer, timeToChange} = this.state;
+
+		if (timeToChange <= 0) {
+			this.setState({timeToChange: timer});
+		} else {
+			this.setState({timeToChange: timeToChange - 5});
+		}
+	};
+
+	onHandleClick = () => this.props.onActiveChange(this.props.title);
 
 	render() {
-		const {selectedCategory} = this.state;
+		const {emotion, title, color, smile, isActive} = this.props;
+		const {fileName, timeToChange} = this.state;
+		console.log(emotion + ' ' + this.state.timer)
 
-		return(
-			<MainContainer>
-				<TextContainer>
-					Всего {emotionsCategory.length}
-				</TextContainer>
-				{emotionsCategory.map((category, i) => (
-					<PhotoCategory
-						key={i}
-						category={category}
-						isActive={selectedCategory === category}
-						onClick={this.onHandleClick}
-						onSrcChange={this.onChange}
-						timer={timer+(i+1)*200}
-					/>
-				))}
-			</MainContainer>
+		return (
+			<ItemContainer
+				onClick={this.onHandleClick}
+				isActive={isActive}
+			>
+				<img
+					width='100%'
+					height='auto'
+					src={process.env.PUBLIC_URL + `/${title}/${fileName}.png`}
+					alt='Миниатюра фотографии'
+				/>
+					<InfoContainer bgColor={color}>
+						<TextContainer>
+							<img src={smile} alt='Иконка смайл' />
+						</TextContainer>
+						<TextContainer>
+							{emotion}
+						</TextContainer>
+					</InfoContainer>
+					<TextContainer>
+						До смены фотографии осталось: {timeToChange}
+					</TextContainer>
+			</ItemContainer>
 		);
 	};
 };

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Timer from './timer';
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
+import neutrally from 'proj/image/smile-neutrally.png';
+import positiv from 'proj/image/smile-positiv.png';
+import negative from 'proj/image/smile-negativ.png';
 
 const MainContainer = styled.div`
 	display: flex;
@@ -23,12 +26,17 @@ const CategoryInfo = styled.div`
 
 const Container = styled.div`
 	display: flex;
-	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	height: 100%;
 	color: #EEE;
 `;
+
+const TextContainer = styled(Container)`
+	height: 80%;
+	margin: 0 5px 0 5px;
+	border: 1px dashed red;
+`
 
 const WIDTH = '65%';
 const HEIGHT = 'auto';
@@ -45,6 +53,17 @@ const colors = [{
 	title: 'positiv',
 	color: 'linear-gradient(to right, #73576C, #694461)',
 	value: 'Радость',
+}];
+
+const emotionCategorySmile = [{
+	title: 'neutrally',
+	file: neutrally,
+}, {
+	title: 'negative',
+	file: negative,
+}, {
+	title: 'positiv',
+	file: positiv,
 }];
 
 const getCategory = (category, string) => {
@@ -133,6 +152,8 @@ export default class PhotoCategory extends PureComponent {
 		const {fileName, timer} = this.state;
 		const {category} = this.props;
 
+		const src = emotionCategorySmile.find(x => x.title === category);
+
 		return(
 			<MainContainer
 				onClick={this.onHandleClick}
@@ -149,10 +170,17 @@ export default class PhotoCategory extends PureComponent {
 					bgColor={getCategory(category, 'color')}
 				>
 					<Container>
-						<EmojiIcon />
-						<div>
+						<TextContainer>
+							<img
+								width='auto'
+								height='60%'
+								src={src.file}
+								alt='Смайлик эмоции'
+							/>
+						</TextContainer>
+						<TextContainer>
 							{getCategory(category, 'value')}
-						</div>
+						</TextContainer>
 					</Container>
 				</CategoryInfo>
 				<Timer
