@@ -49,7 +49,8 @@ export default class VideoCapture extends Component {
 	componentDidUpdate(prevProps) {
 		const {shooting} = prevProps;
 
-		if (this.props.shooting && this.props.shooting !== shooting) {
+		if (this.props.shooting && this.props.shooting !== shooting
+			&& !this.state.errCamera) {
 			this.capture();
 		};
 	};

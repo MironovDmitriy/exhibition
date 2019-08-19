@@ -10,6 +10,8 @@ const TextField = styled(ButtonBase)`
 	background-color: #FFF;
 	border: none;
 	font-family: "Russo One";
+	font-variant: small-caps;
+	font-weight: 100;
 
 	:hover {
 		cursor: text;
@@ -21,6 +23,8 @@ const TextField = styled(ButtonBase)`
 
 	::placeholder {
 		color: #7A81A0;
+		font-variant: small-caps;
+		font-weight: 100;
 	}
 `;
 

@@ -10,6 +10,8 @@ const Select = styled(ButtonBase)`
 	background-color: #FFF;
 	border: none;
 	font-family: "Russo One";
+	font-variant: small-caps;
+	font-weight: 100;
 
 	:hover {
 		cursor: default;

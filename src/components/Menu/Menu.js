@@ -30,11 +30,10 @@ const BaseContainer = styled.div`
 const TextContainer = styled(BaseContainer)`
 	margin: 0 5px 0 5px;
 	color: #EEE;
-`;
-
-const SmallTextContainer = styled(TextContainer)`
-	font-size: 0.8em;
-	opacity: 0.5;
+	font-size: ${props => props.fontSize};
+	font-variant: ${props => props.fontVariant};
+	opacity: ${props => props.opacity};
+	text-align: center;
 `;
 
 const ButtonFillContainer = styled(ButtonBase)`
@@ -81,13 +80,13 @@ const Menu = () => (
 		</BaseContainer>
 
 		<BaseContainer>
-			<TextContainer>
+			<TextContainer fontSize='0.9em'>
 				Сутулов Михаил Вячеславович
 			</TextContainer>
 		</BaseContainer>
 
 		<BaseContainer>
-			<TextContainer>
+			<TextContainer fontSize='0.9em' fontVariant='small-caps'>
 				Нач. сектора лаборатории цифровая экономика и высокие технологии
 			</TextContainer>
 		</BaseContainer>
@@ -136,9 +135,9 @@ const Menu = () => (
 		</BaseContainer>
 
 		<BaseContainer>
-			<SmallTextContainer>
+			<TextContainer fontSize='0.8em' opacity='0.5'>
 				(с) 2019. ПУЛЦЭВТ ГУУ
-			</SmallTextContainer>
+			</TextContainer>
 		</BaseContainer>
 	</MainContainer>
 );

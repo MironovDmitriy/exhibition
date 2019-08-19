@@ -33,7 +33,7 @@ const TextContainer = styled.div`
 const TimeContainer = styled.div`
 	margin: 1vh 0 0 0;
 	font-size: 0.8em;
-	color: #000;
+	color: #EEE;
 `;
 
 const getRandomTimer = (min, max) => Math.round(Math.random() * (max - min) + min);
@@ -97,6 +97,10 @@ export default class PhotoSlider extends PureComponent {
 	render() {
 		const {emotion, title, color, smile, isActive} = this.props;
 		const {fileName, timeToChange} = this.state;
+		const date = new Date();
+		const zero = date.getMonth() < 10 ? 0 : '';
+		const timeString = `${date.getDate()}.${zero}${date.getMonth() + 1}.${date.getFullYear()}
+		/ ${date.getHours()}:${date.getMinutes()}`
 
 		return (
 			<ItemContainer onClick={this.onHandleClick}>
@@ -117,7 +121,12 @@ export default class PhotoSlider extends PureComponent {
 					</InfoContainer>
 				</ItemBorder>
 				<TimeContainer>
-					До смены фотографии осталось: {timeToChange}
+					<TextContainer>
+					{timeString}
+					</TextContainer>
+					<TextContainer>
+					{timeToChange}
+					</TextContainer>
 				</TimeContainer>
 			</ItemContainer>
 		);
