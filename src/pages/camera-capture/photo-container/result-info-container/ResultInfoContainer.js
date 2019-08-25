@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import smile from 'proj/image/smile-neutrally-big.png';
+import ButtonBase from 'proj/components/ButtonBase';
 
 const MainContainer = styled.div`
 	display: flex;
@@ -18,18 +19,9 @@ const TextContainer = styled.div`
 	color: #18C0F4;
 `;
 
-const ButtonContainer = styled.div`
-	margin: 30px 0 0 0;
-	display: inline-block;
-	width: 235px;
-	height: 45px;
-	text-align: center;
-	line-height: 45px;
-	color: #EEE;
-	background-color: #36385F;
+const ButtonContainer = styled(ButtonBase)`
 	border: 2px solid #EEE;
-	border-radius: 35px;
-	font-weight: bold;
+	font-weight: 100;
 
 	:hover {
 		cursor: pointer;
@@ -41,11 +33,13 @@ const ButtonContainer = styled.div`
 
 export default class ResultInfoContainer extends PureComponent {
 	static propTypes = {
+		handleShooting: PropTypes.func.isRequired,
 		emotion: PropTypes.object.isRequired,
+		result: PropTypes.object,
 	};
 
-	static propTypes = {
-		handleShooting: PropTypes.func.isRequired,
+	static defaultProps = {
+		result: {},
 	};
 
 	refreshPage = () => window.location.reload();

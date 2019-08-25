@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import {PageContainer as PageContainerMain} from '../../components';
 import styled from 'styled-components';
+import {PageContainer as PageContainerMain} from 'proj/components';
 import PhotoSlider from './photo-slider';
 import neutrally from 'proj/image/smile-neutrally.png';
 import positiv from 'proj/image/smile-positiv.png';

@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import Main from './container';
 
-class App extends Component {
-  render() {
-    return (
-      <Main />
-    );
-  }
+class App extends PureComponent {
+	render() {
+		return (
+			<Main />
+		);
+	}
 }
 
 export default App;

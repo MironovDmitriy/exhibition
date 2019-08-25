@@ -1,15 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
-import ButtonBase from 'proj/components/ButtonBase';
-import {Avatar} from '../index.js';
 import {NavLink} from 'react-router-dom';
+import styled from 'styled-components';
 import CameraIcon from '@atlaskit/icon/glyph/camera';
 import JiraCaptureIcon from '@atlaskit/icon/glyph/jira/capture';
 import RetryIcon from '@atlaskit/icon/glyph/retry';
 import SignOutIcon from '@atlaskit/icon/glyph/sign-out';
-import bg from '../../image/bg.png';
+import bg from 'proj/image/bg.png';
 import logo from 'proj/image/logo.png';
 import avatar from 'proj/image/avatar.jpg';
+import ButtonBase from 'proj/components/ButtonBase';
+import {Avatar} from 'proj/components/index.js';
 
 const MainContainer = styled.div`
 	display: flex;

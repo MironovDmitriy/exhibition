@@ -5,10 +5,8 @@ import {Menu} from 'proj/components';
 const Component = styled.div`
 	display: flex;
 	flex-direction: row;
-	box-sizing: border-box;
-	background: #3A6080;
-	background: linear-gradient(to top, #3A6080, #4090D2);
 	height: 100vh;
+	background-color: rgba(54, 56, 95);
 `;
 
 const PageContainer = ({children, className}) => (

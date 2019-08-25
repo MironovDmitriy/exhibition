@@ -31,12 +31,14 @@ export default class PhotoContainer extends PureComponent {
 	static propTypes = {
 		handleShooting: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
+		result: PropTypes.object,
 		imgSrc: PropTypes.string,
 		emotion: PropTypes.object,
 	};
 
-
 	static defaultProps = {
+		imgSrc: '',
+		result: {},
 		emotion: {
 			title: 'neutrally',
 			value: 'НЕЙТРАЛЬНО',

@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const VideoContainer = styled.div`
 	display: flex;
@@ -24,7 +24,7 @@ const getCameraHeight = () => {
 	return height;
 };
 
-export default class VideoCapture extends Component {
+export default class VideoCapture extends PureComponent {
 	constructor(props) {
 		super(props);
 
@@ -40,10 +40,6 @@ export default class VideoCapture extends Component {
 	static propTypes = {
 		getPhotoUrl: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
-	};
-
-	static defaultProps = {
-		shooting: false,
 	};
 
 	componentDidUpdate(prevProps) {

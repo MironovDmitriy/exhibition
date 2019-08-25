@@ -1,11 +1,10 @@
 import React, {PureComponent} from 'react';
 import styled from 'styled-components';
 import VideoCapture from './video-capture';
-import {PageContainer as PageContainerMain} from '../../components';
-import {PhotoContainer} from '../../components/';
-import {requestApi} from '../../api/requestApi';
-import {getResponse} from '../../api/requestApi';
-import wsUrl from 'proj/config/paths';
+import {PageContainer as PageContainerMain} from 'proj/components';
+import PhotoContainer from './photo-container';
+import {photoRecognition} from 'proj/api/video-capture';
+import {userRecognition} from 'proj/api/video-capture';
 
 const CameraConatiner = styled.div`
 	display: flex;
@@ -26,7 +25,6 @@ const emotions = [{
 	value: 'НЕЙТРАЛЬНО',
 }];
 
-
 	const getRandomEmotion = (emotions, min, max) => {
 		const random = Math.floor(Math.random() * (max - min) + min);
 
@@ -40,7 +38,6 @@ export default class CameraCapture extends PureComponent {
 		this.state = {
 			shooting: false,
 			photoBase64: '',
-			isOpenModal: false,
 			results: null,
 		};
 
@@ -49,43 +46,31 @@ export default class CameraCapture extends PureComponent {
 		this.getResults = this.getResults.bind(this);
 	};
 
-	componentDidUpdate(prevState) {
+	async componentDidUpdate(prevState) {
 		const {photoBase64, results} = this.state;
 
 		if (!results && photoBase64 && photoBase64 !== prevState.photoBase64) {
-			this.sendToServer(photoBase64);
+			const value = {
+				type: 'identify',
+				data: {
+					photo: photoBase64,
+				},
+			};
+			userRecognition(value, this.getResults);
+			photoRecognition(photoBase64);
 		};
 	};
 
 	handleShooting = () => this.setState({shooting: !this.state.shooting});
 
-	getResults(result) {
-		this.setState({
-			results: result,
-		});
-	};
+	getResults = result => this.setState({results: result});
 
-	getPhotoUrl(src) {
-		this.setState({
-			photoBase64: src,
-			shooting: false,
-		});
-	};
-
-	sendToServer(photoUrl) {
-		const value = Object.assign({}, {type: 'identify', data: {photo: photoUrl}});
-		requestApi(window.websocket, value);
-		getResponse(window.websocket, this.getResults);
-	};
+	getPhotoUrl = src => this.setState({photoBase64: src, shooting: false});
 
 	refreshPage = () => window.location.reload();
 
 	render () {
-		const {
-			shooting,
-			photoBase64,
-			results,
-		} = this.state;
+		const {shooting, photoBase64, results} = this.state;
 
 		const emotion = getRandomEmotion(emotions, 0, 4);
 

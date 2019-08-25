@@ -4,8 +4,7 @@ import Form from './form';
 import {PageContainer as PageContainerMain} from 'proj/components';
 import {CheckboxField} from 'proj/components';
 import {ButtonBase} from 'proj/components';
-import {requestApi} from 'proj/api/requestApi';
-import {getResponse} from 'proj/api/requestApi';
+import {userRegistration} from 'proj/api/registration-form';
 import photoIcon from 'proj/image/photo-icon.png';
 
 const PageContainer = styled.div`
@@ -130,7 +129,7 @@ export default class RegistrationForm extends PureComponent {
 
 	handleChangeForm = value => this.setState({formValues: value});
 
-	onHandleCheck = () => this.setState({isChecked: !this.state.isChecked});
+	HandleCheck = () => this.setState({isChecked: !this.state.isChecked});
 
 	getResults = result => this.setState({results: result});
 
@@ -148,12 +147,11 @@ export default class RegistrationForm extends PureComponent {
 				type: 'registrate',
 				data: {
 					...formValues,
-					['photo']: fileBase64,
+					photo: fileBase64,
 				},
 			};
 
-			requestApi(window.websocket, data);
-			getResponse(window.websocket, this.getResults);
+			userRegistration(data, this.getResults);
 			this.setState({
 				formValues: {},
 				isChecked: false,
@@ -221,7 +219,7 @@ export default class RegistrationForm extends PureComponent {
 						<Container>
 							<CheckboxField
 								checked={isChecked}
-								handleChange={this.onHandleCheck}
+								handleChange={this.HandleCheck}
 							/>
 						</Container>
 						<Container>

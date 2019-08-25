@@ -9,7 +9,6 @@ const Select = styled(ButtonBase)`
 	color: #7A81A0;
 	background-color: #FFF;
 	border: none;
-	font-family: "Russo One";
 	font-variant: small-caps;
 	font-weight: 100;
 

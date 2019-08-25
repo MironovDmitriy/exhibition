@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import Avatar from '@atlaskit/avatar';
 
 const AvatarComponent = ({src}) => {
