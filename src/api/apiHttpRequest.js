@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 
 	const defaultOptions = {
-		// credentials: 'include',
+		credentials: 'include',
 		returnType: 'json',
 	};
 
