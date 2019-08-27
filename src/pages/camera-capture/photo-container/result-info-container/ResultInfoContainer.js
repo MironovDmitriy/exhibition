@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import smile from 'proj/image/smile-neutrally-big.png';
 import ButtonBase from 'proj/components/ButtonBase';
+import Table from './table';
 
 const MainContainer = styled.div`
 	display: flex;
@@ -34,7 +35,6 @@ const ButtonContainer = styled(ButtonBase)`
 export default class ResultInfoContainer extends PureComponent {
 	static propTypes = {
 		handleShooting: PropTypes.func.isRequired,
-		emotion: PropTypes.object.isRequired,
 		result: PropTypes.object,
 	};
 
@@ -50,12 +50,11 @@ export default class ResultInfoContainer extends PureComponent {
 		return (
 			<MainContainer>
 				<TextContainer>
-					<img src={smile} alt='Эмоция' />
+					<img src={smile} alt='Смайлик эмоция' />
 				</TextContainer>
-				<div>Эмоция:</div>
-				<TextContainer>
-					{this.props.emotion.value}
-				</TextContainer>
+				<Table
+					data={result}
+				/>
 				{!result ? (
 					<ButtonContainer
 						onClick={this.props.handleShooting}

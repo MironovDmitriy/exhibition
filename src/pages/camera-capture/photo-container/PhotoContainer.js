@@ -27,22 +27,34 @@ const ResultContainer = styled(UserInfoContainer)`
 	z-index: 1;
 `;
 
+const ImageContainer = styled(ResultContainer)`
+	border: 1px dashed red;
+	height: auto;
+	position: relative;
+	z-index: 2;
+`;
+
+const Mask = styled.div`
+	width: ${props => props.width}px;
+	height: ${props => props.height}px;
+	top: ${props => props.top}px;
+	left: ${props => props.left}px;
+	border: ${props => props.height ? '2px dashed #f0f1f7' : null};
+	position: absolute;
+	z-index: 2;
+`;
+
 export default class PhotoContainer extends PureComponent {
 	static propTypes = {
 		handleShooting: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
 		result: PropTypes.object,
 		imgSrc: PropTypes.string,
-		emotion: PropTypes.object,
 	};
 
 	static defaultProps = {
 		imgSrc: '',
 		result: {},
-		emotion: {
-			title: 'neutrally',
-			value: 'НЕЙТРАЛЬНО',
-		},
 	};
 
 	getResult = resultData => {
@@ -55,6 +67,7 @@ export default class PhotoContainer extends PureComponent {
 
 	render() {
 		const {imgSrc, result} = this.props;
+		const maskParametrs = result && result.faceRectangle;
 
 		return (
 			<MainContainer>
@@ -63,12 +76,20 @@ export default class PhotoContainer extends PureComponent {
 				</UserInfoContainer>
 					{imgSrc ? (
 						<ResultContainer>
-							<img
-								width='100%'
-								height='auto'
-								src={imgSrc}
-								alt='Фото'
-							/>
+							<ImageContainer>
+								<Mask
+									width={maskParametrs && maskParametrs.width}
+									height={maskParametrs && maskParametrs.height}
+									top={maskParametrs && maskParametrs.top}
+									left={maskParametrs && maskParametrs.left}
+								/>
+								<img
+									width='100%'
+									height='auto'
+									src={imgSrc}
+									alt='Фото'
+								/>
+							</ImageContainer>
 						</ResultContainer>
 						) : (
 						<CanvasContainer />
@@ -76,8 +97,6 @@ export default class PhotoContainer extends PureComponent {
 				<ResultInfoContainer
 					handleShooting={this.props.handleShooting}
 					result={result}
-					emotion={imgSrc && result && result.status === 'success'
-					? this.props.emotion : {title: '', value: ''}}
 				/>
 			</MainContainer>
 		);

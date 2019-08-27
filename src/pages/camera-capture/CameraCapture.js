@@ -14,22 +14,7 @@ const CameraConatiner = styled.div`
 	width: 44%;
 `;
 
-const emotions = [{
-	title: 'positiv',
-	value: 'РАДОСТЬ',
-}, {
-	title: 'negativ',
-	value: 'ГРУСТЬ',
-}, {
-	title: 'neutrally',
-	value: 'НЕЙТРАЛЬНО',
-}];
-
-	const getRandomEmotion = (emotions, min, max) => {
-		const random = Math.floor(Math.random() * (max - min) + min);
-
-		return emotions[random];
-	};
+const concatResults = (x, y) => x && y ? {...x, ...y} : null;
 
 export default class CameraCapture extends PureComponent {
 	constructor () {
@@ -39,6 +24,7 @@ export default class CameraCapture extends PureComponent {
 			shooting: false,
 			photoBase64: '',
 			results: null,
+			photoRecognitionResults: null,
 		};
 
 		this.handleShooting = this.handleShooting.bind(this);
@@ -47,17 +33,19 @@ export default class CameraCapture extends PureComponent {
 	};
 
 	async componentDidUpdate(prevState) {
-		const {photoBase64, results} = this.state;
+		const {photoBase64, results, photoRecognitionResults} = this.state;
 
-		if (!results && photoBase64 && photoBase64 !== prevState.photoBase64) {
+		if (!photoRecognitionResults && !results && photoBase64
+			&& photoBase64 !== prevState.photoBase64) {
 			const value = {
 				type: 'identify',
 				data: {
 					photo: photoBase64,
 				},
 			};
+			const recognitionResults = await photoRecognition(photoBase64);
 			userRecognition(value, this.getResults);
-			photoRecognition(photoBase64);
+			this.setState({photoRecognitionResults: recognitionResults});
 		};
 	};
 
@@ -70,9 +58,7 @@ export default class CameraCapture extends PureComponent {
 	refreshPage = () => window.location.reload();
 
 	render () {
-		const {shooting, photoBase64, results} = this.state;
-
-		const emotion = getRandomEmotion(emotions, 0, 4);
+		const {shooting, photoBase64, results, photoRecognitionResults} = this.state;
 
 		return (
 			<PageContainerMain>
@@ -86,8 +72,7 @@ export default class CameraCapture extends PureComponent {
 					handleShooting={this.handleShooting}
 					imgSrc={photoBase64}
 					shooting={shooting}
-					result={results}
-					emotion={emotion}
+					result={concatResults(results, photoRecognitionResults)}
 				/>
 			</PageContainerMain>
 		);
