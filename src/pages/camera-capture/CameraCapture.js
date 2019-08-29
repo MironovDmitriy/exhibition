@@ -44,8 +44,8 @@ export default class CameraCapture extends PureComponent {
 					photo: photoBase64,
 				},
 			};
-			const recognitionResults = await photoRecognition(photoBase64);
 			userRecognition(value, this.getResults);
+			const recognitionResults = await photoRecognition(photoBase64);
 			this.setState({photoRecognitionResults: recognitionResults});
 		};
 
