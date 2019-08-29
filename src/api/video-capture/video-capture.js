@@ -1,8 +1,23 @@
 import apiHttpRequest from '../apiHttpRequest.js';
 import apiWsRequest from '../apiWsRequest.js';
 
+export const toCrm = async data => {
+	const result = await apiHttpRequest(`https://facemo.ru/api/crm`, {
+		method: 'POST',
+		headers: {
+			Authorization: 'Bearer Smfds432OAKSDMFds34asDFAda1234sASD',
+		},
+		json: {
+			name: data.name,
+			surname: data.surname,
+		},
+	});
+
+	return result;
+};
+
 export const photoRecognition = async photo => {
-	const result = await apiHttpRequest(`https://facemo.ru/api/image`, {
+	const result = await apiHttpRequest(`https://facemo.ru/api/emotion`, {
 		method: 'POST',
 		headers: {
 			Authorization: 'Bearer Smfds432OAKSDMFds34asDFAda1234sASD',

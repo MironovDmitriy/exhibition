@@ -5,6 +5,7 @@ import {PageContainer as PageContainerMain} from 'proj/components';
 import PhotoContainer from './photo-container';
 import {photoRecognition} from 'proj/api/video-capture';
 import {userRecognition} from 'proj/api/video-capture';
+import {toCrm} from 'proj/api/video-capture';
 
 const CameraConatiner = styled.div`
 	display: flex;
@@ -46,6 +47,10 @@ export default class CameraCapture extends PureComponent {
 			const recognitionResults = await photoRecognition(photoBase64);
 			userRecognition(value, this.getResults);
 			this.setState({photoRecognitionResults: recognitionResults});
+		};
+
+		if (results && prevState.results !== results) {
+			toCrm(results.data)
 		};
 	};
 

@@ -54,8 +54,13 @@ export default class PhotoSlider extends PureComponent {
 	};
 
 	static propTypes = {
-		isActive: PropTypes.bool.isRequired,
+		onSrcChange: PropTypes.func.isRequired,
 		onActiveChange: PropTypes.func.isRequired,
+		isActive: PropTypes.bool.isRequired,
+		emotion: PropTypes.string.isRequired,
+		title: PropTypes.string.isRequired,
+		color: PropTypes.string.isRequired,
+		smile: PropTypes.string.isRequired,
 	};
 
 	componentDidMount() {
