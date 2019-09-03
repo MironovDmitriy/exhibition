@@ -9,7 +9,6 @@ const ItemContainer = styled.div`
 	align-items: center;
 	width: 65%;
 	margin: 3vh;
-	font-family: "Russo One";
 	color: #EEE;
 `;
 

@@ -9,7 +9,6 @@ const ButtonBase = styled.div`
 	color: #EEE;
 	background-color: transparent;
 	border-radius: 35px;
-	font-family: "Russo One";
 
 	:hover {
 		cursor: pointer;

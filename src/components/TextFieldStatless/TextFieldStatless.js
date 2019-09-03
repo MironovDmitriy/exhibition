@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ButtonBase from 'proj/components/ButtonBase';
 
@@ -9,8 +10,6 @@ const TextField = styled(ButtonBase)`
 	color: #7A81A0;
 	background-color: #FFF;
 	border: none;
-	font-variant: small-caps;
-	font-weight: 100;
 
 	:hover {
 		cursor: text;
@@ -22,16 +21,14 @@ const TextField = styled(ButtonBase)`
 
 	::placeholder {
 		color: #7A81A0;
-		font-variant: small-caps;
-		font-weight: 100;
 	}
 `;
 
-const TextFieldStatless = ({type, label, name, value, handleChange}) => {
+const TextFieldStatless = ({type, label, name, value, onChange}) => {
 
 	const onHandleChange = e => {
 		const value = e.target.value;
-		handleChange({field: name, value: value});
+		onChange({field: name, value: value});
 	};
 
 	return (
@@ -43,6 +40,14 @@ const TextFieldStatless = ({type, label, name, value, handleChange}) => {
 			onChange={onHandleChange}
 		/>
 	);
+};
+
+TextFieldStatless.propTypes = {
+	type: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	value: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
 };
 
 export default TextFieldStatless;

@@ -53,7 +53,7 @@ export default class VideoCapture extends PureComponent {
 
 	errCameraConnection = state => this.setState({errCamera: true});
 
-	succesMedia = state => this.setState({errCamera: false});
+	successCameraConnection = state => this.setState({errCamera: false});
 
 	capture () {
 		const {getPhotoUrl} = this.props;
@@ -77,7 +77,7 @@ export default class VideoCapture extends PureComponent {
 						height={cameraHeight}
 						screenshotFormat='image/jpeg'
 						onUserMediaError={this.errCameraConnection}
-						onUserMedia={this.succesMedia}
+						onUserMedia={this.successCameraConnection}
 						ref={this.webcam}
 						style={styles}
 					/>

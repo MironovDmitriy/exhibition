@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ButtonBase from 'proj/components/ButtonBase';
 
@@ -9,8 +10,6 @@ const Select = styled(ButtonBase)`
 	color: #7A81A0;
 	background-color: #FFF;
 	border: none;
-	font-variant: small-caps;
-	font-weight: 100;
 
 	:hover {
 		cursor: default;
@@ -21,11 +20,11 @@ const Select = styled(ButtonBase)`
 	}
 `;
 
-const SelectField = ({options, value, name, handleChange}) => {
+const SelectField = ({options, value, name, onChange}) => {
 
 	const onHandleChange = e => {
 		const value = e.target.value;
-		handleChange({field: name, value: value});
+		onChange({field: name, value: value});
 	};
 
 	return (
@@ -44,6 +43,17 @@ const SelectField = ({options, value, name, handleChange}) => {
 			))}
 		</Select>
 	);
+};
+
+SelectField.propTypes = {
+	options: PropTypes.array.isRequired,
+	value: PropTypes.string,
+	name: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
+};
+
+SelectField.defaultProps = {
+	value: '',
 };
 
 export default SelectField;

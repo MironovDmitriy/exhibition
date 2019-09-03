@@ -19,7 +19,6 @@ const MainContainer = styled.div`
 	background-image: url(${props => props.bg});
 	background-repeat: round;
 	z-index: 1;
-	font-family: "Russo One";
 `;
 
 const BaseContainer = styled.div`

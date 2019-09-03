@@ -20,7 +20,6 @@ const BaseContainer = styled.div`
 	display: flex;
 	width: 70vw;
 	margin: 0 0 0 10vw;
-	font-family: "Russo One";
 `;
 
 const TopContainer = styled(BaseContainer)`
@@ -112,7 +111,7 @@ export default class RegistrationForm extends PureComponent {
 			results: null,
 		};
 
-		this.submitForm = this.submitForm.bind(this);
+		this.handleSubmitForm = this.handleSubmitForm.bind(this);
 	};
 
 	handleChooseFile = () => this.node.current.click();
@@ -122,18 +121,18 @@ export default class RegistrationForm extends PureComponent {
 		reader.readAsDataURL(event.target.files[0]);
 
 		reader.onload = () => {
-			const dataURL = reader.result;
-			this.setState({fileBase64: dataURL});
+			const file = reader.result;
+			this.setState({fileBase64: file});
 		};
 	};
 
 	handleChangeForm = value => this.setState({formValues: value});
 
-	HandleCheck = () => this.setState({isChecked: !this.state.isChecked});
+	handleCheck = () => this.setState({isChecked: !this.state.isChecked});
 
-	getResults = result => this.setState({results: result});
+	getRegistrationResult = result => this.setState({results: result});
 
-	submitForm() {
+	handleSubmitForm() {
 		const {formValues, isChecked, fileBase64} = this.state;
 
 		if (!isChecked) {
@@ -151,7 +150,7 @@ export default class RegistrationForm extends PureComponent {
 				},
 			};
 
-			userRegistration(data, this.getResults);
+			userRegistration(data, this.getRegistrationResult);
 			this.setState({
 				formValues: {},
 				isChecked: false,
@@ -183,7 +182,7 @@ export default class RegistrationForm extends PureComponent {
 								) : (
 									<img
 										src={fileBase64}
-										alt='Фото профиля'
+										alt='Загруженное фото'
 										style={{
 											display: 'block',
 											margin: 'auto',
@@ -219,24 +218,25 @@ export default class RegistrationForm extends PureComponent {
 						<Container>
 							<CheckboxField
 								checked={isChecked}
-								handleChange={this.HandleCheck}
+								onChange={this.handleCheck}
+								text='Даю согласие на обработку своих персональных данных'
 							/>
 						</Container>
 						<Container>
 							<SubmitButton
-								onClick={this.submitForm}
+								onClick={this.handleSubmitForm}
 							>
 								ЗАРЕГИСТРИРОВАТЬСЯ
 							</SubmitButton>
 							<TextContainer>
 								{validErr && validErr.value}
-								{results && results.status && results.status === 'succes' // TODO
+								{results && results.status && results.status === 'succes'
 								&& (
 									<div>Данные отправлены успешно</div>
 								)}
 								{results && results.status && results.status === 'error'
 								&& (
-									<div>Ошибка при отправке данных</div>
+									<div>Ошибка при регистрации</div>
 								)}
 							</TextContainer>
 						</Container>

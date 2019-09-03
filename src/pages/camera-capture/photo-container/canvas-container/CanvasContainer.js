@@ -23,7 +23,7 @@ import {
 	squareCoordinate,
 	squarePointCoordinate,
 	squareGradient,
-} from '../shapes-coordinate.js';
+} from './shapes-coordinate.js';
 
 const MainContainer = styled.div`
 	height: 65%;
@@ -63,24 +63,6 @@ export default class CanvasContainer extends PureComponent {
 		this.state = {
 			containerWidth: null,
 			containerHeight: null,
-			outerCircleCoordinate: outerCircleCoordinate,
-			outerCirclePointCoordinate: outerCirclePointCoordinate,
-			rightUpperLineCoordinate:rightUpperLineCoordinate,
-			rightUpperLinePointCoordinate: rightUpperLinePointCoordinate,
-			leftUpperLineCoordinate: leftUpperLineCoordinate,
-			leftUpperLinePointCoordinate: leftUpperLinePointCoordinate,
-			innerCircleCoordinate:innerCircleCoordinate,
-			innerCirclePointCoordinate: innerCirclePointCoordinate,
-			innerLineCoordinate:innerLineCoordinate,
-			innerLinePointCoordinate: innerLinePointCoordinate,
-			leftTriangleCoordinate:leftTriangleCoordinate,
-			leftTrianglePointCoordinate: leftTrianglePointCoordinate,
-			buttonTriangleCoordinate: buttonTriangleCoordinate,
-			buttonTrianglePointCoordinate: buttonTrianglePointCoordinate,
-			rightTriangleCoordinate: rightTriangleCoordinate,
-			rightTrianglePointCoordinate: rightTrianglePointCoordinate,
-			squareCoordinate: squareCoordinate,
-			squarePointCoordinate: squarePointCoordinate,
 		};
 	};
 
@@ -88,31 +70,13 @@ export default class CanvasContainer extends PureComponent {
 		this.setState({
 			containerWidth: this.container.current.clientWidth,
 			containerHeight: this.container.current.clientHeight,
-		})
+		});
 	};
 
 	render() {
 		const {
 			containerWidth,
 			containerHeight,
-			outerCircleCoordinate,
-			outerCirclePointCoordinate,
-			rightUpperLineCoordinate,
-			rightUpperLinePointCoordinate,
-			leftUpperLineCoordinate,
-			leftUpperLinePointCoordinate,
-			innerCircleCoordinate,
-			innerCirclePointCoordinate,
-			innerLineCoordinate,
-			innerLinePointCoordinate,
-			leftTriangleCoordinate,
-			leftTrianglePointCoordinate,
-			buttonTriangleCoordinate,
-			buttonTrianglePointCoordinate,
-			rightTriangleCoordinate,
-			rightTrianglePointCoordinate,
-			squareCoordinate,
-			squarePointCoordinate,
 		} = this.state;
 
 		return (

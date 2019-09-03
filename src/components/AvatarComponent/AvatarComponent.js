@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Avatar from '@atlaskit/avatar';
 
 const AvatarComponent = ({src}) => {
@@ -9,6 +10,14 @@ const AvatarComponent = ({src}) => {
 			src={src}
 		/>
 	);
+};
+
+AvatarComponent.propTypes = {
+	src: PropTypes.string.isRequired,
+};
+
+AvatarComponent.defaultProps = {
+	src: '',
 };
 
 export default AvatarComponent;

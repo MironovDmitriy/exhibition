@@ -24,19 +24,19 @@ export default class CameraCapture extends PureComponent {
 		this.state = {
 			shooting: false,
 			photoBase64: '',
-			results: null,
+			user: null,
 			photoRecognitionResults: null,
 		};
 
 		this.handleShooting = this.handleShooting.bind(this);
 		this.getPhotoUrl = this.getPhotoUrl.bind(this);
-		this.getResults = this.getResults.bind(this);
+		this.getUserName = this.getUserName.bind(this);
 	};
 
 	async componentDidUpdate(prevState) {
-		const {photoBase64, results, photoRecognitionResults} = this.state;
+		const {photoBase64, user, photoRecognitionResults} = this.state;
 
-		if (!photoRecognitionResults && !results && photoBase64
+		if (!photoRecognitionResults && !user && photoBase64
 			&& photoBase64 !== prevState.photoBase64) {
 			const value = {
 				type: 'identify',
@@ -44,26 +44,26 @@ export default class CameraCapture extends PureComponent {
 					photo: photoBase64,
 				},
 			};
-			userRecognition(value, this.getResults);
-			const recognitionResults = await photoRecognition(photoBase64);
-			this.setState({photoRecognitionResults: recognitionResults});
+			userRecognition(value, this.getUserName);
+			const result = await photoRecognition(photoBase64);
+			this.setState({photoRecognitionResults: result});
 		};
 
-		if (results && prevState.results !== results) {
-			toCrm(results.data)
+		if (user && prevState.user !== user) {
+			toCrm(user.data)
 		};
 	};
 
 	handleShooting = () => this.setState({shooting: !this.state.shooting});
 
-	getResults = result => this.setState({results: result});
+	getUserName = result => this.setState({user: result});
 
 	getPhotoUrl = src => this.setState({photoBase64: src, shooting: false});
 
 	refreshPage = () => window.location.reload();
 
 	render () {
-		const {shooting, photoBase64, results, photoRecognitionResults} = this.state;
+		const {shooting, photoBase64, user, photoRecognitionResults} = this.state;
 
 		return (
 			<PageContainerMain>
@@ -75,9 +75,9 @@ export default class CameraCapture extends PureComponent {
 				</CameraConatiner>
 				<PhotoContainer
 					handleShooting={this.handleShooting}
-					imgSrc={photoBase64}
+					photo={photoBase64}
 					shooting={shooting}
-					result={concatResults(results, photoRecognitionResults)}
+					result={concatResults(user, photoRecognitionResults)}
 				/>
 			</PageContainerMain>
 		);

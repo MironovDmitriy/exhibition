@@ -32,15 +32,15 @@ export default class PhotoContainer extends PureComponent {
 		handleShooting: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
 		result: PropTypes.object,
-		imgSrc: PropTypes.string,
+		photo: PropTypes.string,
 	};
 
 	static defaultProps = {
-		imgSrc: '',
+		photo: '',
 		result: {},
 	};
 
-	getResult = resultData => {
+	showUserName = resultData => {
 		if (resultData && resultData.status === 'error') {
 			return 'Не удалось распознать фотографию';
 		} else if (resultData && resultData.status === 'success') {
@@ -49,27 +49,27 @@ export default class PhotoContainer extends PureComponent {
 	};
 
 	render() {
-		const {imgSrc, result} = this.props;
+		const {photo, result, handleShooting} = this.props;
 
 		return (
 			<MainContainer>
 				<UserInfoContainer>
-					{result ? this.getResult(result) : 'Имя пользователя'}
+					{result ? this.showUserName(result) : 'Имя пользователя'}
 				</UserInfoContainer>
-					{imgSrc ? (
+					{!photo ? (
+						<CanvasContainer />
+						) : (
 						<ResultContainer>
 							<img
 								width='100%'
 								height='auto'
-								src={imgSrc}
+								src={photo}
 								alt='Фото'
 							/>
 						</ResultContainer>
-						) : (
-						<CanvasContainer />
 					)}
 				<ResultInfoContainer
-					handleShooting={this.props.handleShooting}
+					handleShooting={handleShooting}
 					result={result}
 				/>
 			</MainContainer>
