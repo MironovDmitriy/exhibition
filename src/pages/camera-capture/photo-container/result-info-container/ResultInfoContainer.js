@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import smile from 'proj/image/smile-neutrally-big.png';
 import ButtonBase from 'proj/components/ButtonBase';
+import {Spinner} from 'proj/components';
 import Table from './table';
 
 const MainContainer = styled.div`
@@ -35,6 +36,7 @@ const ButtonContainer = styled(ButtonBase)`
 export default class ResultInfoContainer extends PureComponent {
 	static propTypes = {
 		handleShooting: PropTypes.func.isRequired,
+		fetching: PropTypes.bool.isRequired,
 		result: PropTypes.object,
 	};
 
@@ -45,7 +47,7 @@ export default class ResultInfoContainer extends PureComponent {
 	refreshPage = () => window.location.reload();
 
 	render() {
-		const {result} = this.props;
+		const {result, fetching} = this.props;
 
 		return (
 			<MainContainer>
@@ -56,11 +58,15 @@ export default class ResultInfoContainer extends PureComponent {
 					data={result}
 				/>
 				{!result ? (
-					<ButtonContainer
-						onClick={this.props.handleShooting}
-					>
-						СДЕЛАТЬ ЕЩЕ ФОТО
-					</ButtonContainer>
+					fetching ? (
+						<Spinner />
+					): (
+						<ButtonContainer
+							onClick={this.props.handleShooting}
+						>
+							СДЕЛАТЬ ЕЩЕ ФОТО
+						</ButtonContainer>
+					)
 				) : (
 					<ButtonContainer
 						onClick={this.refreshPage}

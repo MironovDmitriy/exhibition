@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CanvasContainer from './canvas-container';
 import ResultInfoContainer from './result-info-container';
+import {Spinner} from 'proj/components';
 
 const MainContainer = styled.div`
 	display: flex;
@@ -31,6 +32,7 @@ export default class PhotoContainer extends PureComponent {
 	static propTypes = {
 		handleShooting: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
+		fetching: PropTypes.bool.isRequired,
 		result: PropTypes.object,
 		photo: PropTypes.string,
 	};
@@ -49,28 +51,35 @@ export default class PhotoContainer extends PureComponent {
 	};
 
 	render() {
-		const {photo, result, handleShooting} = this.props;
+		const {photo, result, handleShooting, fetching} = this.props;
 
 		return (
 			<MainContainer>
-				<UserInfoContainer>
-					{result ? this.showUserName(result) : 'Имя пользователя'}
-				</UserInfoContainer>
-					{!photo ? (
-						<CanvasContainer />
-						) : (
-						<ResultContainer>
-							<img
-								width='100%'
-								height='auto'
-								src={photo}
-								alt='Фото'
-							/>
-						</ResultContainer>
-					)}
+				{fetching ? (
+					<UserInfoContainer>
+						<Spinner />
+					</UserInfoContainer>
+				) : (
+					<UserInfoContainer>
+						{result ? this.showUserName(result) : 'Имя пользователя'}
+					</UserInfoContainer>
+				)}
+				{!photo ? (
+					<CanvasContainer />
+					) : (
+					<ResultContainer>
+						<img
+							width='100%'
+							height='auto'
+							src={photo}
+							alt='Фото'
+						/>
+					</ResultContainer>
+				)}
 				<ResultInfoContainer
 					handleShooting={handleShooting}
 					result={result}
+					fetching={fetching}
 				/>
 			</MainContainer>
 		);

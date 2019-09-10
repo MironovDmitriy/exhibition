@@ -26,6 +26,7 @@ export default class CameraCapture extends PureComponent {
 			photoBase64: '',
 			user: null,
 			photoRecognitionResults: null,
+			fetching: false,
 		};
 
 		this.handleShooting = this.handleShooting.bind(this);
@@ -44,6 +45,7 @@ export default class CameraCapture extends PureComponent {
 					photo: photoBase64,
 				},
 			};
+			this.setState({fetching: true});
 			userRecognition(value, this.getUserName);
 			const result = await photoRecognition(photoBase64);
 			this.setState({photoRecognitionResults: result});
@@ -56,14 +58,14 @@ export default class CameraCapture extends PureComponent {
 
 	handleShooting = () => this.setState({shooting: !this.state.shooting});
 
-	getUserName = result => this.setState({user: result});
+	getUserName = result => this.setState({user: result, fetching: false});
 
 	getPhotoUrl = src => this.setState({photoBase64: src, shooting: false});
 
 	refreshPage = () => window.location.reload();
 
 	render () {
-		const {shooting, photoBase64, user, photoRecognitionResults} = this.state;
+		const {shooting, photoBase64, user, photoRecognitionResults, fetching} = this.state;
 
 		return (
 			<PageContainerMain>
@@ -78,6 +80,7 @@ export default class CameraCapture extends PureComponent {
 					photo={photoBase64}
 					shooting={shooting}
 					result={concatResults(user, photoRecognitionResults)}
+					fetching={fetching}
 				/>
 			</PageContainerMain>
 		);

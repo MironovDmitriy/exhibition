@@ -4,6 +4,7 @@ import Form from './form';
 import {PageContainer as PageContainerMain} from 'proj/components';
 import {CheckboxField} from 'proj/components';
 import {ButtonBase} from 'proj/components';
+import {Spinner} from 'proj/components';
 import {userRegistration} from 'proj/api/registration-form';
 import photoIcon from 'proj/image/photo-icon.png';
 
@@ -109,6 +110,7 @@ export default class RegistrationForm extends PureComponent {
 			fileBase64: '',
 			validErr: {},
 			results: null,
+			fetching: false,
 		};
 
 		this.handleSubmitForm = this.handleSubmitForm.bind(this);
@@ -130,7 +132,7 @@ export default class RegistrationForm extends PureComponent {
 
 	handleCheck = () => this.setState({isChecked: !this.state.isChecked});
 
-	getRegistrationResult = result => this.setState({results: result});
+	getRegistrationResult = result => this.setState({results: result, fetching: false});
 
 	handleSubmitForm() {
 		const {formValues, isChecked, fileBase64} = this.state;
@@ -150,6 +152,7 @@ export default class RegistrationForm extends PureComponent {
 				},
 			};
 
+			this.setState({fetching: true})
 			userRegistration(data, this.getRegistrationResult);
 			this.setState({
 				formValues: {},
@@ -161,7 +164,7 @@ export default class RegistrationForm extends PureComponent {
 	};
 
 	render() {
-		const {isChecked, fileBase64, validErr, results} = this.state;
+		const {isChecked, fileBase64, validErr, results, fetching} = this.state;
 
 		return (
 			<PageContainerMain>
@@ -223,11 +226,15 @@ export default class RegistrationForm extends PureComponent {
 							/>
 						</Container>
 						<Container>
-							<SubmitButton
-								onClick={this.handleSubmitForm}
-							>
-								ЗАРЕГИСТРИРОВАТЬСЯ
-							</SubmitButton>
+							{fetching ? (
+								<Spinner />
+							) : (
+								<SubmitButton
+									onClick={this.handleSubmitForm}
+								>
+									ЗАРЕГИСТРИРОВАТЬСЯ
+								</SubmitButton>
+							)}
 							<TextContainer>
 								{validErr && validErr.value}
 								{results && results.status && results.status === 'succes'

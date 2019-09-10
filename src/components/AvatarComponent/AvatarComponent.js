@@ -13,7 +13,7 @@ const AvatarComponent = ({src}) => {
 };
 
 AvatarComponent.propTypes = {
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 };
 
 AvatarComponent.defaultProps = {
