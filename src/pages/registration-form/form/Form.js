@@ -41,7 +41,7 @@ const filedsProps = [{
 
 const options = [
 	{value: 'it', label: 'АйТи'},
-	{value: 'managment', label: 'Манеджмент'},
+	{value: 'managment', label: 'Менеджмент'},
 	{value: 'other', label: 'Другое'}
 ];
 
