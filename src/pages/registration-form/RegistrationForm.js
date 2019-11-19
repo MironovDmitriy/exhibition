@@ -202,7 +202,7 @@ export default class RegistrationForm extends PureComponent {
 								<Button
 									onClick={this.handleChooseFile}
 								>
-									ВЫБИРИТЕ ФОТО
+									ВЫБЕРИТЕ ФОТО
 								</Button>
 								<Input
 									type='file'
