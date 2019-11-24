@@ -16,6 +16,7 @@
     "babel-preset-react-app": "^7.0.2",
     "bfj": "6.1.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
+    "clmtrackr": "^1.1.2",
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
@@ -124,5 +125,6 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "devDependencies": {}
 }

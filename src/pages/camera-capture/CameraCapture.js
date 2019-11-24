@@ -46,9 +46,10 @@ export default class CameraCapture extends PureComponent {
 				},
 			};
 			this.setState({fetching: true});
-			userRecognition(value, this.getUserName);
-			const result = await photoRecognition(photoBase64);
-			this.setState({photoRecognitionResults: result});
+			console.log('send photo to server');
+			// userRecognition(value, this.getUserName);
+			// const result = await photoRecognition(photoBase64);
+			// this.setState({photoRecognitionResults: result});
 		};
 
 		if (user && prevState.user !== user) {
