@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import clm from 'clmtrackr';
+import {emotionClassifier} from 'proj/emotion_classifier/emotion_classifier.js';
+import {emotionModel} from 'proj/emotion_classifier/emotionmodel.js';
+import sad from 'proj/image/sad.png';
+import angry from 'proj/image/angry.png';
+import happy from 'proj/image/happy.png';
+import surprised from 'proj/image/surprised.png';
 
 const VideoContainer = styled.div`
 	display: flex;
@@ -18,12 +24,36 @@ const Canvas = styled.canvas`
 	left: 0;
 	width: ${props => props.width};
 	height: ${props => props.height};
-	zIndex: '999';
 `;
 
-const styles = {
-	zIndex: '0',
-};
+const StatusContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	height: 80px;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	background: linear-gradient(to right, #87A1DD 25%, #36385F 75%);
+`;
+
+const TextContainer = styled.div`
+	display: flex;
+	align-items: center;
+	width: 25%;
+`;
+
+const SmileContainer = styled.div`
+	display: flex;
+	align-items: center;
+	width: 25%;
+`;
+
+const Box = styled.div`
+	width: 25%;
+`;
+
+const SMILE_HEIGHT = '70px';
 
 const getCameraHeight = () => {
 	const height = Math.max(
@@ -46,35 +76,48 @@ export default class VideoCapture extends PureComponent {
 			videoElement: null,
 			canvasElement: null,
 			ctrack: null,
+			emotionDetecter: null,
 			isFaceDetect: false,
 			errCamera: false,
 			intervalId: null,
+			intervalIdEmotions: null,
+			emotionSmile: null,
 		};
 
 		this.capture = this.capture.bind(this);
 		this.autoCapture = this.autoCapture.bind(this);
-		/* @Deprecated */
-		// this.trackingLoop = this.trackingLoop.bind(this);
 		this.drawLoop = this.drawLoop.bind(this);
+		this.drawEmotions = this.drawEmotions.bind(this);
+		this.getEmotions = this.getEmotions.bind(this);
 	};
 
 	static propTypes = {
 		getPhotoUrl: PropTypes.func.isRequired,
 		shooting: PropTypes.bool.isRequired,
+		fetching: PropTypes.bool.isRequired,
 	};
 
 	componentDidMount() {
-		// const intervalId = setInterval(() => this.autoCapture(), 2000);
+		const intervalId = setInterval(() => this.autoCapture(), 3000);
+		const intervalIdEmotions = setInterval(() => this.getEmotions(), 100);
+		delete emotionModel['disgusted'];
+		delete emotionModel['fear'];
+		delete emotionModel['angry'];
 		this.setState({
 			videoElement: this.webcam.current.video,
 			canvasElement: this.canvas.current,
-			// intervalId: intervalId,
+			intervalId: intervalId,
+			intervalIdEmotions: intervalIdEmotions,
 		});
 	};
 
 	componentDidUpdate(prevProps, prevState) {
-		const {shooting} = prevProps;
-		const {videoElement, ctrack} = this.state;
+		const {shooting, fetching} = prevProps;
+		const {videoElement, ctrack, emotionDetecter} = this.state;
+
+		if (this.props.fetching && fetching !== this.props.fetching) {
+			clearInterval(this.state.intervalId)
+		};
 
 		if (this.props.shooting && this.props.shooting !== shooting
 			&& !this.state.errCamera) {
@@ -84,6 +127,7 @@ export default class VideoCapture extends PureComponent {
 		if (videoElement
 			&& prevState.videoElement !== videoElement) {
 			this.setState({
+				emotionDetecter: new emotionClassifier(),
 				ctrack: new clm.tracker({
 					faceDetection: {useWebWorkers: false}
 				})
@@ -94,14 +138,19 @@ export default class VideoCapture extends PureComponent {
 			&& prevState.ctrack !== ctrack) {
 			ctrack.init();
 			ctrack.start(videoElement);
-			/* @Deprecated */
-			// this.trackingLoop(); // напряму работает autoCapture;
-			// this.drawLoop();
-		}
+			this.drawLoop();
+		};
+
+		if (emotionDetecter
+			&& prevState.emotionDetecter !== emotionDetecter) {
+			emotionDetecter.init(emotionModel);
+			this.drawEmotions();
+		};
 	};
 
 	componentWillUnmount() {
 		clearInterval(this.state.intervalId)
+		clearInterval(this.state.intervalIdEmotions)
 	};
 
 	errCameraConnection = state => this.setState({errCamera: true});
@@ -122,20 +171,6 @@ export default class VideoCapture extends PureComponent {
 		};
 	};
 
-	/* @Deprecated */
-	// autoCapture () {
-	// 	const {getPhotoUrl} = this.props;
-	// 	const {isFaceDetect} = this.state;
-
-	// 	if (isFaceDetect) {
-	// 		console.log('photo');
-	// 		const photoUrl = this.webcam.current.getScreenshot();
-	// 		getPhotoUrl(photoUrl);
-	// 	} else {
-	// 		console.log('No face detected');
-	// 	};
-	// };
-
 	capture () {
 		console.log('capture');
 		const {getPhotoUrl} = this.props;
@@ -143,14 +178,6 @@ export default class VideoCapture extends PureComponent {
 		const photoUrl = this.webcam.current.getScreenshot();
 		getPhotoUrl(photoUrl);
 	};
-
-	/* @Deprecated */
-	// trackingLoop() {
-	// 	const {ctrack} = this.state;
-	// 	console.log('trackingLoop');
-	// 	requestAnimationFrame(this.trackingLoop);
-	// 	this.setState({isFaceDetect: ctrack.getCurrentPosition()})
-	// };
 
 	drawLoop() {
 		const {ctrack, canvasElement, isFaceDetect} = this.state;
@@ -165,15 +192,67 @@ export default class VideoCapture extends PureComponent {
 		};
 	};
 
+	drawEmotions() {
+		const {ctrack, emotionDetecter} = this.state;
+		const parameters = ctrack.getCurrentParameters();
+
+		return emotionDetecter.meanPredict(parameters);
+	};
+
+	getEmotions() {
+		const emotions = this.drawEmotions();
+		let max = 0;
+		let emotion = '';
+		let result = null;
+
+		emotions && emotions.length > 0 && emotions.forEach(x => {
+			if (x.value > max) {
+				max = x.value;
+				emotion = x.emotion;
+			};
+		});
+
+		switch(emotion) {
+			case 'sad':
+				result = sad;
+				break;
+			case 'angry':
+				result = angry;
+				break;
+			case 'happy':
+				result = happy;
+				break;
+			case 'surprised':
+				result = surprised;
+				break;
+			default:
+				result = happy;
+				break;
+		}
+
+		this.setState({emotionSmile: result});
+	};
+
 	render() {
-		const {errCamera} = this.state;
+		const {errCamera, ctrack, emotionSmile} = this.state;
+		const {fetching} = this.props;
 		const cameraHeight = getCameraHeight();
 
 		return (
-			<VideoContainer>
-				{errCamera ? (
-					<div><h3>Ошибка подключения камеры</h3></div>
-				) : (
+			errCamera ? (
+				<div><h3>Ошибка подключения камеры</h3></div>
+			) : (
+				<VideoContainer>
+					<StatusContainer>
+						<Box />
+						<TextContainer>
+							{fetching ? 'Получение результатов' : 'Посмотрите, пожалуйста, в камеру'}
+						</TextContainer>
+						<SmileContainer>
+							<img src={emotionSmile} alt='Смайлик' height={SMILE_HEIGHT} />
+						</SmileContainer>
+						<Box />
+					</StatusContainer>
 					<Webcam
 						audio={false}
 						width='1500'
@@ -182,15 +261,14 @@ export default class VideoCapture extends PureComponent {
 						onUserMediaError={this.errCameraConnection}
 						onUserMedia={this.successCameraConnection}
 						ref={this.webcam}
-						style={styles}
 					/>
-				)}
-				<Canvas
-					width='1500'
-					height={cameraHeight}
-					ref={this.canvas}
-				/>
-			</VideoContainer>
+					<Canvas
+						width='1500'
+						height={cameraHeight}
+						ref={this.canvas}
+					/>
+				</VideoContainer>
+			)
 		);
 	};
 };

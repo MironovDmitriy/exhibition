@@ -74,6 +74,7 @@ export default class CameraCapture extends PureComponent {
 					<VideoCapture
 						getPhotoUrl={this.getPhotoUrl}
 						shooting={shooting}
+						fetching={fetching}
 					/>
 				</CameraConatiner>
 				<PhotoContainer
