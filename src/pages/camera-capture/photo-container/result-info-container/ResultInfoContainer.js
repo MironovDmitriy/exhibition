@@ -57,22 +57,8 @@ export default class ResultInfoContainer extends PureComponent {
 				<Table
 					data={result}
 				/>
-				{!result ? (
-					fetching ? (
-						<Spinner />
-					): (
-						<ButtonContainer
-							onClick={this.props.handleShooting}
-						>
-							СДЕЛАТЬ ЕЩЕ ФОТО
-						</ButtonContainer>
-					)
-				) : (
-					<ButtonContainer
-						onClick={this.refreshPage}
-					>
-						НОВЫЙ ЧЕЛОВЕК
-					</ButtonContainer>
+				{fetching && (
+					<Spinner />
 				)}
 			</MainContainer>
 		);

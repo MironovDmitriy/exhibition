@@ -32,13 +32,15 @@ export default class CameraCapture extends PureComponent {
 		this.handleShooting = this.handleShooting.bind(this);
 		this.getPhotoUrl = this.getPhotoUrl.bind(this);
 		this.getUserName = this.getUserName.bind(this);
+		this.refreshPage = this.refreshPage.bind(this);
 	};
 
-	async componentDidUpdate(prevState) {
+	async componentDidUpdate(prevProps, prevState) {
 		const {photoBase64, user, photoRecognitionResults} = this.state;
 
-		if (!photoRecognitionResults && !user && photoBase64
+		if (photoBase64
 			&& photoBase64 !== prevState.photoBase64) {
+			console.log('photoBase64');
 			const value = {
 				type: 'identify',
 				data: {
@@ -46,10 +48,13 @@ export default class CameraCapture extends PureComponent {
 				},
 			};
 			this.setState({fetching: true});
-			console.log('send photo to server');
-			// userRecognition(value, this.getUserName);
-			// const result = await photoRecognition(photoBase64);
-			// this.setState({photoRecognitionResults: result});
+			userRecognition(value, this.getUserName);
+			const result = await photoRecognition(photoBase64);
+			this.setState({photoRecognitionResults: result, fetching: false});
+		};
+
+		if (user && photoRecognitionResults) {
+			setTimeout(() => this.refreshPage(), 4000);
 		};
 
 		if (user && prevState.user !== user) {
@@ -59,7 +64,7 @@ export default class CameraCapture extends PureComponent {
 
 	handleShooting = () => this.setState({shooting: !this.state.shooting});
 
-	getUserName = result => this.setState({user: result, fetching: false});
+	getUserName = result => this.setState({user: result});
 
 	getPhotoUrl = src => this.setState({photoBase64: src, shooting: false});
 

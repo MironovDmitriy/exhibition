@@ -102,7 +102,6 @@ export default class VideoCapture extends PureComponent {
 		const intervalIdEmotions = setInterval(() => this.getEmotions(), 100);
 		delete emotionModel['disgusted'];
 		delete emotionModel['fear'];
-		delete emotionModel['angry'];
 		this.setState({
 			videoElement: this.webcam.current.video,
 			canvasElement: this.canvas.current,
@@ -116,7 +115,8 @@ export default class VideoCapture extends PureComponent {
 		const {videoElement, ctrack, emotionDetecter} = this.state;
 
 		if (this.props.fetching && fetching !== this.props.fetching) {
-			clearInterval(this.state.intervalId)
+			clearInterval(this.state.intervalId);
+			clearInterval(this.state.intervalIdEmotions);
 		};
 
 		if (this.props.shooting && this.props.shooting !== shooting
@@ -149,30 +149,30 @@ export default class VideoCapture extends PureComponent {
 	};
 
 	componentWillUnmount() {
-		clearInterval(this.state.intervalId)
-		clearInterval(this.state.intervalIdEmotions)
+		clearInterval(this.state.intervalId);
+		clearInterval(this.state.intervalIdEmotions);
 	};
 
 	errCameraConnection = state => this.setState({errCamera: true});
 
 	successCameraConnection = state => this.setState({errCamera: false});
 
-	autoCapture () {
-		const {getPhotoUrl} = this.props;
+	autoCapture() {
+		const {getPhotoUrl, fetching} = this.props;
 		const {ctrack} = this.state;
 		const isFaceDetect = ctrack.getCurrentPosition();
-
+		console.log('autoCapture');
 		if (isFaceDetect) {
-			console.log('autoCapture');
 			const photoUrl = this.webcam.current.getScreenshot();
 			getPhotoUrl(photoUrl);
+			clearInterval(this.state.intervalId);
+			clearInterval(this.state.intervalIdEmotions);
 		} else {
 			console.log('No face detected');
 		};
 	};
 
-	capture () {
-		console.log('capture');
+	capture() {
 		const {getPhotoUrl} = this.props;
 
 		const photoUrl = this.webcam.current.getScreenshot();
