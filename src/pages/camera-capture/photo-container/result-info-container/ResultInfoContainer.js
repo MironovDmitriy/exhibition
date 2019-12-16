@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import smile from 'proj/image/smile-neutrally-big.png';
-import ButtonBase from 'proj/components/ButtonBase';
 import {Spinner} from 'proj/components';
 import Table from './table';
 
@@ -19,18 +18,6 @@ const MainContainer = styled.div`
 const TextContainer = styled.div`
 	margin: 10px 0 0 0;
 	color: #18C0F4;
-`;
-
-const ButtonContainer = styled(ButtonBase)`
-	border: 2px solid #EEE;
-	font-weight: 100;
-
-	:hover {
-		cursor: pointer;
-		color: #36385F;
-		background-color: #EEE;
-		border-color: #36385F;
-	}
 `;
 
 export default class ResultInfoContainer extends PureComponent {

@@ -40,7 +40,6 @@ export default class CameraCapture extends PureComponent {
 
 		if (photoBase64
 			&& photoBase64 !== prevState.photoBase64) {
-			console.log('photoBase64');
 			const value = {
 				type: 'identify',
 				data: {
@@ -54,7 +53,7 @@ export default class CameraCapture extends PureComponent {
 		};
 
 		if (user && photoRecognitionResults) {
-			setTimeout(() => this.refreshPage(), 4000);
+			setTimeout(() => this.refreshPage(), 7000);
 		};
 
 		if (user && prevState.user !== user) {
