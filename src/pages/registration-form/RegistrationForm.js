@@ -222,7 +222,7 @@ export default class RegistrationForm extends PureComponent {
 							<CheckboxField
 								checked={isChecked}
 								onChange={this.handleCheck}
-								text='Даю согласие на обработку своих персональных данных'
+								text='Даю согласие на обработку своих персональных данных.'
 							/>
 						</Container>
 						<Container>
@@ -237,7 +237,7 @@ export default class RegistrationForm extends PureComponent {
 							)}
 							<TextContainer>
 								{validErr && validErr.value}
-								{results && results.status && results.status === 'succes'
+								{results && results.status && results.status === 'success'
 								&& (
 									<div>Данные отправлены успешно</div>
 								)}
