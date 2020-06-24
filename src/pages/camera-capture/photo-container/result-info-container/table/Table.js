@@ -9,10 +9,12 @@ const Container = styled.div`
 const dataList = [{
 	title: 'emotion',
 	name: 'Эмоция',
-}, {
-	title: 'age',
-	name: 'Возраст',
-}, {
+}, 
+// {
+// 	title: 'age',
+// 	name: 'Возраст',
+// },
+ {
 	title: 'gender',
 	name: 'Пол',
 }];
