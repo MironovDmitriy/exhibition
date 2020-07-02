@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CanvasContainer from './canvas-container';
 import ResultInfoContainer from './result-info-container';
+import smile from 'proj/image/smile-neutrally-big.png';
 import {Spinner} from 'proj/components';
 
 const MainContainer = styled.div`
@@ -11,6 +12,15 @@ const MainContainer = styled.div`
 	width: 39%;
 	background-color: rgba(54, 56, 95);
 	z-index: 1;
+
+	@media screen and (max-width: 900px) {
+		width: 100%;
+		height: 20vh;
+		z-index: 0;
+		position: absolute;
+		top: 75%;
+		left: 0px;
+	};
 `;
 
 const UserInfoContainer = styled.div`
@@ -21,11 +31,36 @@ const UserInfoContainer = styled.div`
 	height: 10%;
 	z-index: 1;
 	color: #FFF;
+
+	@media screen and (max-width: 900px) {
+		display: none;
+		z-index: 0;
+	};
+`;
+
+const MobileUserInfoContainer = styled(UserInfoContainer)`
+	@media screen and (max-width: 900px) {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		height: 20%;
+		margin: 15px 0 0 0;
+	};
 `;
 
 const ResultContainer = styled(UserInfoContainer)`
 	height: 65%;
 	z-index: 1;
+
+	@media screen and (max-width: 900px) {
+		display: none;
+		z-index: 0;
+	};
+`;
+
+const TextContainer = styled.div`
+	margin: 10px 5px 0 5px;
+	color: #EEE;
 `;
 
 export default class PhotoContainer extends PureComponent {
@@ -60,9 +95,16 @@ export default class PhotoContainer extends PureComponent {
 						<Spinner />
 					</UserInfoContainer>
 				) : (
-					<UserInfoContainer>
-						{result ? this.showUserName(result) : 'Имя пользователя'}
-					</UserInfoContainer>
+					<MobileUserInfoContainer>
+						<TextContainer>
+							{result ? this.showUserName(result) : 'Имя пользователя'}
+						</TextContainer>
+						<TextContainer>
+							<img src={smile} alt='Смайлик эмоция' />
+						</TextContainer>
+							
+						
+					</MobileUserInfoContainer>
 				)}
 				{!photo ? (
 					<CanvasContainer />

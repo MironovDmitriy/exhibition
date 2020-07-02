@@ -6,15 +6,17 @@ const Container = styled.div`
 	margin: 3px;
 `;
 
+const TableContainer = styled.table`
+	margin: 15px 0 0 0;
+`;
+
 const dataList = [{
 	title: 'emotion',
 	name: 'Эмоция',
-}, 
-// {
-// 	title: 'age',
-// 	name: 'Возраст',
-// },
- {
+}, {
+	title: 'age',
+	name: 'Возраст',
+}, {
 	title: 'gender',
 	name: 'Пол',
 }];
@@ -40,11 +42,11 @@ const getComponent = data => {
 
 const Table = ({data}) => {
 	return (
-		<table>
+		<TableContainer>
 			<tbody>
 				{data && getComponent(data)}
 			</tbody>
-		</table>
+		</TableContainer>
 	);
 };
 

@@ -13,6 +13,11 @@ const MainContainer = styled.div`
 	z-index: 1;
 	color: #EEE;
 	font-weight: bold;
+
+	@media screen and (max-width: 900px) {
+		height: 100%;
+		z-index: 0;
+	};
 `;
 
 const TextContainer = styled.div`
@@ -38,9 +43,6 @@ export default class ResultInfoContainer extends PureComponent {
 
 		return (
 			<MainContainer>
-				<TextContainer>
-					<img src={smile} alt='Смайлик эмоция' />
-				</TextContainer>
 				<Table
 					data={result}
 				/>

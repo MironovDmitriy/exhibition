@@ -7,6 +7,11 @@ const Component = styled.div`
 	flex-direction: row;
 	height: 100vh;
 	background-color: rgba(54, 56, 95);
+
+	@media screen and (max-width: 900px) {
+		flex-direction: column;
+		height: 90vh;
+	};
 `;
 
 const PageContainer = ({children, className}) => (

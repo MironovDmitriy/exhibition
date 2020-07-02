@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import styled from 'styled-components';
 import VideoCapture from './video-capture';
+import MobileTitle from 'proj/components/MobileTitle';
 import {PageContainer as PageContainerMain} from 'proj/components';
 import PhotoContainer from './photo-container';
 import {photoRecognition} from 'proj/api/video-capture';
@@ -13,6 +14,10 @@ const CameraConatiner = styled.div`
 	justify-content: center;
 	align-items: center;
 	width: 44%;
+
+	@media screen and (max-width: 900px) {
+		width: 100%;
+	};
 `;
 
 const concatResults = (x, y) => x && y ? {...x, ...y} : null;
@@ -74,6 +79,7 @@ export default class CameraCapture extends PureComponent {
 
 		return (
 			<PageContainerMain>
+				<MobileTitle />
 				<CameraConatiner>
 					<VideoCapture
 						getPhotoUrl={this.getPhotoUrl}

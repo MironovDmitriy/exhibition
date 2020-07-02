@@ -10,6 +10,13 @@ const VideoContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	position: relative;
+
+	@media screen and (max-width: 900px) {
+		position: static;
+		display: block;
+		height: 80vh;
+		width: 100vw;
+	};
 `;
 
 const Canvas = styled.canvas`
@@ -29,17 +36,40 @@ const StatusContainer = styled.div`
 	top: 0;
 	width: 100%;
 	background: linear-gradient(to right, #87A1DD 25%, #36385F 75%);
+	
+	@media screen and (max-width: 900px) {
+		height: 10%;
+		display: none;
+	};
 `;
 
 const TextContainer = styled.div`
 	display: flex;
 	align-items: center;
 	width: 25%;
+
+	@media screen and (max-width: 900px) {
+		width: 100%;
+		font-size: 1em;
+		justify-content: center;
+	};
 `;
 
 const Box = styled.div`
 	width: 25%;
+
+	@media screen and (max-width: 900px) {
+		display: none;
+	};
 `;
+
+const MobileVersionBox = styled.div`
+	@media screen and (max-width: 900px) {
+		position: absolute;
+		top: 10%;
+		left: 0px;
+	};
+`
 
 const getCameraHeight = () => {
 	const height = Math.max(
@@ -49,6 +79,16 @@ const getCameraHeight = () => {
 	);
 
 	return height;
+};
+
+const getCameraWidth = () => {
+	const width = Math.max(
+		document.body.scrollWidth, document.documentElement.scrollWidth,
+		document.body.offsetWidth, document.documentElement.offsetWidth,
+		document.body.clientWidth, document.documentElement.clientWidth
+	);
+
+	return width;
 };
 
 export default class VideoCapture extends PureComponent {
@@ -161,6 +201,10 @@ export default class VideoCapture extends PureComponent {
 		const {errCamera} = this.state;
 		const {fetching} = this.props;
 		const cameraHeight = getCameraHeight();
+		const width = getCameraWidth();
+		const styles = {
+			objectFit: 'cover'
+		}
 
 		return (
 			errCamera ? (
@@ -174,20 +218,25 @@ export default class VideoCapture extends PureComponent {
 						</TextContainer>
 						<Box />
 					</StatusContainer>
-					<Webcam
-						audio={false}
-						width='1500'
-						height={cameraHeight}
-						screenshotFormat='image/jpeg'
-						onUserMediaError={this.errCameraConnection}
-						onUserMedia={this.successCameraConnection}
-						ref={this.webcam}
-					/>
-					<Canvas
-						width='1500'
-						height={cameraHeight}
-						ref={this.canvas}
-					/>
+					<MobileVersionBox>
+						<Webcam
+							audio={false}
+							width={width <= 900 ? width : '1500'} // пока тупо захардкодил ширину чуть больше ширины iphone X
+							height={width <= 900 ? cameraHeight * 0.7 : cameraHeight}
+							style={styles}
+							screenshotFormat='image/jpeg'
+							onUserMediaError={this.errCameraConnection}
+							onUserMedia={this.successCameraConnection}
+							ref={this.webcam}
+						/>
+					</MobileVersionBox>
+					<MobileVersionBox>
+						<Canvas
+							width={width <= 900 ? width : '1500'} // пока тупо захардкодил ширину чуть больше ширины iphone X
+							height={width <= 900 ? cameraHeight * 0.7 : cameraHeight}
+							ref={this.canvas}
+						/>
+					</MobileVersionBox>
 				</VideoContainer>
 			)
 		);

@@ -29,6 +29,10 @@ const MainContainer = styled.div`
 	height: 65%;
 	z-index: 1;
 	margin-left: 14%; // сдвиг из-за ошибки позиционирования координат фигуры;
+
+	@media screen and (max-width: 900px) {
+		display: none;
+	};
 `;
 
 const getLines = (coordinate, isClosed, gradient) => (

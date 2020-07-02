@@ -19,6 +19,10 @@ const MainContainer = styled.div`
 	background-image: url(${props => props.bg});
 	background-repeat: round;
 	z-index: 1;
+
+	@media screen and (max-width: 900px) {
+		display: none;
+	};
 `;
 
 const BaseContainer = styled.div`
